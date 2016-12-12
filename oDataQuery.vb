@@ -78,6 +78,7 @@ Namespace OData
         ''' </summary>
         Public Sub Load()
             Dim cn As New oDataGET(Me, AddressOf HandlesGet)
+            OData.Connection.RaiseEndData()
 
         End Sub
 
@@ -87,6 +88,7 @@ Namespace OData
         ''' <param name="Filter">A string containing the filter expression.</param>
         Public Sub Load(Filter As String)
             Dim cn As New oDataGET(Me, AddressOf HandlesGet, Filter)
+            OData.Connection.RaiseEndData()
 
         End Sub
 
@@ -97,6 +99,7 @@ Namespace OData
         ''' <param name="Direction">The sort direction.</param>
         Public Sub Load(SortField As String, Direction As SortDirection)
             Dim cn As New oDataGET(Me, AddressOf HandlesGet, Nothing, SortField, Direction.ToString)
+            OData.Connection.RaiseEndData()
 
         End Sub
 
@@ -108,6 +111,7 @@ Namespace OData
         ''' <param name="Direction">The sort direction.</param>
         Public Sub Load(Filter As String, SortField As String, Direction As SortDirection)
             Dim cn As New oDataGET(Me, AddressOf HandlesGet, Filter, SortField, Direction.ToString)
+            OData.Connection.RaiseEndData()
 
         End Sub
 
@@ -120,6 +124,7 @@ Namespace OData
             Adding = True
             Dim cn As New oDataPOST(obj, AddressOf Me.HandlesAdd)
             obj = cn.thisObject
+            OData.Connection.RaiseEndData()
 
         End Sub
 
@@ -131,9 +136,11 @@ Namespace OData
         Public Sub Delete(obj As oDataObject)
             Deleting = True
             Dim cn As New oDataDELETE(obj, AddressOf HandlesDelete)
+            OData.Connection.RaiseEndData()
             If Not _LastResult Is Nothing Then
                 Throw (_LastResult)
             End If
+
         End Sub
 
         ''' <summary>

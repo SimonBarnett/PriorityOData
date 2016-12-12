@@ -88,6 +88,7 @@ Namespace OData
             End If
 
             With allDone
+                OData.Connection.RaiseStartData()
                 .WaitOne()
                 .Reset()
             End With
@@ -168,7 +169,7 @@ Namespace OData
             Catch e As Exception
                 Throw (e)
 
-            Finally
+            Finally                
                 allDone.Set()
 
             End Try

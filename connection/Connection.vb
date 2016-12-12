@@ -26,6 +26,18 @@ Namespace OData
 
         End Sub
 
+        Public Event StartData()
+        Friend Sub RaiseStartData()
+            RaiseEvent StartData()
+
+        End Sub
+
+        Public Event EndData()
+        Public Sub RaiseEndData()
+            RaiseEvent EndData()
+
+        End Sub
+
     End Module
 
     Public Class Settings
