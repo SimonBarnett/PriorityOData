@@ -11,19 +11,6 @@ Namespace OData
 
     Public MustInherit Class oDataQuery
 
-#Region "Private Properties"
-
-        <JsonIgnore()> _
-        Friend Adding As Boolean = False
-
-        <JsonIgnore()> _
-        Private Deleting As Boolean = False
-
-        <JsonIgnore()> _
-        Private _LastResult As Exception
-
-#End Region
-
 #Region "Friend Properties"
 
         <JsonIgnore()> _
@@ -65,7 +52,7 @@ Namespace OData
 
         Protected Friend MustOverride Sub HandlesAdd(ByVal sender As Object, ByVal e As ResponseEventArgs)
 
-        Public MustOverride ReadOnly Property ObjectType As Type
+        Public MustOverride ReadOnly Property ObjectType() As Type
 
         Public MustOverride ReadOnly Property BindingSource() As System.Windows.Forms.BindingSource
 
@@ -86,7 +73,7 @@ Namespace OData
         ''' Load the query with a filter.
         ''' </summary>
         ''' <param name="Filter">A string containing the filter expression.</param>
-        Public Sub Load(Filter As String)
+        Public Sub Load(ByVal Filter As String)
             Dim cn As New oDataGET(Me, AddressOf HandlesGet, Filter)
             OData.Connection.RaiseEndData()
 
@@ -97,7 +84,7 @@ Namespace OData
         ''' </summary>
         ''' <param name="SortField">The name of the field to sort by.</param>
         ''' <param name="Direction">The sort direction.</param>
-        Public Sub Load(SortField As String, Direction As SortDirection)
+        Public Sub Load(ByVal SortField As String, ByVal Direction As SortDirection)
             Dim cn As New oDataGET(Me, AddressOf HandlesGet, Nothing, SortField, Direction.ToString)
             OData.Connection.RaiseEndData()
 
@@ -109,7 +96,7 @@ Namespace OData
         ''' <param name="Filter">A string containing the filter expression.</param>
         ''' <param name="SortField">The name of the field to sort by.</param>
         ''' <param name="Direction">The sort direction.</param>
-        Public Sub Load(Filter As String, SortField As String, Direction As SortDirection)
+        Public Sub Load(ByVal Filter As String, ByVal SortField As String, ByVal Direction As SortDirection)
             Dim cn As New oDataGET(Me, AddressOf HandlesGet, Filter, SortField, Direction.ToString)
             OData.Connection.RaiseEndData()
 
@@ -120,8 +107,7 @@ Namespace OData
         ''' </summary>
         ''' <param name="obj">The oDataObject to add</param>
         ''' <remarks></remarks>
-        Public Sub Add(ByRef obj As oDataObject)
-            Adding = True
+        Public Sub Add(ByRef obj As oDataObject)            
             Dim cn As New oDataPOST(obj, AddressOf Me.HandlesAdd)
             obj = cn.thisObject
             OData.Connection.RaiseEndData()
@@ -133,13 +119,9 @@ Namespace OData
         ''' Throws an exception containing the Interface errors if fails.
         ''' </summary>
         ''' <param name="obj">The oDataObject to delete from the array.</param>
-        Public Sub Delete(obj As oDataObject)
-            Deleting = True
+        Public Sub Delete(ByVal obj As oDataObject)            
             Dim cn As New oDataDELETE(obj, AddressOf HandlesDelete)
             OData.Connection.RaiseEndData()
-            If Not _LastResult Is Nothing Then
-                Throw (_LastResult)
-            End If
 
         End Sub
 
@@ -163,7 +145,7 @@ Namespace OData
 
         Friend Sub HandlesGet(ByVal sender As Object, ByVal e As ResponseEventArgs)
             If Not e.WebException Is Nothing Then
-                e.toMsg()
+                Connection.LastError = e.InterfaceException
             Else
                 Deserialise(e.StreamReader)
             End If
@@ -171,14 +153,10 @@ Namespace OData
 
         Friend Sub HandlesDelete(ByVal sender As Object, ByVal e As ResponseEventArgs)
             If Not e.WebException Is Nothing Then
-                _LastResult = e.InterfaceException
-
-            Else
-                _LastResult = Nothing
+                Connection.LastError = e.InterfaceException
+            Else                
                 Remove(TryCast(sender, oDataDELETE).thisObject)
-
-            End If
-            Deleting = False
+            End If            
         End Sub
 
 #End Region

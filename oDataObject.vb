@@ -49,10 +49,7 @@ Namespace OData
 #Region "Friend Properties"
 
         <JsonIgnore()> _
-        Public Loading As Boolean = True
-
-        <JsonIgnore()> _
-        Friend lastResult As Exception
+        Friend Loading As Boolean = True
 
         <JsonIgnore()> _
         Protected Friend ReadOnly Property url() As String
@@ -82,7 +79,9 @@ Namespace OData
 #Region "Must Override Methods"
 
         Protected Friend MustOverride Sub toJSON(ByRef jw As JsonTextWriter)
+
         Protected Friend MustOverride Sub toXML(ByRef xw As XmlWriter, ByVal name As String)
+
         Protected Friend MustOverride Sub HandlesEdit(ByVal sender As Object, ByVal e As ResponseEventArgs)
 
 #End Region

@@ -44,6 +44,7 @@ Namespace OData
 
         Public Sub SharedConstructor(ByRef url As String)
 
+            Connection.LastError = Nothing
             _uploadRequest = CType(HttpWebRequest.Create(url), HttpWebRequest)
             With _uploadRequest
                 .UserAgent = "Medatech REST Client 1.0"

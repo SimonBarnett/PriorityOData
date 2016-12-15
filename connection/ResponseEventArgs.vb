@@ -45,7 +45,14 @@ Public Class ResponseEventArgs
                 )
 
             Catch ex As Exception
-                Return ex
+                Return New Exception( _
+                    String.Format( _
+                        "({0}: {1})", _
+                        CInt(_WebException.Status), _
+                        _WebException.Message _
+                    ) _
+                )
+
             End Try
         End Get
     End Property

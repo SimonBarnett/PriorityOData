@@ -85,8 +85,8 @@
     <Compile Include="connection\derived\oDataPUT.vb" />
     <Compile Include="connection\oDataConnection.vb" />
     <Compile Include="connection\ResponseEventArgs.vb" />
-    <Compile Include="ClassAttr.vb" />
-    <Compile Include="CustomAttr.vb" />
+    <Compile Include="CustomAttributes\ClassAttr.vb" />
+    <Compile Include="CustomAttributes\CustomAttr.vb" />
     <Compile Include="FAMILY_LOG.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Resources.Designer.vb">

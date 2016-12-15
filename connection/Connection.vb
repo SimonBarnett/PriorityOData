@@ -6,25 +6,44 @@ Namespace OData
 
         Public Settings As New Settings
 
-        Public Event DebugOutput(data As String)
-        Friend Sub RaiseDebug(data As String)
+        Private _LastError As Exception
+        Public Property LastError() As Exception
+            Get
+                Return _LastError
+            End Get
+            Set(ByVal value As Exception)
+                _LastError = value
+            End Set
+        End Property
+
+
+#Region "Events"
+
+#Region "Debug Events"
+
+        Public Event DebugOutput(ByVal data As String)
+        Friend Sub RaiseDebug(ByVal data As String)
             RaiseEvent DebugOutput(data)
 
         End Sub
-        Friend Sub RaiseDebug(data As String, ParamArray args() As String)
+        Friend Sub RaiseDebug(ByVal data As String, ByVal ParamArray args() As String)
             RaiseEvent DebugOutput(String.Format(data, args))
 
         End Sub
 
-        Public Event ErrorOutput(Title As String, data As String)
-        Friend Sub RaiseError(Title As String, data As String)
+        Public Event ErrorOutput(ByVal Title As String, ByVal data As String)
+        Friend Sub RaiseError(ByVal Title As String, ByVal data As String)
             RaiseEvent ErrorOutput(Title, data)
 
         End Sub
-        Friend Sub RaiseError(Title As String, data As String, ParamArray args() As String)
+        Friend Sub RaiseError(ByVal Title As String, ByVal data As String, ByVal ParamArray args() As String)
             RaiseEvent ErrorOutput(Title, String.Format(data, args))
 
         End Sub
+
+#End Region
+
+#Region "Connection Events"
 
         Public Event StartData()
         Friend Sub RaiseStartData()
@@ -37,6 +56,10 @@ Namespace OData
             RaiseEvent EndData()
 
         End Sub
+
+#End Region
+
+#End Region
 
     End Module
 

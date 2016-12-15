@@ -20,8 +20,6 @@ Namespace OData
         
         Private _BindingSource As System.Windows.Forms.BindingSource
         
-        Private _lastResult As FAMILY_LOG
-        
         Public Sub New()
             MyBase.New
             _Value = new list (of FAMILY_LOG)
@@ -110,20 +108,41 @@ Namespace OData
         
         Protected Friend Overrides Sub HandlesAdd(ByVal sender As Object, ByVal e As ResponseEventArgs)
             If Not e.WebException is nothing Then
-                _lastResult = nothing
-                Throw e.WebException
+                Connection.LastError = e.InterfaceException
             Else
                 dim obj as FAMILY_LOG = JsonConvert.DeserializeObject(Of FAMILY_LOG)(e.StreamReader.ReadToEnd)
-                With obj
-                  if not(_Parent is nothing) then
+                With TryCast(BindingSource.Current, FAMILY_LOG)
                   .Parent = Parent
-                  end if
                   .loading = false
+                  .FAMILYNAME = obj.FAMILYNAME
+                  .FAMILYDESC = obj.FAMILYDESC
+                  .EFAMILYDES = obj.EFAMILYDES
+                  .TECHFLAG = obj.TECHFLAG
+                  .DEBITFLAG = obj.DEBITFLAG
+                  .PROJPROCESS = obj.PROJPROCESS
+                  .TECHNICIANLOGIN = obj.TECHNICIANLOGIN
+                  .FTCODE = obj.FTCODE
+                  .FTNAME = obj.FTNAME
+                  .DISTRFLAG = obj.DISTRFLAG
+                  .DUTYPERCENT = obj.DUTYPERCENT
+                  .DUTYPERCENT1 = obj.DUTYPERCENT1
+                  .DUTYPERCENT2 = obj.DUTYPERCENT2
+                  .DUTYPERCENTTYPE = obj.DUTYPERCENTTYPE
+                  .SELLFLAG = obj.SELLFLAG
+                  .NEGBALFLAG = obj.NEGBALFLAG
+                  .FORECAST = obj.FORECAST
+                  .PARTNAME = obj.PARTNAME
+                  .PARTDES = obj.PARTDES
+                  .STORAGETYPECODE = obj.STORAGETYPECODE
+                  .STORAGETYPEDES = obj.STORAGETYPEDES
+                  .SERIALMONTHEXPIRY = obj.SERIALMONTHEXPIRY
+                  .ISMFAMILY = obj.ISMFAMILY
+                  .MFAMILYNAME = obj.MFAMILYNAME
+                  .MFAMILYDES = obj.MFAMILYDES
+                  .INACTIVE = obj.INACTIVE
+                  .FAMILY = obj.FAMILY
                 end with
-                TryCast(sender, oDataPOST).thisObject = obj
             End If
-            Adding = False
-
         End Sub
         
         Protected Friend Overrides Sub Remove(ByRef obj As oDataObject)
@@ -392,22 +411,26 @@ Namespace OData
             End Get
             Set
                 if not(value is nothing) then
-                mybase.validate("FAMILY_LOG.FAMILYNAME", value, 8)
-                _IsSetFAMILYNAME = True
-                If loading Then
+                  try
+                      mybase.validate("FAMILY_LOG.FAMILYNAME", value, 8)
+                  catch ex as exception
+                      Connection.LastError = ex
+                      Exit Property
+                  end try
+                  _IsSetFAMILYNAME = True
+                  If loading Then
                     _FAMILYNAME = Value
-                Else
-                  if not _FAMILYNAME = value then
-                      loading = true
-                      Dim cn As New oDataPUT(Me, PropertyStream("FAMILYNAME", Value), AddressOf HandlesEdit)
-                      loading = false
-                      If Not lastResult is nothing Then
-                          Throw lastResult
-                      Else
-                          _FAMILYNAME = Value
-                      End If
+                  Else
+                      if not _FAMILYNAME = value then
+                          loading = true
+                          Connection.RaiseStartData()
+                          Dim cn As New oDataPUT(Me, PropertyStream("FAMILYNAME", Value), AddressOf HandlesEdit)
+                          loading = false
+                          If Connection.LastError is nothing Then
+                              _FAMILYNAME = Value
+                          End If
+                      end if
                   end if
-                end if
                 end if
             End Set
         End Property
@@ -421,22 +444,26 @@ Namespace OData
             End Get
             Set
                 if not(value is nothing) then
-                mybase.validate("FAMILY_LOG.FAMILYDESC", value, 32)
-                _IsSetFAMILYDESC = True
-                If loading Then
+                  try
+                      mybase.validate("FAMILY_LOG.FAMILYDESC", value, 32)
+                  catch ex as exception
+                      Connection.LastError = ex
+                      Exit Property
+                  end try
+                  _IsSetFAMILYDESC = True
+                  If loading Then
                     _FAMILYDESC = Value
-                Else
-                  if not _FAMILYDESC = value then
-                      loading = true
-                      Dim cn As New oDataPUT(Me, PropertyStream("FAMILYDESC", Value), AddressOf HandlesEdit)
-                      loading = false
-                      If Not lastResult is nothing Then
-                          Throw lastResult
-                      Else
-                          _FAMILYDESC = Value
-                      End If
+                  Else
+                      if not _FAMILYDESC = value then
+                          loading = true
+                          Connection.RaiseStartData()
+                          Dim cn As New oDataPUT(Me, PropertyStream("FAMILYDESC", Value), AddressOf HandlesEdit)
+                          loading = false
+                          If Connection.LastError is nothing Then
+                              _FAMILYDESC = Value
+                          End If
+                      end if
                   end if
-                end if
                 end if
             End Set
         End Property
@@ -450,22 +477,26 @@ Namespace OData
             End Get
             Set
                 if not(value is nothing) then
-                mybase.validate("FAMILY_LOG.EFAMILYDES", value, 32)
-                _IsSetEFAMILYDES = True
-                If loading Then
+                  try
+                      mybase.validate("FAMILY_LOG.EFAMILYDES", value, 32)
+                  catch ex as exception
+                      Connection.LastError = ex
+                      Exit Property
+                  end try
+                  _IsSetEFAMILYDES = True
+                  If loading Then
                     _EFAMILYDES = Value
-                Else
-                  if not _EFAMILYDES = value then
-                      loading = true
-                      Dim cn As New oDataPUT(Me, PropertyStream("EFAMILYDES", Value), AddressOf HandlesEdit)
-                      loading = false
-                      If Not lastResult is nothing Then
-                          Throw lastResult
-                      Else
-                          _EFAMILYDES = Value
-                      End If
+                  Else
+                      if not _EFAMILYDES = value then
+                          loading = true
+                          Connection.RaiseStartData()
+                          Dim cn As New oDataPUT(Me, PropertyStream("EFAMILYDES", Value), AddressOf HandlesEdit)
+                          loading = false
+                          If Connection.LastError is nothing Then
+                              _EFAMILYDES = Value
+                          End If
+                      end if
                   end if
-                end if
                 end if
             End Set
         End Property
@@ -479,22 +510,26 @@ Namespace OData
             End Get
             Set
                 if not(value is nothing) then
-                mybase.validate("FAMILY_LOG.TECHFLAG", value, 1)
-                _IsSetTECHFLAG = True
-                If loading Then
+                  try
+                      mybase.validate("FAMILY_LOG.TECHFLAG", value, 1)
+                  catch ex as exception
+                      Connection.LastError = ex
+                      Exit Property
+                  end try
+                  _IsSetTECHFLAG = True
+                  If loading Then
                     _TECHFLAG = Value
-                Else
-                  if not _TECHFLAG = value then
-                      loading = true
-                      Dim cn As New oDataPUT(Me, PropertyStream("TECHFLAG", Value), AddressOf HandlesEdit)
-                      loading = false
-                      If Not lastResult is nothing Then
-                          Throw lastResult
-                      Else
-                          _TECHFLAG = Value
-                      End If
+                  Else
+                      if not _TECHFLAG = value then
+                          loading = true
+                          Connection.RaiseStartData()
+                          Dim cn As New oDataPUT(Me, PropertyStream("TECHFLAG", Value), AddressOf HandlesEdit)
+                          loading = false
+                          If Connection.LastError is nothing Then
+                              _TECHFLAG = Value
+                          End If
+                      end if
                   end if
-                end if
                 end if
             End Set
         End Property
@@ -508,22 +543,26 @@ Namespace OData
             End Get
             Set
                 if not(value is nothing) then
-                mybase.validate("FAMILY_LOG.DEBITFLAG", value, 1)
-                _IsSetDEBITFLAG = True
-                If loading Then
+                  try
+                      mybase.validate("FAMILY_LOG.DEBITFLAG", value, 1)
+                  catch ex as exception
+                      Connection.LastError = ex
+                      Exit Property
+                  end try
+                  _IsSetDEBITFLAG = True
+                  If loading Then
                     _DEBITFLAG = Value
-                Else
-                  if not _DEBITFLAG = value then
-                      loading = true
-                      Dim cn As New oDataPUT(Me, PropertyStream("DEBITFLAG", Value), AddressOf HandlesEdit)
-                      loading = false
-                      If Not lastResult is nothing Then
-                          Throw lastResult
-                      Else
-                          _DEBITFLAG = Value
-                      End If
+                  Else
+                      if not _DEBITFLAG = value then
+                          loading = true
+                          Connection.RaiseStartData()
+                          Dim cn As New oDataPUT(Me, PropertyStream("DEBITFLAG", Value), AddressOf HandlesEdit)
+                          loading = false
+                          If Connection.LastError is nothing Then
+                              _DEBITFLAG = Value
+                          End If
+                      end if
                   end if
-                end if
                 end if
             End Set
         End Property
@@ -537,22 +576,26 @@ Namespace OData
             End Get
             Set
                 if not(value is nothing) then
-                mybase.validate("FAMILY_LOG.PROJPROCESS", value, 1)
-                _IsSetPROJPROCESS = True
-                If loading Then
+                  try
+                      mybase.validate("FAMILY_LOG.PROJPROCESS", value, 1)
+                  catch ex as exception
+                      Connection.LastError = ex
+                      Exit Property
+                  end try
+                  _IsSetPROJPROCESS = True
+                  If loading Then
                     _PROJPROCESS = Value
-                Else
-                  if not _PROJPROCESS = value then
-                      loading = true
-                      Dim cn As New oDataPUT(Me, PropertyStream("PROJPROCESS", Value), AddressOf HandlesEdit)
-                      loading = false
-                      If Not lastResult is nothing Then
-                          Throw lastResult
-                      Else
-                          _PROJPROCESS = Value
-                      End If
+                  Else
+                      if not _PROJPROCESS = value then
+                          loading = true
+                          Connection.RaiseStartData()
+                          Dim cn As New oDataPUT(Me, PropertyStream("PROJPROCESS", Value), AddressOf HandlesEdit)
+                          loading = false
+                          If Connection.LastError is nothing Then
+                              _PROJPROCESS = Value
+                          End If
+                      end if
                   end if
-                end if
                 end if
             End Set
         End Property
@@ -566,22 +609,26 @@ Namespace OData
             End Get
             Set
                 if not(value is nothing) then
-                mybase.validate("FAMILY_LOG.TECHNICIANLOGIN", value, 20)
-                _IsSetTECHNICIANLOGIN = True
-                If loading Then
+                  try
+                      mybase.validate("FAMILY_LOG.TECHNICIANLOGIN", value, 20)
+                  catch ex as exception
+                      Connection.LastError = ex
+                      Exit Property
+                  end try
+                  _IsSetTECHNICIANLOGIN = True
+                  If loading Then
                     _TECHNICIANLOGIN = Value
-                Else
-                  if not _TECHNICIANLOGIN = value then
-                      loading = true
-                      Dim cn As New oDataPUT(Me, PropertyStream("TECHNICIANLOGIN", Value), AddressOf HandlesEdit)
-                      loading = false
-                      If Not lastResult is nothing Then
-                          Throw lastResult
-                      Else
-                          _TECHNICIANLOGIN = Value
-                      End If
+                  Else
+                      if not _TECHNICIANLOGIN = value then
+                          loading = true
+                          Connection.RaiseStartData()
+                          Dim cn As New oDataPUT(Me, PropertyStream("TECHNICIANLOGIN", Value), AddressOf HandlesEdit)
+                          loading = false
+                          If Connection.LastError is nothing Then
+                              _TECHNICIANLOGIN = Value
+                          End If
+                      end if
                   end if
-                end if
                 end if
             End Set
         End Property
@@ -595,22 +642,26 @@ Namespace OData
             End Get
             Set
                 if not(value is nothing) then
-                mybase.validate("FAMILY_LOG.FTCODE", value, 4)
-                _IsSetFTCODE = True
-                If loading Then
+                  try
+                      mybase.validate("FAMILY_LOG.FTCODE", value, 4)
+                  catch ex as exception
+                      Connection.LastError = ex
+                      Exit Property
+                  end try
+                  _IsSetFTCODE = True
+                  If loading Then
                     _FTCODE = Value
-                Else
-                  if not _FTCODE = value then
-                      loading = true
-                      Dim cn As New oDataPUT(Me, PropertyStream("FTCODE", Value), AddressOf HandlesEdit)
-                      loading = false
-                      If Not lastResult is nothing Then
-                          Throw lastResult
-                      Else
-                          _FTCODE = Value
-                      End If
+                  Else
+                      if not _FTCODE = value then
+                          loading = true
+                          Connection.RaiseStartData()
+                          Dim cn As New oDataPUT(Me, PropertyStream("FTCODE", Value), AddressOf HandlesEdit)
+                          loading = false
+                          If Connection.LastError is nothing Then
+                              _FTCODE = Value
+                          End If
+                      end if
                   end if
-                end if
                 end if
             End Set
         End Property
@@ -625,22 +676,26 @@ Namespace OData
             End Get
             Set
                 if not(value is nothing) then
-                mybase.validate("FAMILY_LOG.FTNAME", value, 20)
-                _IsSetFTNAME = True
-                If loading Then
+                  try
+                      mybase.validate("FAMILY_LOG.FTNAME", value, 20)
+                  catch ex as exception
+                      Connection.LastError = ex
+                      Exit Property
+                  end try
+                  _IsSetFTNAME = True
+                  If loading Then
                     _FTNAME = Value
-                Else
-                  if not _FTNAME = value then
-                      loading = true
-                      Dim cn As New oDataPUT(Me, PropertyStream("FTNAME", Value), AddressOf HandlesEdit)
-                      loading = false
-                      If Not lastResult is nothing Then
-                          Throw lastResult
-                      Else
-                          _FTNAME = Value
-                      End If
+                  Else
+                      if not _FTNAME = value then
+                          loading = true
+                          Connection.RaiseStartData()
+                          Dim cn As New oDataPUT(Me, PropertyStream("FTNAME", Value), AddressOf HandlesEdit)
+                          loading = false
+                          If Connection.LastError is nothing Then
+                              _FTNAME = Value
+                          End If
+                      end if
                   end if
-                end if
                 end if
             End Set
         End Property
@@ -654,22 +709,26 @@ Namespace OData
             End Get
             Set
                 if not(value is nothing) then
-                mybase.validate("FAMILY_LOG.DISTRFLAG", value, 1)
-                _IsSetDISTRFLAG = True
-                If loading Then
+                  try
+                      mybase.validate("FAMILY_LOG.DISTRFLAG", value, 1)
+                  catch ex as exception
+                      Connection.LastError = ex
+                      Exit Property
+                  end try
+                  _IsSetDISTRFLAG = True
+                  If loading Then
                     _DISTRFLAG = Value
-                Else
-                  if not _DISTRFLAG = value then
-                      loading = true
-                      Dim cn As New oDataPUT(Me, PropertyStream("DISTRFLAG", Value), AddressOf HandlesEdit)
-                      loading = false
-                      If Not lastResult is nothing Then
-                          Throw lastResult
-                      Else
-                          _DISTRFLAG = Value
-                      End If
+                  Else
+                      if not _DISTRFLAG = value then
+                          loading = true
+                          Connection.RaiseStartData()
+                          Dim cn As New oDataPUT(Me, PropertyStream("DISTRFLAG", Value), AddressOf HandlesEdit)
+                          loading = false
+                          If Connection.LastError is nothing Then
+                              _DISTRFLAG = Value
+                          End If
+                      end if
                   end if
-                end if
                 end if
             End Set
         End Property
@@ -683,22 +742,26 @@ Namespace OData
             End Get
             Set
                 if not(value is nothing) then
-                mybase.validate("FAMILY_LOG.DUTYPERCENT", value, 6,2)
-                _IsSetDUTYPERCENT = True
-                If loading Then
+                  try
+                      mybase.validate("FAMILY_LOG.DUTYPERCENT", value, 6,2)
+                  catch ex as exception
+                      Connection.LastError = ex
+                      Exit Property
+                  end try
+                  _IsSetDUTYPERCENT = True
+                  If loading Then
                     _DUTYPERCENT = Value
-                Else
-                  if not _DUTYPERCENT = value then
-                      loading = true
-                      Dim cn As New oDataPUT(Me, PropertyStream("DUTYPERCENT", Value), AddressOf HandlesEdit)
-                      loading = false
-                      If Not lastResult is nothing Then
-                          Throw lastResult
-                      Else
-                          _DUTYPERCENT = Value
-                      End If
+                  Else
+                      if not _DUTYPERCENT = value then
+                          loading = true
+                          Connection.RaiseStartData()
+                          Dim cn As New oDataPUT(Me, PropertyStream("DUTYPERCENT", Value), AddressOf HandlesEdit)
+                          loading = false
+                          If Connection.LastError is nothing Then
+                              _DUTYPERCENT = Value
+                          End If
+                      end if
                   end if
-                end if
                 end if
             End Set
         End Property
@@ -712,22 +775,26 @@ Namespace OData
             End Get
             Set
                 if not(value is nothing) then
-                mybase.validate("FAMILY_LOG.DUTYPERCENT1", value, 6,2)
-                _IsSetDUTYPERCENT1 = True
-                If loading Then
+                  try
+                      mybase.validate("FAMILY_LOG.DUTYPERCENT1", value, 6,2)
+                  catch ex as exception
+                      Connection.LastError = ex
+                      Exit Property
+                  end try
+                  _IsSetDUTYPERCENT1 = True
+                  If loading Then
                     _DUTYPERCENT1 = Value
-                Else
-                  if not _DUTYPERCENT1 = value then
-                      loading = true
-                      Dim cn As New oDataPUT(Me, PropertyStream("DUTYPERCENT1", Value), AddressOf HandlesEdit)
-                      loading = false
-                      If Not lastResult is nothing Then
-                          Throw lastResult
-                      Else
-                          _DUTYPERCENT1 = Value
-                      End If
+                  Else
+                      if not _DUTYPERCENT1 = value then
+                          loading = true
+                          Connection.RaiseStartData()
+                          Dim cn As New oDataPUT(Me, PropertyStream("DUTYPERCENT1", Value), AddressOf HandlesEdit)
+                          loading = false
+                          If Connection.LastError is nothing Then
+                              _DUTYPERCENT1 = Value
+                          End If
+                      end if
                   end if
-                end if
                 end if
             End Set
         End Property
@@ -741,22 +808,26 @@ Namespace OData
             End Get
             Set
                 if not(value is nothing) then
-                mybase.validate("FAMILY_LOG.DUTYPERCENT2", value, 6,2)
-                _IsSetDUTYPERCENT2 = True
-                If loading Then
+                  try
+                      mybase.validate("FAMILY_LOG.DUTYPERCENT2", value, 6,2)
+                  catch ex as exception
+                      Connection.LastError = ex
+                      Exit Property
+                  end try
+                  _IsSetDUTYPERCENT2 = True
+                  If loading Then
                     _DUTYPERCENT2 = Value
-                Else
-                  if not _DUTYPERCENT2 = value then
-                      loading = true
-                      Dim cn As New oDataPUT(Me, PropertyStream("DUTYPERCENT2", Value), AddressOf HandlesEdit)
-                      loading = false
-                      If Not lastResult is nothing Then
-                          Throw lastResult
-                      Else
-                          _DUTYPERCENT2 = Value
-                      End If
+                  Else
+                      if not _DUTYPERCENT2 = value then
+                          loading = true
+                          Connection.RaiseStartData()
+                          Dim cn As New oDataPUT(Me, PropertyStream("DUTYPERCENT2", Value), AddressOf HandlesEdit)
+                          loading = false
+                          If Connection.LastError is nothing Then
+                              _DUTYPERCENT2 = Value
+                          End If
+                      end if
                   end if
-                end if
                 end if
             End Set
         End Property
@@ -770,22 +841,26 @@ Namespace OData
             End Get
             Set
                 if not(value is nothing) then
-                mybase.validate("FAMILY_LOG.DUTYPERCENTTYPE", value, 1)
-                _IsSetDUTYPERCENTTYPE = True
-                If loading Then
+                  try
+                      mybase.validate("FAMILY_LOG.DUTYPERCENTTYPE", value, 1)
+                  catch ex as exception
+                      Connection.LastError = ex
+                      Exit Property
+                  end try
+                  _IsSetDUTYPERCENTTYPE = True
+                  If loading Then
                     _DUTYPERCENTTYPE = Value
-                Else
-                  if not _DUTYPERCENTTYPE = value then
-                      loading = true
-                      Dim cn As New oDataPUT(Me, PropertyStream("DUTYPERCENTTYPE", Value), AddressOf HandlesEdit)
-                      loading = false
-                      If Not lastResult is nothing Then
-                          Throw lastResult
-                      Else
-                          _DUTYPERCENTTYPE = Value
-                      End If
+                  Else
+                      if not _DUTYPERCENTTYPE = value then
+                          loading = true
+                          Connection.RaiseStartData()
+                          Dim cn As New oDataPUT(Me, PropertyStream("DUTYPERCENTTYPE", Value), AddressOf HandlesEdit)
+                          loading = false
+                          If Connection.LastError is nothing Then
+                              _DUTYPERCENTTYPE = Value
+                          End If
+                      end if
                   end if
-                end if
                 end if
             End Set
         End Property
@@ -799,22 +874,26 @@ Namespace OData
             End Get
             Set
                 if not(value is nothing) then
-                mybase.validate("FAMILY_LOG.SELLFLAG", value, 1)
-                _IsSetSELLFLAG = True
-                If loading Then
+                  try
+                      mybase.validate("FAMILY_LOG.SELLFLAG", value, 1)
+                  catch ex as exception
+                      Connection.LastError = ex
+                      Exit Property
+                  end try
+                  _IsSetSELLFLAG = True
+                  If loading Then
                     _SELLFLAG = Value
-                Else
-                  if not _SELLFLAG = value then
-                      loading = true
-                      Dim cn As New oDataPUT(Me, PropertyStream("SELLFLAG", Value), AddressOf HandlesEdit)
-                      loading = false
-                      If Not lastResult is nothing Then
-                          Throw lastResult
-                      Else
-                          _SELLFLAG = Value
-                      End If
+                  Else
+                      if not _SELLFLAG = value then
+                          loading = true
+                          Connection.RaiseStartData()
+                          Dim cn As New oDataPUT(Me, PropertyStream("SELLFLAG", Value), AddressOf HandlesEdit)
+                          loading = false
+                          If Connection.LastError is nothing Then
+                              _SELLFLAG = Value
+                          End If
+                      end if
                   end if
-                end if
                 end if
             End Set
         End Property
@@ -828,22 +907,26 @@ Namespace OData
             End Get
             Set
                 if not(value is nothing) then
-                mybase.validate("FAMILY_LOG.NEGBALFLAG", value, 1)
-                _IsSetNEGBALFLAG = True
-                If loading Then
+                  try
+                      mybase.validate("FAMILY_LOG.NEGBALFLAG", value, 1)
+                  catch ex as exception
+                      Connection.LastError = ex
+                      Exit Property
+                  end try
+                  _IsSetNEGBALFLAG = True
+                  If loading Then
                     _NEGBALFLAG = Value
-                Else
-                  if not _NEGBALFLAG = value then
-                      loading = true
-                      Dim cn As New oDataPUT(Me, PropertyStream("NEGBALFLAG", Value), AddressOf HandlesEdit)
-                      loading = false
-                      If Not lastResult is nothing Then
-                          Throw lastResult
-                      Else
-                          _NEGBALFLAG = Value
-                      End If
+                  Else
+                      if not _NEGBALFLAG = value then
+                          loading = true
+                          Connection.RaiseStartData()
+                          Dim cn As New oDataPUT(Me, PropertyStream("NEGBALFLAG", Value), AddressOf HandlesEdit)
+                          loading = false
+                          If Connection.LastError is nothing Then
+                              _NEGBALFLAG = Value
+                          End If
+                      end if
                   end if
-                end if
                 end if
             End Set
         End Property
@@ -857,22 +940,26 @@ Namespace OData
             End Get
             Set
                 if not(value is nothing) then
-                mybase.validate("FAMILY_LOG.FORECAST", value, 1)
-                _IsSetFORECAST = True
-                If loading Then
+                  try
+                      mybase.validate("FAMILY_LOG.FORECAST", value, 1)
+                  catch ex as exception
+                      Connection.LastError = ex
+                      Exit Property
+                  end try
+                  _IsSetFORECAST = True
+                  If loading Then
                     _FORECAST = Value
-                Else
-                  if not _FORECAST = value then
-                      loading = true
-                      Dim cn As New oDataPUT(Me, PropertyStream("FORECAST", Value), AddressOf HandlesEdit)
-                      loading = false
-                      If Not lastResult is nothing Then
-                          Throw lastResult
-                      Else
-                          _FORECAST = Value
-                      End If
+                  Else
+                      if not _FORECAST = value then
+                          loading = true
+                          Connection.RaiseStartData()
+                          Dim cn As New oDataPUT(Me, PropertyStream("FORECAST", Value), AddressOf HandlesEdit)
+                          loading = false
+                          If Connection.LastError is nothing Then
+                              _FORECAST = Value
+                          End If
+                      end if
                   end if
-                end if
                 end if
             End Set
         End Property
@@ -886,22 +973,26 @@ Namespace OData
             End Get
             Set
                 if not(value is nothing) then
-                mybase.validate("FAMILY_LOG.PARTNAME", value, 15)
-                _IsSetPARTNAME = True
-                If loading Then
+                  try
+                      mybase.validate("FAMILY_LOG.PARTNAME", value, 15)
+                  catch ex as exception
+                      Connection.LastError = ex
+                      Exit Property
+                  end try
+                  _IsSetPARTNAME = True
+                  If loading Then
                     _PARTNAME = Value
-                Else
-                  if not _PARTNAME = value then
-                      loading = true
-                      Dim cn As New oDataPUT(Me, PropertyStream("PARTNAME", Value), AddressOf HandlesEdit)
-                      loading = false
-                      If Not lastResult is nothing Then
-                          Throw lastResult
-                      Else
-                          _PARTNAME = Value
-                      End If
+                  Else
+                      if not _PARTNAME = value then
+                          loading = true
+                          Connection.RaiseStartData()
+                          Dim cn As New oDataPUT(Me, PropertyStream("PARTNAME", Value), AddressOf HandlesEdit)
+                          loading = false
+                          If Connection.LastError is nothing Then
+                              _PARTNAME = Value
+                          End If
+                      end if
                   end if
-                end if
                 end if
             End Set
         End Property
@@ -916,22 +1007,26 @@ Namespace OData
             End Get
             Set
                 if not(value is nothing) then
-                mybase.validate("FAMILY_LOG.PARTDES", value, 48)
-                _IsSetPARTDES = True
-                If loading Then
+                  try
+                      mybase.validate("FAMILY_LOG.PARTDES", value, 48)
+                  catch ex as exception
+                      Connection.LastError = ex
+                      Exit Property
+                  end try
+                  _IsSetPARTDES = True
+                  If loading Then
                     _PARTDES = Value
-                Else
-                  if not _PARTDES = value then
-                      loading = true
-                      Dim cn As New oDataPUT(Me, PropertyStream("PARTDES", Value), AddressOf HandlesEdit)
-                      loading = false
-                      If Not lastResult is nothing Then
-                          Throw lastResult
-                      Else
-                          _PARTDES = Value
-                      End If
+                  Else
+                      if not _PARTDES = value then
+                          loading = true
+                          Connection.RaiseStartData()
+                          Dim cn As New oDataPUT(Me, PropertyStream("PARTDES", Value), AddressOf HandlesEdit)
+                          loading = false
+                          If Connection.LastError is nothing Then
+                              _PARTDES = Value
+                          End If
+                      end if
                   end if
-                end if
                 end if
             End Set
         End Property
@@ -945,22 +1040,26 @@ Namespace OData
             End Get
             Set
                 if not(value is nothing) then
-                mybase.validate("FAMILY_LOG.STORAGETYPECODE", value, 8)
-                _IsSetSTORAGETYPECODE = True
-                If loading Then
+                  try
+                      mybase.validate("FAMILY_LOG.STORAGETYPECODE", value, 8)
+                  catch ex as exception
+                      Connection.LastError = ex
+                      Exit Property
+                  end try
+                  _IsSetSTORAGETYPECODE = True
+                  If loading Then
                     _STORAGETYPECODE = Value
-                Else
-                  if not _STORAGETYPECODE = value then
-                      loading = true
-                      Dim cn As New oDataPUT(Me, PropertyStream("STORAGETYPECODE", Value), AddressOf HandlesEdit)
-                      loading = false
-                      If Not lastResult is nothing Then
-                          Throw lastResult
-                      Else
-                          _STORAGETYPECODE = Value
-                      End If
+                  Else
+                      if not _STORAGETYPECODE = value then
+                          loading = true
+                          Connection.RaiseStartData()
+                          Dim cn As New oDataPUT(Me, PropertyStream("STORAGETYPECODE", Value), AddressOf HandlesEdit)
+                          loading = false
+                          If Connection.LastError is nothing Then
+                              _STORAGETYPECODE = Value
+                          End If
+                      end if
                   end if
-                end if
                 end if
             End Set
         End Property
@@ -975,22 +1074,26 @@ Namespace OData
             End Get
             Set
                 if not(value is nothing) then
-                mybase.validate("FAMILY_LOG.STORAGETYPEDES", value, 32)
-                _IsSetSTORAGETYPEDES = True
-                If loading Then
+                  try
+                      mybase.validate("FAMILY_LOG.STORAGETYPEDES", value, 32)
+                  catch ex as exception
+                      Connection.LastError = ex
+                      Exit Property
+                  end try
+                  _IsSetSTORAGETYPEDES = True
+                  If loading Then
                     _STORAGETYPEDES = Value
-                Else
-                  if not _STORAGETYPEDES = value then
-                      loading = true
-                      Dim cn As New oDataPUT(Me, PropertyStream("STORAGETYPEDES", Value), AddressOf HandlesEdit)
-                      loading = false
-                      If Not lastResult is nothing Then
-                          Throw lastResult
-                      Else
-                          _STORAGETYPEDES = Value
-                      End If
+                  Else
+                      if not _STORAGETYPEDES = value then
+                          loading = true
+                          Connection.RaiseStartData()
+                          Dim cn As New oDataPUT(Me, PropertyStream("STORAGETYPEDES", Value), AddressOf HandlesEdit)
+                          loading = false
+                          If Connection.LastError is nothing Then
+                              _STORAGETYPEDES = Value
+                          End If
+                      end if
                   end if
-                end if
                 end if
             End Set
         End Property
@@ -1004,22 +1107,26 @@ Namespace OData
             End Get
             Set
                 if not(value is nothing) then
-                mybase.validate("FAMILY_LOG.SERIALMONTHEXPIRY", value, 1)
-                _IsSetSERIALMONTHEXPIRY = True
-                If loading Then
+                  try
+                      mybase.validate("FAMILY_LOG.SERIALMONTHEXPIRY", value, 1)
+                  catch ex as exception
+                      Connection.LastError = ex
+                      Exit Property
+                  end try
+                  _IsSetSERIALMONTHEXPIRY = True
+                  If loading Then
                     _SERIALMONTHEXPIRY = Value
-                Else
-                  if not _SERIALMONTHEXPIRY = value then
-                      loading = true
-                      Dim cn As New oDataPUT(Me, PropertyStream("SERIALMONTHEXPIRY", Value), AddressOf HandlesEdit)
-                      loading = false
-                      If Not lastResult is nothing Then
-                          Throw lastResult
-                      Else
-                          _SERIALMONTHEXPIRY = Value
-                      End If
+                  Else
+                      if not _SERIALMONTHEXPIRY = value then
+                          loading = true
+                          Connection.RaiseStartData()
+                          Dim cn As New oDataPUT(Me, PropertyStream("SERIALMONTHEXPIRY", Value), AddressOf HandlesEdit)
+                          loading = false
+                          If Connection.LastError is nothing Then
+                              _SERIALMONTHEXPIRY = Value
+                          End If
+                      end if
                   end if
-                end if
                 end if
             End Set
         End Property
@@ -1033,22 +1140,26 @@ Namespace OData
             End Get
             Set
                 if not(value is nothing) then
-                mybase.validate("FAMILY_LOG.ISMFAMILY", value, 1)
-                _IsSetISMFAMILY = True
-                If loading Then
+                  try
+                      mybase.validate("FAMILY_LOG.ISMFAMILY", value, 1)
+                  catch ex as exception
+                      Connection.LastError = ex
+                      Exit Property
+                  end try
+                  _IsSetISMFAMILY = True
+                  If loading Then
                     _ISMFAMILY = Value
-                Else
-                  if not _ISMFAMILY = value then
-                      loading = true
-                      Dim cn As New oDataPUT(Me, PropertyStream("ISMFAMILY", Value), AddressOf HandlesEdit)
-                      loading = false
-                      If Not lastResult is nothing Then
-                          Throw lastResult
-                      Else
-                          _ISMFAMILY = Value
-                      End If
+                  Else
+                      if not _ISMFAMILY = value then
+                          loading = true
+                          Connection.RaiseStartData()
+                          Dim cn As New oDataPUT(Me, PropertyStream("ISMFAMILY", Value), AddressOf HandlesEdit)
+                          loading = false
+                          If Connection.LastError is nothing Then
+                              _ISMFAMILY = Value
+                          End If
+                      end if
                   end if
-                end if
                 end if
             End Set
         End Property
@@ -1062,22 +1173,26 @@ Namespace OData
             End Get
             Set
                 if not(value is nothing) then
-                mybase.validate("FAMILY_LOG.MFAMILYNAME", value, 8)
-                _IsSetMFAMILYNAME = True
-                If loading Then
+                  try
+                      mybase.validate("FAMILY_LOG.MFAMILYNAME", value, 8)
+                  catch ex as exception
+                      Connection.LastError = ex
+                      Exit Property
+                  end try
+                  _IsSetMFAMILYNAME = True
+                  If loading Then
                     _MFAMILYNAME = Value
-                Else
-                  if not _MFAMILYNAME = value then
-                      loading = true
-                      Dim cn As New oDataPUT(Me, PropertyStream("MFAMILYNAME", Value), AddressOf HandlesEdit)
-                      loading = false
-                      If Not lastResult is nothing Then
-                          Throw lastResult
-                      Else
-                          _MFAMILYNAME = Value
-                      End If
+                  Else
+                      if not _MFAMILYNAME = value then
+                          loading = true
+                          Connection.RaiseStartData()
+                          Dim cn As New oDataPUT(Me, PropertyStream("MFAMILYNAME", Value), AddressOf HandlesEdit)
+                          loading = false
+                          If Connection.LastError is nothing Then
+                              _MFAMILYNAME = Value
+                          End If
+                      end if
                   end if
-                end if
                 end if
             End Set
         End Property
@@ -1092,22 +1207,26 @@ Namespace OData
             End Get
             Set
                 if not(value is nothing) then
-                mybase.validate("FAMILY_LOG.MFAMILYDES", value, 32)
-                _IsSetMFAMILYDES = True
-                If loading Then
+                  try
+                      mybase.validate("FAMILY_LOG.MFAMILYDES", value, 32)
+                  catch ex as exception
+                      Connection.LastError = ex
+                      Exit Property
+                  end try
+                  _IsSetMFAMILYDES = True
+                  If loading Then
                     _MFAMILYDES = Value
-                Else
-                  if not _MFAMILYDES = value then
-                      loading = true
-                      Dim cn As New oDataPUT(Me, PropertyStream("MFAMILYDES", Value), AddressOf HandlesEdit)
-                      loading = false
-                      If Not lastResult is nothing Then
-                          Throw lastResult
-                      Else
-                          _MFAMILYDES = Value
-                      End If
+                  Else
+                      if not _MFAMILYDES = value then
+                          loading = true
+                          Connection.RaiseStartData()
+                          Dim cn As New oDataPUT(Me, PropertyStream("MFAMILYDES", Value), AddressOf HandlesEdit)
+                          loading = false
+                          If Connection.LastError is nothing Then
+                              _MFAMILYDES = Value
+                          End If
+                      end if
                   end if
-                end if
                 end if
             End Set
         End Property
@@ -1121,22 +1240,26 @@ Namespace OData
             End Get
             Set
                 if not(value is nothing) then
-                mybase.validate("FAMILY_LOG.INACTIVE", value, 1)
-                _IsSetINACTIVE = True
-                If loading Then
+                  try
+                      mybase.validate("FAMILY_LOG.INACTIVE", value, 1)
+                  catch ex as exception
+                      Connection.LastError = ex
+                      Exit Property
+                  end try
+                  _IsSetINACTIVE = True
+                  If loading Then
                     _INACTIVE = Value
-                Else
-                  if not _INACTIVE = value then
-                      loading = true
-                      Dim cn As New oDataPUT(Me, PropertyStream("INACTIVE", Value), AddressOf HandlesEdit)
-                      loading = false
-                      If Not lastResult is nothing Then
-                          Throw lastResult
-                      Else
-                          _INACTIVE = Value
-                      End If
+                  Else
+                      if not _INACTIVE = value then
+                          loading = true
+                          Connection.RaiseStartData()
+                          Dim cn As New oDataPUT(Me, PropertyStream("INACTIVE", Value), AddressOf HandlesEdit)
+                          loading = false
+                          If Connection.LastError is nothing Then
+                              _INACTIVE = Value
+                          End If
+                      end if
                   end if
-                end if
                 end if
             End Set
         End Property
@@ -1151,22 +1274,26 @@ Namespace OData
             End Get
             Set
                 if not(value is nothing) then
-                mybase.validate("FAMILY_LOG.FAMILY", value)
-                _IsSetFAMILY = True
-                If loading Then
+                  try
+                      mybase.validate("FAMILY_LOG.FAMILY", value)
+                  catch ex as exception
+                      Connection.LastError = ex
+                      Exit Property
+                  end try
+                  _IsSetFAMILY = True
+                  If loading Then
                     _FAMILY = Value
-                Else
-                  if not _FAMILY = value then
-                      loading = true
-                      Dim cn As New oDataPUT(Me, PropertyStream("FAMILY", Value), AddressOf HandlesEdit)
-                      loading = false
-                      If Not lastResult is nothing Then
-                          Throw lastResult
-                      Else
-                          _FAMILY = Value
-                      End If
+                  Else
+                      if not _FAMILY = value then
+                          loading = true
+                          Connection.RaiseStartData()
+                          Dim cn As New oDataPUT(Me, PropertyStream("FAMILY", Value), AddressOf HandlesEdit)
+                          loading = false
+                          If Connection.LastError is nothing Then
+                              _FAMILY = Value
+                          End If
+                      end if
                   end if
-                end if
                 end if
             End Set
         End Property
@@ -1750,22 +1877,22 @@ Namespace OData
             if _FAMILY_LOGPART_SUBFORM.value.count > 0 then
               for each itm as FAMILY_LOGPART in _FAMILY_LOGPART_SUBFORM.Value
                 itm.toXML(xw,"FAMILY_LOGPART_SUBFORM")
-                next
+              next
             end if
             if _FAMILYMALF_SUBFORM.value.count > 0 then
               for each itm as FAMILYMALF in _FAMILYMALF_SUBFORM.Value
                 itm.toXML(xw,"FAMILYMALF_SUBFORM")
-                next
+              next
             end if
             if _FAMILYSERVTYPES_SUBFORM.value.count > 0 then
               for each itm as FAMILYSERVTYPES in _FAMILYSERVTYPES_SUBFORM.Value
                 itm.toXML(xw,"FAMILYSERVTYPES_SUBFORM")
-                next
+              next
             end if
             if _FAMILYREQLABANALYSES_SUBFORM.value.count > 0 then
               for each itm as FAMILYREQLABANALYSES in _FAMILYREQLABANALYSES_SUBFORM.Value
                 itm.toXML(xw,"FAMILYREQLABANALYSES_SUBFORM")
-                next
+              next
             end if
               .WriteEndElement
             end with
@@ -1773,38 +1900,37 @@ Namespace OData
         
         Protected Friend Overrides Sub HandlesEdit(ByVal sender As Object, ByVal e As ResponseEventArgs)
             If Not e.WebException is nothing Then
-                lastResult = e.InterfaceException
+                Connection.LastError = e.InterfaceException
             Else
-                lastResult = nothing
                 dim obj as FAMILY_LOG = JsonConvert.DeserializeObject(Of FAMILY_LOG)(e.StreamReader.ReadToEnd)
                 With obj
-                _FAMILYNAME = .FAMILYNAME
-                _FAMILYDESC = .FAMILYDESC
-                _EFAMILYDES = .EFAMILYDES
-                _TECHFLAG = .TECHFLAG
-                _DEBITFLAG = .DEBITFLAG
-                _PROJPROCESS = .PROJPROCESS
-                _TECHNICIANLOGIN = .TECHNICIANLOGIN
-                _FTCODE = .FTCODE
-                _FTNAME = .FTNAME
-                _DISTRFLAG = .DISTRFLAG
-                _DUTYPERCENT = .DUTYPERCENT
-                _DUTYPERCENT1 = .DUTYPERCENT1
-                _DUTYPERCENT2 = .DUTYPERCENT2
-                _DUTYPERCENTTYPE = .DUTYPERCENTTYPE
-                _SELLFLAG = .SELLFLAG
-                _NEGBALFLAG = .NEGBALFLAG
-                _FORECAST = .FORECAST
-                _PARTNAME = .PARTNAME
-                _PARTDES = .PARTDES
-                _STORAGETYPECODE = .STORAGETYPECODE
-                _STORAGETYPEDES = .STORAGETYPEDES
-                _SERIALMONTHEXPIRY = .SERIALMONTHEXPIRY
-                _ISMFAMILY = .ISMFAMILY
-                _MFAMILYNAME = .MFAMILYNAME
-                _MFAMILYDES = .MFAMILYDES
-                _INACTIVE = .INACTIVE
-                _FAMILY = .FAMILY
+                  _FAMILYNAME = .FAMILYNAME
+                  _FAMILYDESC = .FAMILYDESC
+                  _EFAMILYDES = .EFAMILYDES
+                  _TECHFLAG = .TECHFLAG
+                  _DEBITFLAG = .DEBITFLAG
+                  _PROJPROCESS = .PROJPROCESS
+                  _TECHNICIANLOGIN = .TECHNICIANLOGIN
+                  _FTCODE = .FTCODE
+                  _FTNAME = .FTNAME
+                  _DISTRFLAG = .DISTRFLAG
+                  _DUTYPERCENT = .DUTYPERCENT
+                  _DUTYPERCENT1 = .DUTYPERCENT1
+                  _DUTYPERCENT2 = .DUTYPERCENT2
+                  _DUTYPERCENTTYPE = .DUTYPERCENTTYPE
+                  _SELLFLAG = .SELLFLAG
+                  _NEGBALFLAG = .NEGBALFLAG
+                  _FORECAST = .FORECAST
+                  _PARTNAME = .PARTNAME
+                  _PARTDES = .PARTDES
+                  _STORAGETYPECODE = .STORAGETYPECODE
+                  _STORAGETYPEDES = .STORAGETYPEDES
+                  _SERIALMONTHEXPIRY = .SERIALMONTHEXPIRY
+                  _ISMFAMILY = .ISMFAMILY
+                  _MFAMILYNAME = .MFAMILYNAME
+                  _MFAMILYDES = .MFAMILYDES
+                  _INACTIVE = .INACTIVE
+                  _FAMILY = .FAMILY
                 end with
             End If
         End Sub
@@ -1832,8 +1958,6 @@ Namespace OData
         Private _Parent As oDataObject
         
         Private _BindingSource As System.Windows.Forms.BindingSource
-        
-        Private _lastResult As FAMILY_LOGPART
         
         Public Sub New()
             MyBase.New
@@ -1915,20 +2039,19 @@ Namespace OData
         
         Protected Friend Overrides Sub HandlesAdd(ByVal sender As Object, ByVal e As ResponseEventArgs)
             If Not e.WebException is nothing Then
-                _lastResult = nothing
-                throw e.webexception
+                Connection.LastError = e.InterfaceException
             Else
                 dim obj as FAMILY_LOGPART = JsonConvert.DeserializeObject(Of FAMILY_LOGPART)(e.StreamReader.ReadToEnd)
-                With obj
-                  if not(_Parent is nothing) then
+                With TryCast(BindingSource.Current, FAMILY_LOGPART)
                   .Parent = Parent
-                  end if
                   .loading = false
+                  .PARTNAME = obj.PARTNAME
+                  .TYPE = obj.TYPE
+                  .PARTDES = obj.PARTDES
+                  .STATDES = obj.STATDES
+                  .PART = obj.PART
                 end with
-                _value.add(obj)
-                _lastResult = obj
             End If
-            Adding = False
         End Sub
         
         Protected Friend Overrides Sub Remove(ByRef obj As oDataObject)
@@ -2012,22 +2135,26 @@ Namespace OData
             End Get
             Set
                 if not(value is nothing) then
-                mybase.validate("FAMILY_LOGPART.PARTNAME", value, 15)
-                _IsSetPARTNAME = True
-                If loading Then
+                  try
+                      mybase.validate("FAMILY_LOGPART.PARTNAME", value, 15)
+                  catch ex as exception
+                      Connection.LastError = ex
+                      Exit Property
+                  end try
+                  _IsSetPARTNAME = True
+                  If loading Then
                     _PARTNAME = Value
-                Else
-                  if not _PARTNAME = value then
-                      loading = true
-                      Dim cn As New oDataPUT(Me, PropertyStream("PARTNAME", Value), AddressOf HandlesEdit)
-                      loading = false
-                      If Not lastResult is nothing Then
-                          Throw lastResult
-                      Else
-                          _PARTNAME = Value
-                      End If
+                  Else
+                      if not _PARTNAME = value then
+                          loading = true
+                          Connection.RaiseStartData()
+                          Dim cn As New oDataPUT(Me, PropertyStream("PARTNAME", Value), AddressOf HandlesEdit)
+                          loading = false
+                          If Connection.LastError is nothing Then
+                              _PARTNAME = Value
+                          End If
+                      end if
                   end if
-                end if
                 end if
             End Set
         End Property
@@ -2041,22 +2168,26 @@ Namespace OData
             End Get
             Set
                 if not(value is nothing) then
-                mybase.validate("FAMILY_LOGPART.TYPE", value, 1)
-                _IsSetTYPE = True
-                If loading Then
+                  try
+                      mybase.validate("FAMILY_LOGPART.TYPE", value, 1)
+                  catch ex as exception
+                      Connection.LastError = ex
+                      Exit Property
+                  end try
+                  _IsSetTYPE = True
+                  If loading Then
                     _TYPE = Value
-                Else
-                  if not _TYPE = value then
-                      loading = true
-                      Dim cn As New oDataPUT(Me, PropertyStream("TYPE", Value), AddressOf HandlesEdit)
-                      loading = false
-                      If Not lastResult is nothing Then
-                          Throw lastResult
-                      Else
-                          _TYPE = Value
-                      End If
+                  Else
+                      if not _TYPE = value then
+                          loading = true
+                          Connection.RaiseStartData()
+                          Dim cn As New oDataPUT(Me, PropertyStream("TYPE", Value), AddressOf HandlesEdit)
+                          loading = false
+                          If Connection.LastError is nothing Then
+                              _TYPE = Value
+                          End If
+                      end if
                   end if
-                end if
                 end if
             End Set
         End Property
@@ -2070,22 +2201,26 @@ Namespace OData
             End Get
             Set
                 if not(value is nothing) then
-                mybase.validate("FAMILY_LOGPART.PARTDES", value, 48)
-                _IsSetPARTDES = True
-                If loading Then
+                  try
+                      mybase.validate("FAMILY_LOGPART.PARTDES", value, 48)
+                  catch ex as exception
+                      Connection.LastError = ex
+                      Exit Property
+                  end try
+                  _IsSetPARTDES = True
+                  If loading Then
                     _PARTDES = Value
-                Else
-                  if not _PARTDES = value then
-                      loading = true
-                      Dim cn As New oDataPUT(Me, PropertyStream("PARTDES", Value), AddressOf HandlesEdit)
-                      loading = false
-                      If Not lastResult is nothing Then
-                          Throw lastResult
-                      Else
-                          _PARTDES = Value
-                      End If
+                  Else
+                      if not _PARTDES = value then
+                          loading = true
+                          Connection.RaiseStartData()
+                          Dim cn As New oDataPUT(Me, PropertyStream("PARTDES", Value), AddressOf HandlesEdit)
+                          loading = false
+                          If Connection.LastError is nothing Then
+                              _PARTDES = Value
+                          End If
+                      end if
                   end if
-                end if
                 end if
             End Set
         End Property
@@ -2099,22 +2234,26 @@ Namespace OData
             End Get
             Set
                 if not(value is nothing) then
-                mybase.validate("FAMILY_LOGPART.STATDES", value, 12)
-                _IsSetSTATDES = True
-                If loading Then
+                  try
+                      mybase.validate("FAMILY_LOGPART.STATDES", value, 12)
+                  catch ex as exception
+                      Connection.LastError = ex
+                      Exit Property
+                  end try
+                  _IsSetSTATDES = True
+                  If loading Then
                     _STATDES = Value
-                Else
-                  if not _STATDES = value then
-                      loading = true
-                      Dim cn As New oDataPUT(Me, PropertyStream("STATDES", Value), AddressOf HandlesEdit)
-                      loading = false
-                      If Not lastResult is nothing Then
-                          Throw lastResult
-                      Else
-                          _STATDES = Value
-                      End If
+                  Else
+                      if not _STATDES = value then
+                          loading = true
+                          Connection.RaiseStartData()
+                          Dim cn As New oDataPUT(Me, PropertyStream("STATDES", Value), AddressOf HandlesEdit)
+                          loading = false
+                          If Connection.LastError is nothing Then
+                              _STATDES = Value
+                          End If
+                      end if
                   end if
-                end if
                 end if
             End Set
         End Property
@@ -2129,22 +2268,26 @@ Namespace OData
             End Get
             Set
                 if not(value is nothing) then
-                mybase.validate("FAMILY_LOGPART.PART", value)
-                _IsSetPART = True
-                If loading Then
+                  try
+                      mybase.validate("FAMILY_LOGPART.PART", value)
+                  catch ex as exception
+                      Connection.LastError = ex
+                      Exit Property
+                  end try
+                  _IsSetPART = True
+                  If loading Then
                     _PART = Value
-                Else
-                  if not _PART = value then
-                      loading = true
-                      Dim cn As New oDataPUT(Me, PropertyStream("PART", Value), AddressOf HandlesEdit)
-                      loading = false
-                      If Not lastResult is nothing Then
-                          Throw lastResult
-                      Else
-                          _PART = Value
-                      End If
+                  Else
+                      if not _PART = value then
+                          loading = true
+                          Connection.RaiseStartData()
+                          Dim cn As New oDataPUT(Me, PropertyStream("PART", Value), AddressOf HandlesEdit)
+                          loading = false
+                          If Connection.LastError is nothing Then
+                              _PART = Value
+                          End If
+                      end if
                   end if
-                end if
                 end if
             End Set
         End Property
@@ -2258,16 +2401,15 @@ Namespace OData
         
         Protected Friend Overrides Sub HandlesEdit(ByVal sender As Object, ByVal e As ResponseEventArgs)
             If Not e.WebException is nothing Then
-                lastResult = e.InterfaceException
+                Connection.LastError = e.InterfaceException
             Else
-                lastResult = nothing
                 dim obj as FAMILY_LOGPART = JsonConvert.DeserializeObject(Of FAMILY_LOGPART)(e.StreamReader.ReadToEnd)
                 With obj
-                _PARTNAME = .PARTNAME
-                _TYPE = .TYPE
-                _PARTDES = .PARTDES
-                _STATDES = .STATDES
-                _PART = .PART
+                  _PARTNAME = .PARTNAME
+                  _TYPE = .TYPE
+                  _PARTDES = .PARTDES
+                  _STATDES = .STATDES
+                  _PART = .PART
                 end with
             End If
         End Sub
@@ -2284,8 +2426,6 @@ Namespace OData
         Private _Parent As oDataObject
         
         Private _BindingSource As System.Windows.Forms.BindingSource
-        
-        Private _lastResult As FAMILYMALF
         
         Public Sub New()
             MyBase.New
@@ -2367,20 +2507,17 @@ Namespace OData
         
         Protected Friend Overrides Sub HandlesAdd(ByVal sender As Object, ByVal e As ResponseEventArgs)
             If Not e.WebException is nothing Then
-                _lastResult = nothing
-                throw e.webexception
+                Connection.LastError = e.InterfaceException
             Else
                 dim obj as FAMILYMALF = JsonConvert.DeserializeObject(Of FAMILYMALF)(e.StreamReader.ReadToEnd)
-                With obj
-                  if not(_Parent is nothing) then
+                With TryCast(BindingSource.Current, FAMILYMALF)
                   .Parent = Parent
-                  end if
                   .loading = false
+                  .MALFCODE = obj.MALFCODE
+                  .MALFDES = obj.MALFDES
+                  .MALF = obj.MALF
                 end with
-                _value.add(obj)
-                _lastResult = obj
             End If
-            Adding = False
         End Sub
         
         Protected Friend Overrides Sub Remove(ByRef obj As oDataObject)
@@ -2456,22 +2593,26 @@ Namespace OData
             End Get
             Set
                 if not(value is nothing) then
-                mybase.validate("FAMILYMALF.MALFCODE", value, 3)
-                _IsSetMALFCODE = True
-                If loading Then
+                  try
+                      mybase.validate("FAMILYMALF.MALFCODE", value, 3)
+                  catch ex as exception
+                      Connection.LastError = ex
+                      Exit Property
+                  end try
+                  _IsSetMALFCODE = True
+                  If loading Then
                     _MALFCODE = Value
-                Else
-                  if not _MALFCODE = value then
-                      loading = true
-                      Dim cn As New oDataPUT(Me, PropertyStream("MALFCODE", Value), AddressOf HandlesEdit)
-                      loading = false
-                      If Not lastResult is nothing Then
-                          Throw lastResult
-                      Else
-                          _MALFCODE = Value
-                      End If
+                  Else
+                      if not _MALFCODE = value then
+                          loading = true
+                          Connection.RaiseStartData()
+                          Dim cn As New oDataPUT(Me, PropertyStream("MALFCODE", Value), AddressOf HandlesEdit)
+                          loading = false
+                          If Connection.LastError is nothing Then
+                              _MALFCODE = Value
+                          End If
+                      end if
                   end if
-                end if
                 end if
             End Set
         End Property
@@ -2486,22 +2627,26 @@ Namespace OData
             End Get
             Set
                 if not(value is nothing) then
-                mybase.validate("FAMILYMALF.MALFDES", value, 32)
-                _IsSetMALFDES = True
-                If loading Then
+                  try
+                      mybase.validate("FAMILYMALF.MALFDES", value, 32)
+                  catch ex as exception
+                      Connection.LastError = ex
+                      Exit Property
+                  end try
+                  _IsSetMALFDES = True
+                  If loading Then
                     _MALFDES = Value
-                Else
-                  if not _MALFDES = value then
-                      loading = true
-                      Dim cn As New oDataPUT(Me, PropertyStream("MALFDES", Value), AddressOf HandlesEdit)
-                      loading = false
-                      If Not lastResult is nothing Then
-                          Throw lastResult
-                      Else
-                          _MALFDES = Value
-                      End If
+                  Else
+                      if not _MALFDES = value then
+                          loading = true
+                          Connection.RaiseStartData()
+                          Dim cn As New oDataPUT(Me, PropertyStream("MALFDES", Value), AddressOf HandlesEdit)
+                          loading = false
+                          If Connection.LastError is nothing Then
+                              _MALFDES = Value
+                          End If
+                      end if
                   end if
-                end if
                 end if
             End Set
         End Property
@@ -2515,22 +2660,26 @@ Namespace OData
             End Get
             Set
                 if not(value is nothing) then
-                mybase.validate("FAMILYMALF.MALF", value)
-                _IsSetMALF = True
-                If loading Then
+                  try
+                      mybase.validate("FAMILYMALF.MALF", value)
+                  catch ex as exception
+                      Connection.LastError = ex
+                      Exit Property
+                  end try
+                  _IsSetMALF = True
+                  If loading Then
                     _MALF = Value
-                Else
-                  if not _MALF = value then
-                      loading = true
-                      Dim cn As New oDataPUT(Me, PropertyStream("MALF", Value), AddressOf HandlesEdit)
-                      loading = false
-                      If Not lastResult is nothing Then
-                          Throw lastResult
-                      Else
-                          _MALF = Value
-                      End If
+                  Else
+                      if not _MALF = value then
+                          loading = true
+                          Connection.RaiseStartData()
+                          Dim cn As New oDataPUT(Me, PropertyStream("MALF", Value), AddressOf HandlesEdit)
+                          loading = false
+                          If Connection.LastError is nothing Then
+                              _MALF = Value
+                          End If
+                      end if
                   end if
-                end if
                 end if
             End Set
         End Property
@@ -2609,14 +2758,13 @@ Namespace OData
         
         Protected Friend Overrides Sub HandlesEdit(ByVal sender As Object, ByVal e As ResponseEventArgs)
             If Not e.WebException is nothing Then
-                lastResult = e.InterfaceException
+                Connection.LastError = e.InterfaceException
             Else
-                lastResult = nothing
                 dim obj as FAMILYMALF = JsonConvert.DeserializeObject(Of FAMILYMALF)(e.StreamReader.ReadToEnd)
                 With obj
-                _MALFCODE = .MALFCODE
-                _MALFDES = .MALFDES
-                _MALF = .MALF
+                  _MALFCODE = .MALFCODE
+                  _MALFDES = .MALFDES
+                  _MALF = .MALF
                 end with
             End If
         End Sub
@@ -2633,8 +2781,6 @@ Namespace OData
         Private _Parent As oDataObject
         
         Private _BindingSource As System.Windows.Forms.BindingSource
-        
-        Private _lastResult As FAMILYSERVTYPES
         
         Public Sub New()
             MyBase.New
@@ -2716,20 +2862,19 @@ Namespace OData
         
         Protected Friend Overrides Sub HandlesAdd(ByVal sender As Object, ByVal e As ResponseEventArgs)
             If Not e.WebException is nothing Then
-                _lastResult = nothing
-                throw e.webexception
+                Connection.LastError = e.InterfaceException
             Else
                 dim obj as FAMILYSERVTYPES = JsonConvert.DeserializeObject(Of FAMILYSERVTYPES)(e.StreamReader.ReadToEnd)
-                With obj
-                  if not(_Parent is nothing) then
+                With TryCast(BindingSource.Current, FAMILYSERVTYPES)
                   .Parent = Parent
-                  end if
                   .loading = false
+                  .SERVTCODE = obj.SERVTCODE
+                  .SERVTDES = obj.SERVTDES
+                  .FLAG = obj.FLAG
+                  .NOCHARGENAME = obj.NOCHARGENAME
+                  .SERVTYPE = obj.SERVTYPE
                 end with
-                _value.add(obj)
-                _lastResult = obj
             End If
-            Adding = False
         End Sub
         
         Protected Friend Overrides Sub Remove(ByRef obj As oDataObject)
@@ -2813,22 +2958,26 @@ Namespace OData
             End Get
             Set
                 if not(value is nothing) then
-                mybase.validate("FAMILYSERVTYPES.SERVTCODE", value, 3)
-                _IsSetSERVTCODE = True
-                If loading Then
+                  try
+                      mybase.validate("FAMILYSERVTYPES.SERVTCODE", value, 3)
+                  catch ex as exception
+                      Connection.LastError = ex
+                      Exit Property
+                  end try
+                  _IsSetSERVTCODE = True
+                  If loading Then
                     _SERVTCODE = Value
-                Else
-                  if not _SERVTCODE = value then
-                      loading = true
-                      Dim cn As New oDataPUT(Me, PropertyStream("SERVTCODE", Value), AddressOf HandlesEdit)
-                      loading = false
-                      If Not lastResult is nothing Then
-                          Throw lastResult
-                      Else
-                          _SERVTCODE = Value
-                      End If
+                  Else
+                      if not _SERVTCODE = value then
+                          loading = true
+                          Connection.RaiseStartData()
+                          Dim cn As New oDataPUT(Me, PropertyStream("SERVTCODE", Value), AddressOf HandlesEdit)
+                          loading = false
+                          If Connection.LastError is nothing Then
+                              _SERVTCODE = Value
+                          End If
+                      end if
                   end if
-                end if
                 end if
             End Set
         End Property
@@ -2843,22 +2992,26 @@ Namespace OData
             End Get
             Set
                 if not(value is nothing) then
-                mybase.validate("FAMILYSERVTYPES.SERVTDES", value, 32)
-                _IsSetSERVTDES = True
-                If loading Then
+                  try
+                      mybase.validate("FAMILYSERVTYPES.SERVTDES", value, 32)
+                  catch ex as exception
+                      Connection.LastError = ex
+                      Exit Property
+                  end try
+                  _IsSetSERVTDES = True
+                  If loading Then
                     _SERVTDES = Value
-                Else
-                  if not _SERVTDES = value then
-                      loading = true
-                      Dim cn As New oDataPUT(Me, PropertyStream("SERVTDES", Value), AddressOf HandlesEdit)
-                      loading = false
-                      If Not lastResult is nothing Then
-                          Throw lastResult
-                      Else
-                          _SERVTDES = Value
-                      End If
+                  Else
+                      if not _SERVTDES = value then
+                          loading = true
+                          Connection.RaiseStartData()
+                          Dim cn As New oDataPUT(Me, PropertyStream("SERVTDES", Value), AddressOf HandlesEdit)
+                          loading = false
+                          If Connection.LastError is nothing Then
+                              _SERVTDES = Value
+                          End If
+                      end if
                   end if
-                end if
                 end if
             End Set
         End Property
@@ -2872,22 +3025,26 @@ Namespace OData
             End Get
             Set
                 if not(value is nothing) then
-                mybase.validate("FAMILYSERVTYPES.FLAG", value, 1)
-                _IsSetFLAG = True
-                If loading Then
+                  try
+                      mybase.validate("FAMILYSERVTYPES.FLAG", value, 1)
+                  catch ex as exception
+                      Connection.LastError = ex
+                      Exit Property
+                  end try
+                  _IsSetFLAG = True
+                  If loading Then
                     _FLAG = Value
-                Else
-                  if not _FLAG = value then
-                      loading = true
-                      Dim cn As New oDataPUT(Me, PropertyStream("FLAG", Value), AddressOf HandlesEdit)
-                      loading = false
-                      If Not lastResult is nothing Then
-                          Throw lastResult
-                      Else
-                          _FLAG = Value
-                      End If
+                  Else
+                      if not _FLAG = value then
+                          loading = true
+                          Connection.RaiseStartData()
+                          Dim cn As New oDataPUT(Me, PropertyStream("FLAG", Value), AddressOf HandlesEdit)
+                          loading = false
+                          If Connection.LastError is nothing Then
+                              _FLAG = Value
+                          End If
+                      end if
                   end if
-                end if
                 end if
             End Set
         End Property
@@ -2901,22 +3058,26 @@ Namespace OData
             End Get
             Set
                 if not(value is nothing) then
-                mybase.validate("FAMILYSERVTYPES.NOCHARGENAME", value, 20)
-                _IsSetNOCHARGENAME = True
-                If loading Then
+                  try
+                      mybase.validate("FAMILYSERVTYPES.NOCHARGENAME", value, 20)
+                  catch ex as exception
+                      Connection.LastError = ex
+                      Exit Property
+                  end try
+                  _IsSetNOCHARGENAME = True
+                  If loading Then
                     _NOCHARGENAME = Value
-                Else
-                  if not _NOCHARGENAME = value then
-                      loading = true
-                      Dim cn As New oDataPUT(Me, PropertyStream("NOCHARGENAME", Value), AddressOf HandlesEdit)
-                      loading = false
-                      If Not lastResult is nothing Then
-                          Throw lastResult
-                      Else
-                          _NOCHARGENAME = Value
-                      End If
+                  Else
+                      if not _NOCHARGENAME = value then
+                          loading = true
+                          Connection.RaiseStartData()
+                          Dim cn As New oDataPUT(Me, PropertyStream("NOCHARGENAME", Value), AddressOf HandlesEdit)
+                          loading = false
+                          If Connection.LastError is nothing Then
+                              _NOCHARGENAME = Value
+                          End If
+                      end if
                   end if
-                end if
                 end if
             End Set
         End Property
@@ -2930,22 +3091,26 @@ Namespace OData
             End Get
             Set
                 if not(value is nothing) then
-                mybase.validate("FAMILYSERVTYPES.SERVTYPE", value)
-                _IsSetSERVTYPE = True
-                If loading Then
+                  try
+                      mybase.validate("FAMILYSERVTYPES.SERVTYPE", value)
+                  catch ex as exception
+                      Connection.LastError = ex
+                      Exit Property
+                  end try
+                  _IsSetSERVTYPE = True
+                  If loading Then
                     _SERVTYPE = Value
-                Else
-                  if not _SERVTYPE = value then
-                      loading = true
-                      Dim cn As New oDataPUT(Me, PropertyStream("SERVTYPE", Value), AddressOf HandlesEdit)
-                      loading = false
-                      If Not lastResult is nothing Then
-                          Throw lastResult
-                      Else
-                          _SERVTYPE = Value
-                      End If
+                  Else
+                      if not _SERVTYPE = value then
+                          loading = true
+                          Connection.RaiseStartData()
+                          Dim cn As New oDataPUT(Me, PropertyStream("SERVTYPE", Value), AddressOf HandlesEdit)
+                          loading = false
+                          If Connection.LastError is nothing Then
+                              _SERVTYPE = Value
+                          End If
+                      end if
                   end if
-                end if
                 end if
             End Set
         End Property
@@ -3058,16 +3223,15 @@ Namespace OData
         
         Protected Friend Overrides Sub HandlesEdit(ByVal sender As Object, ByVal e As ResponseEventArgs)
             If Not e.WebException is nothing Then
-                lastResult = e.InterfaceException
+                Connection.LastError = e.InterfaceException
             Else
-                lastResult = nothing
                 dim obj as FAMILYSERVTYPES = JsonConvert.DeserializeObject(Of FAMILYSERVTYPES)(e.StreamReader.ReadToEnd)
                 With obj
-                _SERVTCODE = .SERVTCODE
-                _SERVTDES = .SERVTDES
-                _FLAG = .FLAG
-                _NOCHARGENAME = .NOCHARGENAME
-                _SERVTYPE = .SERVTYPE
+                  _SERVTCODE = .SERVTCODE
+                  _SERVTDES = .SERVTDES
+                  _FLAG = .FLAG
+                  _NOCHARGENAME = .NOCHARGENAME
+                  _SERVTYPE = .SERVTYPE
                 end with
             End If
         End Sub
@@ -3084,8 +3248,6 @@ Namespace OData
         Private _Parent As oDataObject
         
         Private _BindingSource As System.Windows.Forms.BindingSource
-        
-        Private _lastResult As FAMILYREQLABANALYSES
         
         Public Sub New()
             MyBase.New
@@ -3169,20 +3331,24 @@ Namespace OData
         
         Protected Friend Overrides Sub HandlesAdd(ByVal sender As Object, ByVal e As ResponseEventArgs)
             If Not e.WebException is nothing Then
-                _lastResult = nothing
-                throw e.webexception
+                Connection.LastError = e.InterfaceException
             Else
                 dim obj as FAMILYREQLABANALYSES = JsonConvert.DeserializeObject(Of FAMILYREQLABANALYSES)(e.StreamReader.ReadToEnd)
-                With obj
-                  if not(_Parent is nothing) then
+                With TryCast(BindingSource.Current, FAMILYREQLABANALYSES)
                   .Parent = Parent
-                  end if
                   .loading = false
+                  .ANALYSISCODE = obj.ANALYSISCODE
+                  .ANALYSISDES = obj.ANALYSISDES
+                  .METHODNAME = obj.METHODNAME
+                  .MINVALUE = obj.MINVALUE
+                  .MAXVALUE = obj.MAXVALUE
+                  .PRINTFLAG = obj.PRINTFLAG
+                  .ANALYSIS = obj.ANALYSIS
+                  .KEY2 = obj.KEY2
+                  .REQANALYSIS = obj.REQANALYSIS
+                  .TYPE = obj.TYPE
                 end with
-                _value.add(obj)
-                _lastResult = obj
             End If
-            Adding = False
         End Sub
         
         Protected Friend Overrides Sub Remove(ByRef obj As oDataObject)
@@ -3307,22 +3473,26 @@ Namespace OData
             End Get
             Set
                 if not(value is nothing) then
-                mybase.validate("FAMILYREQLABANALYSES.ANALYSISCODE", value, 10)
-                _IsSetANALYSISCODE = True
-                If loading Then
+                  try
+                      mybase.validate("FAMILYREQLABANALYSES.ANALYSISCODE", value, 10)
+                  catch ex as exception
+                      Connection.LastError = ex
+                      Exit Property
+                  end try
+                  _IsSetANALYSISCODE = True
+                  If loading Then
                     _ANALYSISCODE = Value
-                Else
-                  if not _ANALYSISCODE = value then
-                      loading = true
-                      Dim cn As New oDataPUT(Me, PropertyStream("ANALYSISCODE", Value), AddressOf HandlesEdit)
-                      loading = false
-                      If Not lastResult is nothing Then
-                          Throw lastResult
-                      Else
-                          _ANALYSISCODE = Value
-                      End If
+                  Else
+                      if not _ANALYSISCODE = value then
+                          loading = true
+                          Connection.RaiseStartData()
+                          Dim cn As New oDataPUT(Me, PropertyStream("ANALYSISCODE", Value), AddressOf HandlesEdit)
+                          loading = false
+                          If Connection.LastError is nothing Then
+                              _ANALYSISCODE = Value
+                          End If
+                      end if
                   end if
-                end if
                 end if
             End Set
         End Property
@@ -3337,22 +3507,26 @@ Namespace OData
             End Get
             Set
                 if not(value is nothing) then
-                mybase.validate("FAMILYREQLABANALYSES.ANALYSISDES", value, 32)
-                _IsSetANALYSISDES = True
-                If loading Then
+                  try
+                      mybase.validate("FAMILYREQLABANALYSES.ANALYSISDES", value, 32)
+                  catch ex as exception
+                      Connection.LastError = ex
+                      Exit Property
+                  end try
+                  _IsSetANALYSISDES = True
+                  If loading Then
                     _ANALYSISDES = Value
-                Else
-                  if not _ANALYSISDES = value then
-                      loading = true
-                      Dim cn As New oDataPUT(Me, PropertyStream("ANALYSISDES", Value), AddressOf HandlesEdit)
-                      loading = false
-                      If Not lastResult is nothing Then
-                          Throw lastResult
-                      Else
-                          _ANALYSISDES = Value
-                      End If
+                  Else
+                      if not _ANALYSISDES = value then
+                          loading = true
+                          Connection.RaiseStartData()
+                          Dim cn As New oDataPUT(Me, PropertyStream("ANALYSISDES", Value), AddressOf HandlesEdit)
+                          loading = false
+                          If Connection.LastError is nothing Then
+                              _ANALYSISDES = Value
+                          End If
+                      end if
                   end if
-                end if
                 end if
             End Set
         End Property
@@ -3366,22 +3540,26 @@ Namespace OData
             End Get
             Set
                 if not(value is nothing) then
-                mybase.validate("FAMILYREQLABANALYSES.METHODNAME", value, 20)
-                _IsSetMETHODNAME = True
-                If loading Then
+                  try
+                      mybase.validate("FAMILYREQLABANALYSES.METHODNAME", value, 20)
+                  catch ex as exception
+                      Connection.LastError = ex
+                      Exit Property
+                  end try
+                  _IsSetMETHODNAME = True
+                  If loading Then
                     _METHODNAME = Value
-                Else
-                  if not _METHODNAME = value then
-                      loading = true
-                      Dim cn As New oDataPUT(Me, PropertyStream("METHODNAME", Value), AddressOf HandlesEdit)
-                      loading = false
-                      If Not lastResult is nothing Then
-                          Throw lastResult
-                      Else
-                          _METHODNAME = Value
-                      End If
+                  Else
+                      if not _METHODNAME = value then
+                          loading = true
+                          Connection.RaiseStartData()
+                          Dim cn As New oDataPUT(Me, PropertyStream("METHODNAME", Value), AddressOf HandlesEdit)
+                          loading = false
+                          If Connection.LastError is nothing Then
+                              _METHODNAME = Value
+                          End If
+                      end if
                   end if
-                end if
                 end if
             End Set
         End Property
@@ -3395,22 +3573,26 @@ Namespace OData
             End Get
             Set
                 if not(value is nothing) then
-                mybase.validate("FAMILYREQLABANALYSES.MINVALUE", value, 24)
-                _IsSetMINVALUE = True
-                If loading Then
+                  try
+                      mybase.validate("FAMILYREQLABANALYSES.MINVALUE", value, 24)
+                  catch ex as exception
+                      Connection.LastError = ex
+                      Exit Property
+                  end try
+                  _IsSetMINVALUE = True
+                  If loading Then
                     _MINVALUE = Value
-                Else
-                  if not _MINVALUE = value then
-                      loading = true
-                      Dim cn As New oDataPUT(Me, PropertyStream("MINVALUE", Value), AddressOf HandlesEdit)
-                      loading = false
-                      If Not lastResult is nothing Then
-                          Throw lastResult
-                      Else
-                          _MINVALUE = Value
-                      End If
+                  Else
+                      if not _MINVALUE = value then
+                          loading = true
+                          Connection.RaiseStartData()
+                          Dim cn As New oDataPUT(Me, PropertyStream("MINVALUE", Value), AddressOf HandlesEdit)
+                          loading = false
+                          If Connection.LastError is nothing Then
+                              _MINVALUE = Value
+                          End If
+                      end if
                   end if
-                end if
                 end if
             End Set
         End Property
@@ -3424,22 +3606,26 @@ Namespace OData
             End Get
             Set
                 if not(value is nothing) then
-                mybase.validate("FAMILYREQLABANALYSES.MAXVALUE", value, 24)
-                _IsSetMAXVALUE = True
-                If loading Then
+                  try
+                      mybase.validate("FAMILYREQLABANALYSES.MAXVALUE", value, 24)
+                  catch ex as exception
+                      Connection.LastError = ex
+                      Exit Property
+                  end try
+                  _IsSetMAXVALUE = True
+                  If loading Then
                     _MAXVALUE = Value
-                Else
-                  if not _MAXVALUE = value then
-                      loading = true
-                      Dim cn As New oDataPUT(Me, PropertyStream("MAXVALUE", Value), AddressOf HandlesEdit)
-                      loading = false
-                      If Not lastResult is nothing Then
-                          Throw lastResult
-                      Else
-                          _MAXVALUE = Value
-                      End If
+                  Else
+                      if not _MAXVALUE = value then
+                          loading = true
+                          Connection.RaiseStartData()
+                          Dim cn As New oDataPUT(Me, PropertyStream("MAXVALUE", Value), AddressOf HandlesEdit)
+                          loading = false
+                          If Connection.LastError is nothing Then
+                              _MAXVALUE = Value
+                          End If
+                      end if
                   end if
-                end if
                 end if
             End Set
         End Property
@@ -3453,22 +3639,26 @@ Namespace OData
             End Get
             Set
                 if not(value is nothing) then
-                mybase.validate("FAMILYREQLABANALYSES.PRINTFLAG", value, 1)
-                _IsSetPRINTFLAG = True
-                If loading Then
+                  try
+                      mybase.validate("FAMILYREQLABANALYSES.PRINTFLAG", value, 1)
+                  catch ex as exception
+                      Connection.LastError = ex
+                      Exit Property
+                  end try
+                  _IsSetPRINTFLAG = True
+                  If loading Then
                     _PRINTFLAG = Value
-                Else
-                  if not _PRINTFLAG = value then
-                      loading = true
-                      Dim cn As New oDataPUT(Me, PropertyStream("PRINTFLAG", Value), AddressOf HandlesEdit)
-                      loading = false
-                      If Not lastResult is nothing Then
-                          Throw lastResult
-                      Else
-                          _PRINTFLAG = Value
-                      End If
+                  Else
+                      if not _PRINTFLAG = value then
+                          loading = true
+                          Connection.RaiseStartData()
+                          Dim cn As New oDataPUT(Me, PropertyStream("PRINTFLAG", Value), AddressOf HandlesEdit)
+                          loading = false
+                          If Connection.LastError is nothing Then
+                              _PRINTFLAG = Value
+                          End If
+                      end if
                   end if
-                end if
                 end if
             End Set
         End Property
@@ -3482,22 +3672,26 @@ Namespace OData
             End Get
             Set
                 if not(value is nothing) then
-                mybase.validate("FAMILYREQLABANALYSES.ANALYSIS", value)
-                _IsSetANALYSIS = True
-                If loading Then
+                  try
+                      mybase.validate("FAMILYREQLABANALYSES.ANALYSIS", value)
+                  catch ex as exception
+                      Connection.LastError = ex
+                      Exit Property
+                  end try
+                  _IsSetANALYSIS = True
+                  If loading Then
                     _ANALYSIS = Value
-                Else
-                  if not _ANALYSIS = value then
-                      loading = true
-                      Dim cn As New oDataPUT(Me, PropertyStream("ANALYSIS", Value), AddressOf HandlesEdit)
-                      loading = false
-                      If Not lastResult is nothing Then
-                          Throw lastResult
-                      Else
-                          _ANALYSIS = Value
-                      End If
+                  Else
+                      if not _ANALYSIS = value then
+                          loading = true
+                          Connection.RaiseStartData()
+                          Dim cn As New oDataPUT(Me, PropertyStream("ANALYSIS", Value), AddressOf HandlesEdit)
+                          loading = false
+                          If Connection.LastError is nothing Then
+                              _ANALYSIS = Value
+                          End If
+                      end if
                   end if
-                end if
                 end if
             End Set
         End Property
@@ -3511,22 +3705,26 @@ Namespace OData
             End Get
             Set
                 if not(value is nothing) then
-                mybase.validate("FAMILYREQLABANALYSES.KEY2", value)
-                _IsSetKEY2 = True
-                If loading Then
+                  try
+                      mybase.validate("FAMILYREQLABANALYSES.KEY2", value)
+                  catch ex as exception
+                      Connection.LastError = ex
+                      Exit Property
+                  end try
+                  _IsSetKEY2 = True
+                  If loading Then
                     _KEY2 = Value
-                Else
-                  if not _KEY2 = value then
-                      loading = true
-                      Dim cn As New oDataPUT(Me, PropertyStream("KEY2", Value), AddressOf HandlesEdit)
-                      loading = false
-                      If Not lastResult is nothing Then
-                          Throw lastResult
-                      Else
-                          _KEY2 = Value
-                      End If
+                  Else
+                      if not _KEY2 = value then
+                          loading = true
+                          Connection.RaiseStartData()
+                          Dim cn As New oDataPUT(Me, PropertyStream("KEY2", Value), AddressOf HandlesEdit)
+                          loading = false
+                          If Connection.LastError is nothing Then
+                              _KEY2 = Value
+                          End If
+                      end if
                   end if
-                end if
                 end if
             End Set
         End Property
@@ -3541,22 +3739,26 @@ Namespace OData
             End Get
             Set
                 if not(value is nothing) then
-                mybase.validate("FAMILYREQLABANALYSES.REQANALYSIS", value)
-                _IsSetREQANALYSIS = True
-                If loading Then
+                  try
+                      mybase.validate("FAMILYREQLABANALYSES.REQANALYSIS", value)
+                  catch ex as exception
+                      Connection.LastError = ex
+                      Exit Property
+                  end try
+                  _IsSetREQANALYSIS = True
+                  If loading Then
                     _REQANALYSIS = Value
-                Else
-                  if not _REQANALYSIS = value then
-                      loading = true
-                      Dim cn As New oDataPUT(Me, PropertyStream("REQANALYSIS", Value), AddressOf HandlesEdit)
-                      loading = false
-                      If Not lastResult is nothing Then
-                          Throw lastResult
-                      Else
-                          _REQANALYSIS = Value
-                      End If
+                  Else
+                      if not _REQANALYSIS = value then
+                          loading = true
+                          Connection.RaiseStartData()
+                          Dim cn As New oDataPUT(Me, PropertyStream("REQANALYSIS", Value), AddressOf HandlesEdit)
+                          loading = false
+                          If Connection.LastError is nothing Then
+                              _REQANALYSIS = Value
+                          End If
+                      end if
                   end if
-                end if
                 end if
             End Set
         End Property
@@ -3571,22 +3773,26 @@ Namespace OData
             End Get
             Set
                 if not(value is nothing) then
-                mybase.validate("FAMILYREQLABANALYSES.TYPE", value, 8)
-                _IsSetTYPE = True
-                If loading Then
+                  try
+                      mybase.validate("FAMILYREQLABANALYSES.TYPE", value, 8)
+                  catch ex as exception
+                      Connection.LastError = ex
+                      Exit Property
+                  end try
+                  _IsSetTYPE = True
+                  If loading Then
                     _TYPE = Value
-                Else
-                  if not _TYPE = value then
-                      loading = true
-                      Dim cn As New oDataPUT(Me, PropertyStream("TYPE", Value), AddressOf HandlesEdit)
-                      loading = false
-                      If Not lastResult is nothing Then
-                          Throw lastResult
-                      Else
-                          _TYPE = Value
-                      End If
+                  Else
+                      if not _TYPE = value then
+                          loading = true
+                          Connection.RaiseStartData()
+                          Dim cn As New oDataPUT(Me, PropertyStream("TYPE", Value), AddressOf HandlesEdit)
+                          loading = false
+                          If Connection.LastError is nothing Then
+                              _TYPE = Value
+                          End If
+                      end if
                   end if
-                end if
                 end if
             End Set
         End Property
@@ -3814,7 +4020,7 @@ Namespace OData
             if _LABANALYSESRESULTS_SUBFORM.value.count > 0 then
               for each itm as LABANALYSESRESULTS in _LABANALYSESRESULTS_SUBFORM.Value
                 itm.toXML(xw,"LABANALYSESRESULTS_SUBFORM")
-                next
+              next
             end if
               .WriteEndElement
             end with
@@ -3822,21 +4028,20 @@ Namespace OData
         
         Protected Friend Overrides Sub HandlesEdit(ByVal sender As Object, ByVal e As ResponseEventArgs)
             If Not e.WebException is nothing Then
-                lastResult = e.InterfaceException
+                Connection.LastError = e.InterfaceException
             Else
-                lastResult = nothing
                 dim obj as FAMILYREQLABANALYSES = JsonConvert.DeserializeObject(Of FAMILYREQLABANALYSES)(e.StreamReader.ReadToEnd)
                 With obj
-                _ANALYSISCODE = .ANALYSISCODE
-                _ANALYSISDES = .ANALYSISDES
-                _METHODNAME = .METHODNAME
-                _MINVALUE = .MINVALUE
-                _MAXVALUE = .MAXVALUE
-                _PRINTFLAG = .PRINTFLAG
-                _ANALYSIS = .ANALYSIS
-                _KEY2 = .KEY2
-                _REQANALYSIS = .REQANALYSIS
-                _TYPE = .TYPE
+                  _ANALYSISCODE = .ANALYSISCODE
+                  _ANALYSISDES = .ANALYSISDES
+                  _METHODNAME = .METHODNAME
+                  _MINVALUE = .MINVALUE
+                  _MAXVALUE = .MAXVALUE
+                  _PRINTFLAG = .PRINTFLAG
+                  _ANALYSIS = .ANALYSIS
+                  _KEY2 = .KEY2
+                  _REQANALYSIS = .REQANALYSIS
+                  _TYPE = .TYPE
                 end with
             End If
         End Sub
@@ -3858,8 +4063,6 @@ Namespace OData
         Private _Parent As oDataObject
         
         Private _BindingSource As System.Windows.Forms.BindingSource
-        
-        Private _lastResult As LABANALYSESRESULTS
         
         Public Sub New()
             MyBase.New
@@ -3941,20 +4144,20 @@ Namespace OData
         
         Protected Friend Overrides Sub HandlesAdd(ByVal sender As Object, ByVal e As ResponseEventArgs)
             If Not e.WebException is nothing Then
-                _lastResult = nothing
-                throw e.webexception
+                Connection.LastError = e.InterfaceException
             Else
                 dim obj as LABANALYSESRESULTS = JsonConvert.DeserializeObject(Of LABANALYSESRESULTS)(e.StreamReader.ReadToEnd)
-                With obj
-                  if not(_Parent is nothing) then
+                With TryCast(BindingSource.Current, LABANALYSESRESULTS)
                   .Parent = Parent
-                  end if
                   .loading = false
+                  .RESCODE = obj.RESCODE
+                  .VALID = obj.VALID
+                  .NOTVALID = obj.NOTVALID
+                  .QRANKCODE = obj.QRANKCODE
+                  .FROMVAL = obj.FROMVAL
+                  .TOVAL = obj.TOVAL
                 end with
-                _value.add(obj)
-                _lastResult = obj
             End If
-            Adding = False
         End Sub
         
         Protected Friend Overrides Sub Remove(ByRef obj As oDataObject)
@@ -4043,22 +4246,26 @@ Namespace OData
             End Get
             Set
                 if not(value is nothing) then
-                mybase.validate("LABANALYSESRESULTS.RESCODE", value, 24)
-                _IsSetRESCODE = True
-                If loading Then
+                  try
+                      mybase.validate("LABANALYSESRESULTS.RESCODE", value, 24)
+                  catch ex as exception
+                      Connection.LastError = ex
+                      Exit Property
+                  end try
+                  _IsSetRESCODE = True
+                  If loading Then
                     _RESCODE = Value
-                Else
-                  if not _RESCODE = value then
-                      loading = true
-                      Dim cn As New oDataPUT(Me, PropertyStream("RESCODE", Value), AddressOf HandlesEdit)
-                      loading = false
-                      If Not lastResult is nothing Then
-                          Throw lastResult
-                      Else
-                          _RESCODE = Value
-                      End If
+                  Else
+                      if not _RESCODE = value then
+                          loading = true
+                          Connection.RaiseStartData()
+                          Dim cn As New oDataPUT(Me, PropertyStream("RESCODE", Value), AddressOf HandlesEdit)
+                          loading = false
+                          If Connection.LastError is nothing Then
+                              _RESCODE = Value
+                          End If
+                      end if
                   end if
-                end if
                 end if
             End Set
         End Property
@@ -4072,22 +4279,26 @@ Namespace OData
             End Get
             Set
                 if not(value is nothing) then
-                mybase.validate("LABANALYSESRESULTS.VALID", value, 1)
-                _IsSetVALID = True
-                If loading Then
+                  try
+                      mybase.validate("LABANALYSESRESULTS.VALID", value, 1)
+                  catch ex as exception
+                      Connection.LastError = ex
+                      Exit Property
+                  end try
+                  _IsSetVALID = True
+                  If loading Then
                     _VALID = Value
-                Else
-                  if not _VALID = value then
-                      loading = true
-                      Dim cn As New oDataPUT(Me, PropertyStream("VALID", Value), AddressOf HandlesEdit)
-                      loading = false
-                      If Not lastResult is nothing Then
-                          Throw lastResult
-                      Else
-                          _VALID = Value
-                      End If
+                  Else
+                      if not _VALID = value then
+                          loading = true
+                          Connection.RaiseStartData()
+                          Dim cn As New oDataPUT(Me, PropertyStream("VALID", Value), AddressOf HandlesEdit)
+                          loading = false
+                          If Connection.LastError is nothing Then
+                              _VALID = Value
+                          End If
+                      end if
                   end if
-                end if
                 end if
             End Set
         End Property
@@ -4101,22 +4312,26 @@ Namespace OData
             End Get
             Set
                 if not(value is nothing) then
-                mybase.validate("LABANALYSESRESULTS.NOTVALID", value, 1)
-                _IsSetNOTVALID = True
-                If loading Then
+                  try
+                      mybase.validate("LABANALYSESRESULTS.NOTVALID", value, 1)
+                  catch ex as exception
+                      Connection.LastError = ex
+                      Exit Property
+                  end try
+                  _IsSetNOTVALID = True
+                  If loading Then
                     _NOTVALID = Value
-                Else
-                  if not _NOTVALID = value then
-                      loading = true
-                      Dim cn As New oDataPUT(Me, PropertyStream("NOTVALID", Value), AddressOf HandlesEdit)
-                      loading = false
-                      If Not lastResult is nothing Then
-                          Throw lastResult
-                      Else
-                          _NOTVALID = Value
-                      End If
+                  Else
+                      if not _NOTVALID = value then
+                          loading = true
+                          Connection.RaiseStartData()
+                          Dim cn As New oDataPUT(Me, PropertyStream("NOTVALID", Value), AddressOf HandlesEdit)
+                          loading = false
+                          If Connection.LastError is nothing Then
+                              _NOTVALID = Value
+                          End If
+                      end if
                   end if
-                end if
                 end if
             End Set
         End Property
@@ -4130,22 +4345,26 @@ Namespace OData
             End Get
             Set
                 if not(value is nothing) then
-                mybase.validate("LABANALYSESRESULTS.QRANKCODE", value, 4)
-                _IsSetQRANKCODE = True
-                If loading Then
+                  try
+                      mybase.validate("LABANALYSESRESULTS.QRANKCODE", value, 4)
+                  catch ex as exception
+                      Connection.LastError = ex
+                      Exit Property
+                  end try
+                  _IsSetQRANKCODE = True
+                  If loading Then
                     _QRANKCODE = Value
-                Else
-                  if not _QRANKCODE = value then
-                      loading = true
-                      Dim cn As New oDataPUT(Me, PropertyStream("QRANKCODE", Value), AddressOf HandlesEdit)
-                      loading = false
-                      If Not lastResult is nothing Then
-                          Throw lastResult
-                      Else
-                          _QRANKCODE = Value
-                      End If
+                  Else
+                      if not _QRANKCODE = value then
+                          loading = true
+                          Connection.RaiseStartData()
+                          Dim cn As New oDataPUT(Me, PropertyStream("QRANKCODE", Value), AddressOf HandlesEdit)
+                          loading = false
+                          If Connection.LastError is nothing Then
+                              _QRANKCODE = Value
+                          End If
+                      end if
                   end if
-                end if
                 end if
             End Set
         End Property
@@ -4159,22 +4378,26 @@ Namespace OData
             End Get
             Set
                 if not(value is nothing) then
-                mybase.validate("LABANALYSESRESULTS.FROMVAL", value, 24)
-                _IsSetFROMVAL = True
-                If loading Then
+                  try
+                      mybase.validate("LABANALYSESRESULTS.FROMVAL", value, 24)
+                  catch ex as exception
+                      Connection.LastError = ex
+                      Exit Property
+                  end try
+                  _IsSetFROMVAL = True
+                  If loading Then
                     _FROMVAL = Value
-                Else
-                  if not _FROMVAL = value then
-                      loading = true
-                      Dim cn As New oDataPUT(Me, PropertyStream("FROMVAL", Value), AddressOf HandlesEdit)
-                      loading = false
-                      If Not lastResult is nothing Then
-                          Throw lastResult
-                      Else
-                          _FROMVAL = Value
-                      End If
+                  Else
+                      if not _FROMVAL = value then
+                          loading = true
+                          Connection.RaiseStartData()
+                          Dim cn As New oDataPUT(Me, PropertyStream("FROMVAL", Value), AddressOf HandlesEdit)
+                          loading = false
+                          If Connection.LastError is nothing Then
+                              _FROMVAL = Value
+                          End If
+                      end if
                   end if
-                end if
                 end if
             End Set
         End Property
@@ -4188,22 +4411,26 @@ Namespace OData
             End Get
             Set
                 if not(value is nothing) then
-                mybase.validate("LABANALYSESRESULTS.TOVAL", value, 24)
-                _IsSetTOVAL = True
-                If loading Then
+                  try
+                      mybase.validate("LABANALYSESRESULTS.TOVAL", value, 24)
+                  catch ex as exception
+                      Connection.LastError = ex
+                      Exit Property
+                  end try
+                  _IsSetTOVAL = True
+                  If loading Then
                     _TOVAL = Value
-                Else
-                  if not _TOVAL = value then
-                      loading = true
-                      Dim cn As New oDataPUT(Me, PropertyStream("TOVAL", Value), AddressOf HandlesEdit)
-                      loading = false
-                      If Not lastResult is nothing Then
-                          Throw lastResult
-                      Else
-                          _TOVAL = Value
-                      End If
+                  Else
+                      if not _TOVAL = value then
+                          loading = true
+                          Connection.RaiseStartData()
+                          Dim cn As New oDataPUT(Me, PropertyStream("TOVAL", Value), AddressOf HandlesEdit)
+                          loading = false
+                          If Connection.LastError is nothing Then
+                              _TOVAL = Value
+                          End If
+                      end if
                   end if
-                end if
                 end if
             End Set
         End Property
@@ -4335,17 +4562,16 @@ Namespace OData
         
         Protected Friend Overrides Sub HandlesEdit(ByVal sender As Object, ByVal e As ResponseEventArgs)
             If Not e.WebException is nothing Then
-                lastResult = e.InterfaceException
+                Connection.LastError = e.InterfaceException
             Else
-                lastResult = nothing
                 dim obj as LABANALYSESRESULTS = JsonConvert.DeserializeObject(Of LABANALYSESRESULTS)(e.StreamReader.ReadToEnd)
                 With obj
-                _RESCODE = .RESCODE
-                _VALID = .VALID
-                _NOTVALID = .NOTVALID
-                _QRANKCODE = .QRANKCODE
-                _FROMVAL = .FROMVAL
-                _TOVAL = .TOVAL
+                  _RESCODE = .RESCODE
+                  _VALID = .VALID
+                  _NOTVALID = .NOTVALID
+                  _QRANKCODE = .QRANKCODE
+                  _FROMVAL = .FROMVAL
+                  _TOVAL = .TOVAL
                 end with
             End If
         End Sub
