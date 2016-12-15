@@ -376,9 +376,9 @@ Namespace OData
         Protected Friend Overrides ReadOnly Property EntityName() As String
             Get
                 if _parent is nothing then
-                return "FAMILY_LOG"
+                    return "FAMILY_LOG"
                 else
-                return "FAMILY_LOG_SUBFORM"
+                    return "FAMILY_LOG_SUBFORM"
                 end if
             End Get
         End Property
@@ -412,7 +412,7 @@ Namespace OData
             Set
                 if not(value is nothing) then
                   try
-                      mybase.validate("FAMILY_LOG.FAMILYNAME", value, 8)
+                      mybase.validate("Family", value, 8)
                   catch ex as exception
                       Connection.LastError = ex
                       Exit Property
@@ -445,7 +445,7 @@ Namespace OData
             Set
                 if not(value is nothing) then
                   try
-                      mybase.validate("FAMILY_LOG.FAMILYDESC", value, 32)
+                      mybase.validate("Family Description", value, 32)
                   catch ex as exception
                       Connection.LastError = ex
                       Exit Property
@@ -478,7 +478,7 @@ Namespace OData
             Set
                 if not(value is nothing) then
                   try
-                      mybase.validate("FAMILY_LOG.EFAMILYDES", value, 32)
+                      mybase.validate("Family Desc (Lang 2)", value, 32)
                   catch ex as exception
                       Connection.LastError = ex
                       Exit Property
@@ -511,7 +511,7 @@ Namespace OData
             Set
                 if not(value is nothing) then
                   try
-                      mybase.validate("FAMILY_LOG.TECHFLAG", value, 1)
+                      mybase.validate("Work Hours?", value, 1)
                   catch ex as exception
                       Connection.LastError = ex
                       Exit Property
@@ -544,7 +544,7 @@ Namespace OData
             Set
                 if not(value is nothing) then
                   try
-                      mybase.validate("FAMILY_LOG.DEBITFLAG", value, 1)
+                      mybase.validate("Bill Project Report?", value, 1)
                   catch ex as exception
                       Connection.LastError = ex
                       Exit Property
@@ -577,7 +577,7 @@ Namespace OData
             Set
                 if not(value is nothing) then
                   try
-                      mybase.validate("FAMILY_LOG.PROJPROCESS", value, 1)
+                      mybase.validate("Production for Proj?", value, 1)
                   catch ex as exception
                       Connection.LastError = ex
                       Exit Property
@@ -610,7 +610,7 @@ Namespace OData
             Set
                 if not(value is nothing) then
                   try
-                      mybase.validate("FAMILY_LOG.TECHNICIANLOGIN", value, 20)
+                      mybase.validate("Technician in Charge", value, 20)
                   catch ex as exception
                       Connection.LastError = ex
                       Exit Property
@@ -643,7 +643,7 @@ Namespace OData
             Set
                 if not(value is nothing) then
                   try
-                      mybase.validate("FAMILY_LOG.FTCODE", value, 4)
+                      mybase.validate("Family Type Code", value, 4)
                   catch ex as exception
                       Connection.LastError = ex
                       Exit Property
@@ -676,26 +676,7 @@ Namespace OData
             End Get
             Set
                 if not(value is nothing) then
-                  try
-                      mybase.validate("FAMILY_LOG.FTNAME", value, 20)
-                  catch ex as exception
-                      Connection.LastError = ex
-                      Exit Property
-                  end try
-                  _IsSetFTNAME = True
-                  If loading Then
-                    _FTNAME = Value
-                  Else
-                      if not _FTNAME = value then
-                          loading = true
-                          Connection.RaiseStartData()
-                          Dim cn As New oDataPUT(Me, PropertyStream("FTNAME", Value), AddressOf HandlesEdit)
-                          loading = false
-                          If Connection.LastError is nothing Then
-                              _FTNAME = Value
-                          End If
-                      end if
-                  end if
+                  _FTNAME = Value
                 end if
             End Set
         End Property
@@ -710,7 +691,7 @@ Namespace OData
             Set
                 if not(value is nothing) then
                   try
-                      mybase.validate("FAMILY_LOG.DISTRFLAG", value, 1)
+                      mybase.validate("Delivery Scheduling?", value, 1)
                   catch ex as exception
                       Connection.LastError = ex
                       Exit Property
@@ -743,7 +724,7 @@ Namespace OData
             Set
                 if not(value is nothing) then
                   try
-                      mybase.validate("FAMILY_LOG.DUTYPERCENT", value, 6,2)
+                      mybase.validate("Air Cost (%)", value, 6,2)
                   catch ex as exception
                       Connection.LastError = ex
                       Exit Property
@@ -776,7 +757,7 @@ Namespace OData
             Set
                 if not(value is nothing) then
                   try
-                      mybase.validate("FAMILY_LOG.DUTYPERCENT1", value, 6,2)
+                      mybase.validate("Sea Cost (%)", value, 6,2)
                   catch ex as exception
                       Connection.LastError = ex
                       Exit Property
@@ -809,7 +790,7 @@ Namespace OData
             Set
                 if not(value is nothing) then
                   try
-                      mybase.validate("FAMILY_LOG.DUTYPERCENT2", value, 6,2)
+                      mybase.validate("Land Cost (%)", value, 6,2)
                   catch ex as exception
                       Connection.LastError = ex
                       Exit Property
@@ -842,7 +823,7 @@ Namespace OData
             Set
                 if not(value is nothing) then
                   try
-                      mybase.validate("FAMILY_LOG.DUTYPERCENTTYPE", value, 1)
+                      mybase.validate("Shipping Cost Type", value, 1)
                   catch ex as exception
                       Connection.LastError = ex
                       Exit Property
@@ -875,7 +856,7 @@ Namespace OData
             Set
                 if not(value is nothing) then
                   try
-                      mybase.validate("FAMILY_LOG.SELLFLAG", value, 1)
+                      mybase.validate("Sold Part?", value, 1)
                   catch ex as exception
                       Connection.LastError = ex
                       Exit Property
@@ -908,7 +889,7 @@ Namespace OData
             Set
                 if not(value is nothing) then
                   try
-                      mybase.validate("FAMILY_LOG.NEGBALFLAG", value, 1)
+                      mybase.validate("Block Neg. Balance?", value, 1)
                   catch ex as exception
                       Connection.LastError = ex
                       Exit Property
@@ -941,7 +922,7 @@ Namespace OData
             Set
                 if not(value is nothing) then
                   try
-                      mybase.validate("FAMILY_LOG.FORECAST", value, 1)
+                      mybase.validate("Sales/Order Target?", value, 1)
                   catch ex as exception
                       Connection.LastError = ex
                       Exit Property
@@ -974,7 +955,7 @@ Namespace OData
             Set
                 if not(value is nothing) then
                   try
-                      mybase.validate("FAMILY_LOG.PARTNAME", value, 15)
+                      mybase.validate("Sample Part", value, 15)
                   catch ex as exception
                       Connection.LastError = ex
                       Exit Property
@@ -1007,26 +988,7 @@ Namespace OData
             End Get
             Set
                 if not(value is nothing) then
-                  try
-                      mybase.validate("FAMILY_LOG.PARTDES", value, 48)
-                  catch ex as exception
-                      Connection.LastError = ex
-                      Exit Property
-                  end try
-                  _IsSetPARTDES = True
-                  If loading Then
-                    _PARTDES = Value
-                  Else
-                      if not _PARTDES = value then
-                          loading = true
-                          Connection.RaiseStartData()
-                          Dim cn As New oDataPUT(Me, PropertyStream("PARTDES", Value), AddressOf HandlesEdit)
-                          loading = false
-                          If Connection.LastError is nothing Then
-                              _PARTDES = Value
-                          End If
-                      end if
-                  end if
+                  _PARTDES = Value
                 end if
             End Set
         End Property
@@ -1041,7 +1003,7 @@ Namespace OData
             Set
                 if not(value is nothing) then
                   try
-                      mybase.validate("FAMILY_LOG.STORAGETYPECODE", value, 8)
+                      mybase.validate("Put Strategy Code", value, 8)
                   catch ex as exception
                       Connection.LastError = ex
                       Exit Property
@@ -1074,26 +1036,7 @@ Namespace OData
             End Get
             Set
                 if not(value is nothing) then
-                  try
-                      mybase.validate("FAMILY_LOG.STORAGETYPEDES", value, 32)
-                  catch ex as exception
-                      Connection.LastError = ex
-                      Exit Property
-                  end try
-                  _IsSetSTORAGETYPEDES = True
-                  If loading Then
-                    _STORAGETYPEDES = Value
-                  Else
-                      if not _STORAGETYPEDES = value then
-                          loading = true
-                          Connection.RaiseStartData()
-                          Dim cn As New oDataPUT(Me, PropertyStream("STORAGETYPEDES", Value), AddressOf HandlesEdit)
-                          loading = false
-                          If Connection.LastError is nothing Then
-                              _STORAGETYPEDES = Value
-                          End If
-                      end if
-                  end if
+                  _STORAGETYPEDES = Value
                 end if
             End Set
         End Property
@@ -1108,7 +1051,7 @@ Namespace OData
             Set
                 if not(value is nothing) then
                   try
-                      mybase.validate("FAMILY_LOG.SERIALMONTHEXPIRY", value, 1)
+                      mybase.validate("Monthly Expir-Pick", value, 1)
                   catch ex as exception
                       Connection.LastError = ex
                       Exit Property
@@ -1141,7 +1084,7 @@ Namespace OData
             Set
                 if not(value is nothing) then
                   try
-                      mybase.validate("FAMILY_LOG.ISMFAMILY", value, 1)
+                      mybase.validate("Top-Level?", value, 1)
                   catch ex as exception
                       Connection.LastError = ex
                       Exit Property
@@ -1174,7 +1117,7 @@ Namespace OData
             Set
                 if not(value is nothing) then
                   try
-                      mybase.validate("FAMILY_LOG.MFAMILYNAME", value, 8)
+                      mybase.validate("Top-Level Family", value, 8)
                   catch ex as exception
                       Connection.LastError = ex
                       Exit Property
@@ -1207,26 +1150,7 @@ Namespace OData
             End Get
             Set
                 if not(value is nothing) then
-                  try
-                      mybase.validate("FAMILY_LOG.MFAMILYDES", value, 32)
-                  catch ex as exception
-                      Connection.LastError = ex
-                      Exit Property
-                  end try
-                  _IsSetMFAMILYDES = True
-                  If loading Then
-                    _MFAMILYDES = Value
-                  Else
-                      if not _MFAMILYDES = value then
-                          loading = true
-                          Connection.RaiseStartData()
-                          Dim cn As New oDataPUT(Me, PropertyStream("MFAMILYDES", Value), AddressOf HandlesEdit)
-                          loading = false
-                          If Connection.LastError is nothing Then
-                              _MFAMILYDES = Value
-                          End If
-                      end if
-                  end if
+                  _MFAMILYDES = Value
                 end if
             End Set
         End Property
@@ -1241,7 +1165,7 @@ Namespace OData
             Set
                 if not(value is nothing) then
                   try
-                      mybase.validate("FAMILY_LOG.INACTIVE", value, 1)
+                      mybase.validate("Not in Use", value, 1)
                   catch ex as exception
                       Connection.LastError = ex
                       Exit Property
@@ -1275,7 +1199,7 @@ Namespace OData
             Set
                 if not(value is nothing) then
                   try
-                      mybase.validate("FAMILY_LOG.FAMILY", value)
+                      mybase.validate("Family (ID)", value)
                   catch ex as exception
                       Connection.LastError = ex
                       Exit Property
@@ -1416,15 +1340,6 @@ Namespace OData
               end if
               jw.WriteValue(me.FTCODE)
             end if
-            if _IsSetFTNAME then
-              if f then
-                  jw.WriteRaw(", ""FTNAME"": ")
-              else
-                  jw.WriteRaw("""FTNAME"": ")
-                  f = true
-              end if
-              jw.WriteValue(me.FTNAME)
-            end if
             if _IsSetDISTRFLAG then
               if f then
                   jw.WriteRaw(", ""DISTRFLAG"": ")
@@ -1506,15 +1421,6 @@ Namespace OData
               end if
               jw.WriteValue(me.PARTNAME)
             end if
-            if _IsSetPARTDES then
-              if f then
-                  jw.WriteRaw(", ""PARTDES"": ")
-              else
-                  jw.WriteRaw("""PARTDES"": ")
-                  f = true
-              end if
-              jw.WriteValue(me.PARTDES)
-            end if
             if _IsSetSTORAGETYPECODE then
               if f then
                   jw.WriteRaw(", ""STORAGETYPECODE"": ")
@@ -1523,15 +1429,6 @@ Namespace OData
                   f = true
               end if
               jw.WriteValue(me.STORAGETYPECODE)
-            end if
-            if _IsSetSTORAGETYPEDES then
-              if f then
-                  jw.WriteRaw(", ""STORAGETYPEDES"": ")
-              else
-                  jw.WriteRaw("""STORAGETYPEDES"": ")
-                  f = true
-              end if
-              jw.WriteValue(me.STORAGETYPEDES)
             end if
             if _IsSetSERIALMONTHEXPIRY then
               if f then
@@ -1559,15 +1456,6 @@ Namespace OData
                   f = true
               end if
               jw.WriteValue(me.MFAMILYNAME)
-            end if
-            if _IsSetMFAMILYDES then
-              if f then
-                  jw.WriteRaw(", ""MFAMILYDES"": ")
-              else
-                  jw.WriteRaw("""MFAMILYDES"": ")
-                  f = true
-              end if
-              jw.WriteValue(me.MFAMILYDES)
             end if
             if _IsSetINACTIVE then
               if f then
@@ -2101,9 +1989,9 @@ Namespace OData
         Protected Friend Overrides ReadOnly Property EntityName() As String
             Get
                 if _parent is nothing then
-                return "FAMILY_LOGPART"
+                    return "FAMILY_LOGPART"
                 else
-                return "FAMILY_LOGPART_SUBFORM"
+                    return "FAMILY_LOGPART_SUBFORM"
                 end if
             End Get
         End Property
@@ -2128,132 +2016,60 @@ Namespace OData
         
         <tab("Part Number"),  _
          DisplayName("Part Number"),  _
-         Pos(10)>  _
+         Pos(10),  _
+         [ReadOnly](true)>  _
         Public Property PARTNAME() As String
             Get
                 return _PARTNAME
             End Get
             Set
                 if not(value is nothing) then
-                  try
-                      mybase.validate("FAMILY_LOGPART.PARTNAME", value, 15)
-                  catch ex as exception
-                      Connection.LastError = ex
-                      Exit Property
-                  end try
-                  _IsSetPARTNAME = True
-                  If loading Then
-                    _PARTNAME = Value
-                  Else
-                      if not _PARTNAME = value then
-                          loading = true
-                          Connection.RaiseStartData()
-                          Dim cn As New oDataPUT(Me, PropertyStream("PARTNAME", Value), AddressOf HandlesEdit)
-                          loading = false
-                          If Connection.LastError is nothing Then
-                              _PARTNAME = Value
-                          End If
-                      end if
-                  end if
+                  _PARTNAME = Value
                 end if
             End Set
         End Property
         
         <tab("Part Number"),  _
          DisplayName("Type (P/R/O)"),  _
-         Pos(20)>  _
+         Pos(20),  _
+         [ReadOnly](true)>  _
         Public Property TYPE() As String
             Get
                 return _TYPE
             End Get
             Set
                 if not(value is nothing) then
-                  try
-                      mybase.validate("FAMILY_LOGPART.TYPE", value, 1)
-                  catch ex as exception
-                      Connection.LastError = ex
-                      Exit Property
-                  end try
-                  _IsSetTYPE = True
-                  If loading Then
-                    _TYPE = Value
-                  Else
-                      if not _TYPE = value then
-                          loading = true
-                          Connection.RaiseStartData()
-                          Dim cn As New oDataPUT(Me, PropertyStream("TYPE", Value), AddressOf HandlesEdit)
-                          loading = false
-                          If Connection.LastError is nothing Then
-                              _TYPE = Value
-                          End If
-                      end if
-                  end if
+                  _TYPE = Value
                 end if
             End Set
         End Property
         
         <tab("Part Number"),  _
          DisplayName("Part Description"),  _
-         Pos(50)>  _
+         Pos(50),  _
+         [ReadOnly](true)>  _
         Public Property PARTDES() As String
             Get
                 return _PARTDES
             End Get
             Set
                 if not(value is nothing) then
-                  try
-                      mybase.validate("FAMILY_LOGPART.PARTDES", value, 48)
-                  catch ex as exception
-                      Connection.LastError = ex
-                      Exit Property
-                  end try
-                  _IsSetPARTDES = True
-                  If loading Then
-                    _PARTDES = Value
-                  Else
-                      if not _PARTDES = value then
-                          loading = true
-                          Connection.RaiseStartData()
-                          Dim cn As New oDataPUT(Me, PropertyStream("PARTDES", Value), AddressOf HandlesEdit)
-                          loading = false
-                          If Connection.LastError is nothing Then
-                              _PARTDES = Value
-                          End If
-                      end if
-                  end if
+                  _PARTDES = Value
                 end if
             End Set
         End Property
         
         <tab("Part Number"),  _
          DisplayName("Part Status"),  _
-         Pos(60)>  _
+         Pos(60),  _
+         [ReadOnly](true)>  _
         Public Property STATDES() As String
             Get
                 return _STATDES
             End Get
             Set
                 if not(value is nothing) then
-                  try
-                      mybase.validate("FAMILY_LOGPART.STATDES", value, 12)
-                  catch ex as exception
-                      Connection.LastError = ex
-                      Exit Property
-                  end try
-                  _IsSetSTATDES = True
-                  If loading Then
-                    _STATDES = Value
-                  Else
-                      if not _STATDES = value then
-                          loading = true
-                          Connection.RaiseStartData()
-                          Dim cn As New oDataPUT(Me, PropertyStream("STATDES", Value), AddressOf HandlesEdit)
-                          loading = false
-                          If Connection.LastError is nothing Then
-                              _STATDES = Value
-                          End If
-                      end if
-                  end if
+                  _STATDES = Value
                 end if
             End Set
         End Property
@@ -2261,6 +2077,7 @@ Namespace OData
         <tab("Part Number"),  _
          DisplayName("Part (ID)"),  _
          Pos(20),  _
+         [ReadOnly](true),  _
          Browsable(false)>  _
         Public Property PART() As nullable (of int64)
             Get
@@ -2268,77 +2085,13 @@ Namespace OData
             End Get
             Set
                 if not(value is nothing) then
-                  try
-                      mybase.validate("FAMILY_LOGPART.PART", value)
-                  catch ex as exception
-                      Connection.LastError = ex
-                      Exit Property
-                  end try
-                  _IsSetPART = True
-                  If loading Then
-                    _PART = Value
-                  Else
-                      if not _PART = value then
-                          loading = true
-                          Connection.RaiseStartData()
-                          Dim cn As New oDataPUT(Me, PropertyStream("PART", Value), AddressOf HandlesEdit)
-                          loading = false
-                          If Connection.LastError is nothing Then
-                              _PART = Value
-                          End If
-                      end if
-                  end if
+                  _PART = Value
                 end if
             End Set
         End Property
         
         Protected Friend Overrides Sub toJson(ByRef jw As Newtonsoft.Json.JsonTextWriter)
             Dim f as boolean = false
-            if _IsSetPARTNAME then
-              if f then
-                  jw.WriteRaw(", ""PARTNAME"": ")
-              else
-                  jw.WriteRaw("""PARTNAME"": ")
-                  f = true
-              end if
-              jw.WriteValue(me.PARTNAME)
-            end if
-            if _IsSetTYPE then
-              if f then
-                  jw.WriteRaw(", ""TYPE"": ")
-              else
-                  jw.WriteRaw("""TYPE"": ")
-                  f = true
-              end if
-              jw.WriteValue(me.TYPE)
-            end if
-            if _IsSetPARTDES then
-              if f then
-                  jw.WriteRaw(", ""PARTDES"": ")
-              else
-                  jw.WriteRaw("""PARTDES"": ")
-                  f = true
-              end if
-              jw.WriteValue(me.PARTDES)
-            end if
-            if _IsSetSTATDES then
-              if f then
-                  jw.WriteRaw(", ""STATDES"": ")
-              else
-                  jw.WriteRaw("""STATDES"": ")
-                  f = true
-              end if
-              jw.WriteValue(me.STATDES)
-            end if
-            if _IsSetPART then
-              if f then
-                  jw.WriteRaw(", ""PART"": ")
-              else
-                  jw.WriteRaw("""PART"": ")
-                  f = true
-              end if
-              jw.WriteValue(me.PART)
-            end if
         End Sub
         
         Protected Friend Overrides Sub toXML(ByRef xw As System.Xml.XmlWriter, ByVal name As String)
@@ -2559,9 +2312,9 @@ Namespace OData
         Protected Friend Overrides ReadOnly Property EntityName() As String
             Get
                 if _parent is nothing then
-                return "FAMILYMALF"
+                    return "FAMILYMALF"
                 else
-                return "FAMILYMALF_SUBFORM"
+                    return "FAMILYMALF_SUBFORM"
                 end if
             End Get
         End Property
@@ -2594,7 +2347,7 @@ Namespace OData
             Set
                 if not(value is nothing) then
                   try
-                      mybase.validate("FAMILYMALF.MALFCODE", value, 3)
+                      mybase.validate("Malfunction Code", value, 3)
                   catch ex as exception
                       Connection.LastError = ex
                       Exit Property
@@ -2627,26 +2380,7 @@ Namespace OData
             End Get
             Set
                 if not(value is nothing) then
-                  try
-                      mybase.validate("FAMILYMALF.MALFDES", value, 32)
-                  catch ex as exception
-                      Connection.LastError = ex
-                      Exit Property
-                  end try
-                  _IsSetMALFDES = True
-                  If loading Then
-                    _MALFDES = Value
-                  Else
-                      if not _MALFDES = value then
-                          loading = true
-                          Connection.RaiseStartData()
-                          Dim cn As New oDataPUT(Me, PropertyStream("MALFDES", Value), AddressOf HandlesEdit)
-                          loading = false
-                          If Connection.LastError is nothing Then
-                              _MALFDES = Value
-                          End If
-                      end if
-                  end if
+                  _MALFDES = Value
                 end if
             End Set
         End Property
@@ -2661,7 +2395,7 @@ Namespace OData
             Set
                 if not(value is nothing) then
                   try
-                      mybase.validate("FAMILYMALF.MALF", value)
+                      mybase.validate("MALF", value)
                   catch ex as exception
                       Connection.LastError = ex
                       Exit Property
@@ -2694,15 +2428,6 @@ Namespace OData
                   f = true
               end if
               jw.WriteValue(me.MALFCODE)
-            end if
-            if _IsSetMALFDES then
-              if f then
-                  jw.WriteRaw(", ""MALFDES"": ")
-              else
-                  jw.WriteRaw("""MALFDES"": ")
-                  f = true
-              end if
-              jw.WriteValue(me.MALFDES)
             end if
             if _IsSetMALF then
               if f then
@@ -2924,9 +2649,9 @@ Namespace OData
         Protected Friend Overrides ReadOnly Property EntityName() As String
             Get
                 if _parent is nothing then
-                return "FAMILYSERVTYPES"
+                    return "FAMILYSERVTYPES"
                 else
-                return "FAMILYSERVTYPES_SUBFORM"
+                    return "FAMILYSERVTYPES_SUBFORM"
                 end if
             End Get
         End Property
@@ -2959,7 +2684,7 @@ Namespace OData
             Set
                 if not(value is nothing) then
                   try
-                      mybase.validate("FAMILYSERVTYPES.SERVTCODE", value, 3)
+                      mybase.validate("Service Terms (Code)", value, 3)
                   catch ex as exception
                       Connection.LastError = ex
                       Exit Property
@@ -2992,26 +2717,7 @@ Namespace OData
             End Get
             Set
                 if not(value is nothing) then
-                  try
-                      mybase.validate("FAMILYSERVTYPES.SERVTDES", value, 32)
-                  catch ex as exception
-                      Connection.LastError = ex
-                      Exit Property
-                  end try
-                  _IsSetSERVTDES = True
-                  If loading Then
-                    _SERVTDES = Value
-                  Else
-                      if not _SERVTDES = value then
-                          loading = true
-                          Connection.RaiseStartData()
-                          Dim cn As New oDataPUT(Me, PropertyStream("SERVTDES", Value), AddressOf HandlesEdit)
-                          loading = false
-                          If Connection.LastError is nothing Then
-                              _SERVTDES = Value
-                          End If
-                      end if
-                  end if
+                  _SERVTDES = Value
                 end if
             End Set
         End Property
@@ -3026,7 +2732,7 @@ Namespace OData
             Set
                 if not(value is nothing) then
                   try
-                      mybase.validate("FAMILYSERVTYPES.FLAG", value, 1)
+                      mybase.validate("Billable?", value, 1)
                   catch ex as exception
                       Connection.LastError = ex
                       Exit Property
@@ -3059,7 +2765,7 @@ Namespace OData
             Set
                 if not(value is nothing) then
                   try
-                      mybase.validate("FAMILYSERVTYPES.NOCHARGENAME", value, 20)
+                      mybase.validate("Billing Exempt Type", value, 20)
                   catch ex as exception
                       Connection.LastError = ex
                       Exit Property
@@ -3092,7 +2798,7 @@ Namespace OData
             Set
                 if not(value is nothing) then
                   try
-                      mybase.validate("FAMILYSERVTYPES.SERVTYPE", value)
+                      mybase.validate("SERVTYPE", value)
                   catch ex as exception
                       Connection.LastError = ex
                       Exit Property
@@ -3125,15 +2831,6 @@ Namespace OData
                   f = true
               end if
               jw.WriteValue(me.SERVTCODE)
-            end if
-            if _IsSetSERVTDES then
-              if f then
-                  jw.WriteRaw(", ""SERVTDES"": ")
-              else
-                  jw.WriteRaw("""SERVTDES"": ")
-                  f = true
-              end if
-              jw.WriteValue(me.SERVTDES)
             end if
             if _IsSetFLAG then
               if f then
@@ -3436,9 +3133,9 @@ Namespace OData
         Protected Friend Overrides ReadOnly Property EntityName() As String
             Get
                 if _parent is nothing then
-                return "FAMILYREQLABANALYSES"
+                    return "FAMILYREQLABANALYSES"
                 else
-                return "FAMILYREQLABANALYSES_SUBFORM"
+                    return "FAMILYREQLABANALYSES_SUBFORM"
                 end if
             End Get
         End Property
@@ -3474,7 +3171,7 @@ Namespace OData
             Set
                 if not(value is nothing) then
                   try
-                      mybase.validate("FAMILYREQLABANALYSES.ANALYSISCODE", value, 10)
+                      mybase.validate("Analysis Code", value, 10)
                   catch ex as exception
                       Connection.LastError = ex
                       Exit Property
@@ -3507,26 +3204,7 @@ Namespace OData
             End Get
             Set
                 if not(value is nothing) then
-                  try
-                      mybase.validate("FAMILYREQLABANALYSES.ANALYSISDES", value, 32)
-                  catch ex as exception
-                      Connection.LastError = ex
-                      Exit Property
-                  end try
-                  _IsSetANALYSISDES = True
-                  If loading Then
-                    _ANALYSISDES = Value
-                  Else
-                      if not _ANALYSISDES = value then
-                          loading = true
-                          Connection.RaiseStartData()
-                          Dim cn As New oDataPUT(Me, PropertyStream("ANALYSISDES", Value), AddressOf HandlesEdit)
-                          loading = false
-                          If Connection.LastError is nothing Then
-                              _ANALYSISDES = Value
-                          End If
-                      end if
-                  end if
+                  _ANALYSISDES = Value
                 end if
             End Set
         End Property
@@ -3541,7 +3219,7 @@ Namespace OData
             Set
                 if not(value is nothing) then
                   try
-                      mybase.validate("FAMILYREQLABANALYSES.METHODNAME", value, 20)
+                      mybase.validate("Method of Analysis", value, 20)
                   catch ex as exception
                       Connection.LastError = ex
                       Exit Property
@@ -3574,7 +3252,7 @@ Namespace OData
             Set
                 if not(value is nothing) then
                   try
-                      mybase.validate("FAMILYREQLABANALYSES.MINVALUE", value, 24)
+                      mybase.validate("Minimum Value", value, 24)
                   catch ex as exception
                       Connection.LastError = ex
                       Exit Property
@@ -3607,7 +3285,7 @@ Namespace OData
             Set
                 if not(value is nothing) then
                   try
-                      mybase.validate("FAMILYREQLABANALYSES.MAXVALUE", value, 24)
+                      mybase.validate("Maximum Value", value, 24)
                   catch ex as exception
                       Connection.LastError = ex
                       Exit Property
@@ -3640,7 +3318,7 @@ Namespace OData
             Set
                 if not(value is nothing) then
                   try
-                      mybase.validate("FAMILYREQLABANALYSES.PRINTFLAG", value, 1)
+                      mybase.validate("Display in Printout?", value, 1)
                   catch ex as exception
                       Connection.LastError = ex
                       Exit Property
@@ -3673,7 +3351,7 @@ Namespace OData
             Set
                 if not(value is nothing) then
                   try
-                      mybase.validate("FAMILYREQLABANALYSES.ANALYSIS", value)
+                      mybase.validate("ANALYSIS", value)
                   catch ex as exception
                       Connection.LastError = ex
                       Exit Property
@@ -3706,7 +3384,7 @@ Namespace OData
             Set
                 if not(value is nothing) then
                   try
-                      mybase.validate("FAMILYREQLABANALYSES.KEY2", value)
+                      mybase.validate("KEY2", value)
                   catch ex as exception
                       Connection.LastError = ex
                       Exit Property
@@ -3740,7 +3418,7 @@ Namespace OData
             Set
                 if not(value is nothing) then
                   try
-                      mybase.validate("FAMILYREQLABANALYSES.REQANALYSIS", value)
+                      mybase.validate("Required Analysis-ID", value)
                   catch ex as exception
                       Connection.LastError = ex
                       Exit Property
@@ -3774,7 +3452,7 @@ Namespace OData
             Set
                 if not(value is nothing) then
                   try
-                      mybase.validate("FAMILYREQLABANALYSES.TYPE", value, 8)
+                      mybase.validate("Type", value, 8)
                   catch ex as exception
                       Connection.LastError = ex
                       Exit Property
@@ -3818,15 +3496,6 @@ Namespace OData
                   f = true
               end if
               jw.WriteValue(me.ANALYSISCODE)
-            end if
-            if _IsSetANALYSISDES then
-              if f then
-                  jw.WriteRaw(", ""ANALYSISDES"": ")
-              else
-                  jw.WriteRaw("""ANALYSISDES"": ")
-                  f = true
-              end if
-              jw.WriteValue(me.ANALYSISDES)
             end if
             if _IsSetMETHODNAME then
               if f then
@@ -4211,9 +3880,9 @@ Namespace OData
         Protected Friend Overrides ReadOnly Property EntityName() As String
             Get
                 if _parent is nothing then
-                return "LABANALYSESRESULTS"
+                    return "LABANALYSESRESULTS"
                 else
-                return "LABANALYSESRESULTS_SUBFORM"
+                    return "LABANALYSESRESULTS_SUBFORM"
                 end if
             End Get
         End Property
@@ -4247,7 +3916,7 @@ Namespace OData
             Set
                 if not(value is nothing) then
                   try
-                      mybase.validate("LABANALYSESRESULTS.RESCODE", value, 24)
+                      mybase.validate("Possible Result", value, 24)
                   catch ex as exception
                       Connection.LastError = ex
                       Exit Property
@@ -4280,7 +3949,7 @@ Namespace OData
             Set
                 if not(value is nothing) then
                   try
-                      mybase.validate("LABANALYSESRESULTS.VALID", value, 1)
+                      mybase.validate("Acceptable?", value, 1)
                   catch ex as exception
                       Connection.LastError = ex
                       Exit Property
@@ -4313,7 +3982,7 @@ Namespace OData
             Set
                 if not(value is nothing) then
                   try
-                      mybase.validate("LABANALYSESRESULTS.NOTVALID", value, 1)
+                      mybase.validate("Unacceptable?", value, 1)
                   catch ex as exception
                       Connection.LastError = ex
                       Exit Property
@@ -4346,7 +4015,7 @@ Namespace OData
             Set
                 if not(value is nothing) then
                   try
-                      mybase.validate("LABANALYSESRESULTS.QRANKCODE", value, 4)
+                      mybase.validate("Quality Code", value, 4)
                   catch ex as exception
                       Connection.LastError = ex
                       Exit Property
@@ -4379,7 +4048,7 @@ Namespace OData
             Set
                 if not(value is nothing) then
                   try
-                      mybase.validate("LABANALYSESRESULTS.FROMVAL", value, 24)
+                      mybase.validate("Minimum QualityValue", value, 24)
                   catch ex as exception
                       Connection.LastError = ex
                       Exit Property
@@ -4412,7 +4081,7 @@ Namespace OData
             Set
                 if not(value is nothing) then
                   try
-                      mybase.validate("LABANALYSESRESULTS.TOVAL", value, 24)
+                      mybase.validate("Maximum QualityValue", value, 24)
                   catch ex as exception
                       Connection.LastError = ex
                       Exit Property
