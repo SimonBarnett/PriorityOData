@@ -3,6 +3,8 @@ Imports System.Reflection
 
 Namespace OData
 
+#Region "Attribute Classes"
+
     Public Module CustomAttr
         ' Visual Basic requires the AttributeUsage be specified.
 
@@ -29,6 +31,82 @@ Namespace OData
             End Property
 
         End Class
+
+#Region "Property Type"
+
+        <AttributeUsage(AttributeTargets.Property)> _
+        Public Class nType
+            Inherits Attribute
+
+            ' Keep a variable internally ...
+            Private _nType As String
+
+            ' The constructor is called when the attribute is set.
+            Public Sub New(ByVal nType As String)
+                _nType = nType
+            End Sub
+
+            ' .. and show a copy to the outside world.
+            Public Property nType() As String
+                Get
+                    Return _nType
+                End Get
+                Set(ByVal Value As String)
+                    _nType = Value
+                End Set
+            End Property
+
+        End Class
+
+        <AttributeUsage(AttributeTargets.Property)> _
+        Public Class Scale
+            Inherits Attribute
+
+            ' Keep a variable internally ...
+            Private _Scale As Integer = 0
+
+            ' The constructor is called when the attribute is set.
+            Public Sub New(ByVal Scale As Integer)
+                _Scale = Scale
+            End Sub
+
+            ' .. and show a copy to the outside world.
+            Public Property Scale() As Integer
+                Get
+                    Return _Scale
+                End Get
+                Set(ByVal Value As Integer)
+                    _Scale = Value
+                End Set
+            End Property
+
+        End Class
+
+        <AttributeUsage(AttributeTargets.Property)> _
+        Public Class Precision
+            Inherits Attribute
+
+            ' Keep a variable internally ...
+            Private _Precision As Integer = 0
+
+            ' The constructor is called when the attribute is set.
+            Public Sub New(ByVal Precision As Integer)
+                _Precision = Precision
+            End Sub
+
+            ' .. and show a copy to the outside world.
+            Public Property Precision() As Integer
+                Get
+                    Return _Precision
+                End Get
+                Set(ByVal Value As Integer)
+                    _Precision = Value
+                End Set
+            End Property
+
+        End Class
+
+#End Region
 
         <AttributeUsage(AttributeTargets.Property)> _
         Public Class Pos
@@ -150,11 +228,62 @@ Namespace OData
 
         End Class
 
+        <AttributeUsage(AttributeTargets.Property)> _
+        Public Class twodBarcode
+            Inherits Attribute
+
+            ' Keep a variable internally ...
+            Private _twodBarcode As String
+
+            ' The constructor is called when the attribute is set.
+            Public Sub New(ByVal twodBarcode As String)
+                _twodBarcode = twodBarcode
+            End Sub
+
+            ' .. and show a copy to the outside world.
+            Public Property twodBarcode() As String
+                Get
+                    Return _twodBarcode
+                End Get
+                Set(ByVal Value As String)
+                    _twodBarcode = Value
+                End Set
+            End Property
+
+        End Class
+
+        <AttributeUsage(AttributeTargets.Property)> _
+        Public Class help
+            Inherits Attribute
+
+            ' Keep a variable internally ...
+            Private _help As String = "There is no help."
+
+            ' The constructor is called when the attribute is set.
+            Public Sub New(ByVal help As String)
+                _help = help
+            End Sub
+
+            ' .. and show a copy to the outside world.
+            Public Property help() As String
+                Get
+                    Return _help
+                End Get
+                Set(ByVal Value As String)
+                    _help = Value
+                End Set
+            End Property
+
+        End Class
     End Module
 
-    Public Class CustomProperties : Inherits PropertyInfo
-        Private _me As PropertyInfo
+#End Region
 
+    Public Class CustomProperties : Inherits PropertyInfo
+
+#Region "Constructor"
+
+        Private _me As PropertyInfo
         Sub New(ByRef Prop As PropertyInfo)
             _me = Prop
             For Each attr As Attribute In Attribute.GetCustomAttributes(Prop)
@@ -176,8 +305,30 @@ Namespace OData
                 If TypeOf attr Is Pos Then
                     _pos = CType(attr, Pos).Pos
                 End If
+
+                If TypeOf attr Is nType Then
+                    _nType = CType(attr, nType).nType
+                End If
+                If TypeOf attr Is Scale Then
+                    _Scale = CType(attr, Scale).Scale
+                End If
+                If TypeOf attr Is Precision Then
+                    _Precision = CType(attr, Precision).Precision
+                End If
+
+                If TypeOf attr Is twodBarcode Then
+                    _twodBarcode = CType(attr, twodBarcode).twodBarcode
+                End If
+                If TypeOf attr Is help Then
+                    _help = CType(attr, help).help
+                End If
+
             Next
         End Sub
+
+#End Region
+
+#Region "Custom property attributes"
 
         Private _readonly As Boolean = False
         Public ReadOnly Property [Readonly]() As Boolean
@@ -219,7 +370,46 @@ Namespace OData
             Get
                 Return _pos
             End Get
-        End Property        
+        End Property
+
+        Private _nType As String
+        Public ReadOnly Property nType() As String
+            Get
+                Return _nType
+            End Get
+        End Property
+
+        Private _Scale As Integer
+        Public ReadOnly Property Scale() As Integer
+            Get
+                Return _Scale
+            End Get
+        End Property
+
+        Private _Precision As Integer
+        Public ReadOnly Property Precision() As Integer
+            Get
+                Return _Precision
+            End Get
+        End Property
+
+        Private _twodBarcode As String
+        Public ReadOnly Property twodBarcode() As String
+            Get
+                Return _twodBarcode
+            End Get
+        End Property
+
+        Private _help As String
+        Public ReadOnly Property help() As String
+            Get
+                Return _help
+            End Get
+        End Property
+
+#End Region
+
+#Region "Derived from Property"
 
         Public Overrides ReadOnly Property Attributes() As System.Reflection.PropertyAttributes
             Get
@@ -269,10 +459,6 @@ Namespace OData
             Return _me.GetSetMethod(nonPublic)
         End Function
 
-        Public Overloads Overrides Function GetValue(ByVal obj As Object, ByVal invokeAttr As System.Reflection.BindingFlags, ByVal binder As System.Reflection.Binder, ByVal index() As Object, ByVal culture As System.Globalization.CultureInfo) As Object
-            Return _me.GetValue(obj, invokeAttr, binder, index, culture)
-        End Function
-
         Public Overrides Function IsDefined(ByVal attributeType As System.Type, ByVal inherit As Boolean) As Boolean
             Return _me.IsDefined(attributeType, inherit)
         End Function
@@ -296,9 +482,34 @@ Namespace OData
             End Get
         End Property
 
+#End Region
+
+#Region "Get / set Property"
+
+        Public Overloads Overrides Function GetValue(ByVal obj As Object, ByVal invokeAttr As System.Reflection.BindingFlags, ByVal binder As System.Reflection.Binder, ByVal index() As Object, ByVal culture As System.Globalization.CultureInfo) As Object
+            Return _me.GetValue(obj, invokeAttr, binder, index, culture)
+        End Function
+
         Public Overloads Overrides Sub SetValue(ByVal obj As Object, ByVal value As Object, ByVal invokeAttr As System.Reflection.BindingFlags, ByVal binder As System.Reflection.Binder, ByVal index() As Object, ByVal culture As System.Globalization.CultureInfo)
-            _me.SetValue(obj, value, invokeAttr, binder, index, culture)
+            'If TypeOf _me.PropertyType Is Nullable(Of Int64) Then
+
+            'End If
+            'Dim T As Type = _me.ReflectedType
+            '_me.SetValue(obj, DirectCast(value, T), invokeAttr, binder, index, culture)
+
+            Try
+                _me.SetValue(obj, value, invokeAttr, binder, index, culture)
+
+            Catch ex As Exception
+                'Dim T As Type = _me.ReflectedType
+                _me.SetValue(obj, Int64.Parse(value), invokeAttr, binder, index, culture)
+
+            End Try
+
         End Sub
+
+#End Region
+
     End Class
 
 End Namespace

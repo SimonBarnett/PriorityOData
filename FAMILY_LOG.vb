@@ -192,8 +192,6 @@ Namespace OData
         
         Private _FTCODE As String
         
-        Private _IsSetFTNAME As Boolean = Boolean.FalseString
-        
         Private _FTNAME As String
         
         Private _IsSetDISTRFLAG As Boolean = Boolean.FalseString
@@ -232,15 +230,11 @@ Namespace OData
         
         Private _PARTNAME As String
         
-        Private _IsSetPARTDES As Boolean = Boolean.FalseString
-        
         Private _PARTDES As String
         
         Private _IsSetSTORAGETYPECODE As Boolean = Boolean.FalseString
         
         Private _STORAGETYPECODE As String
-        
-        Private _IsSetSTORAGETYPEDES As Boolean = Boolean.FalseString
         
         Private _STORAGETYPEDES As String
         
@@ -255,8 +249,6 @@ Namespace OData
         Private _IsSetMFAMILYNAME As Boolean = Boolean.FalseString
         
         Private _MFAMILYNAME As String
-        
-        Private _IsSetMFAMILYDES As Boolean = Boolean.FalseString
         
         Private _MFAMILYDES As String
         
@@ -401,275 +393,246 @@ Namespace OData
             End Set
         End Property
         
-        <tab("Family"),  _
-         DisplayName("Family"),  _
+        <DisplayName("Family"),  _
+         nType("Edm.String"),  _
+         tab("Family"),  _
          Pos(20),  _
-         Mandatory(true)>  _
+         Mandatory(true),  _
+         twodBarcode("FAMILYNAME")>  _
         Public Property FAMILYNAME() As String
             Get
                 return _FAMILYNAME
             End Get
             Set
-                if not(value is nothing) then
-                  try
-                      mybase.validate("Family", value, 8)
-                  catch ex as exception
-                      Connection.LastError = ex
-                      Exit Property
-                  end try
-                  _IsSetFAMILYNAME = True
-                  If loading Then
-                    _FAMILYNAME = Value
-                  Else
-                      if not _FAMILYNAME = value then
-                          loading = true
-                          Connection.RaiseStartData()
-                          Dim cn As New oDataPUT(Me, PropertyStream("FAMILYNAME", Value), AddressOf HandlesEdit)
-                          loading = false
-                          If Connection.LastError is nothing Then
-                              _FAMILYNAME = Value
-                          End If
-                      end if
-                  end if
+                if value is nothing then Exit Property
+                if not mybase.validate("Family", value, "^.{0,8}$") then Exit Property
+                _IsSetFAMILYNAME = True
+                If loading Then
+                  _FAMILYNAME = Value
+                Else
+                    if not _FAMILYNAME = value then
+                        Connection.RaiseStartData()
+                        loading = true
+                        Dim cn As New oDataPUT(Me, PropertyStream("FAMILYNAME", Value), AddressOf HandlesEdit)
+                        loading = false
+                        If Connection.LastError is nothing Then
+                            _FAMILYNAME = Value
+                        End If
+                    end if
                 end if
             End Set
         End Property
         
-        <tab("Family"),  _
-         DisplayName("Family Description"),  _
-         Pos(25)>  _
+        <DisplayName("Family Description"),  _
+         nType("Edm.String"),  _
+         tab("Family"),  _
+         Pos(25),  _
+         twodBarcode("FAMILYDESC"),  _
+         help("Some help.")>  _
         Public Property FAMILYDESC() As String
             Get
                 return _FAMILYDESC
             End Get
             Set
-                if not(value is nothing) then
-                  try
-                      mybase.validate("Family Description", value, 32)
-                  catch ex as exception
-                      Connection.LastError = ex
-                      Exit Property
-                  end try
-                  _IsSetFAMILYDESC = True
-                  If loading Then
-                    _FAMILYDESC = Value
-                  Else
-                      if not _FAMILYDESC = value then
-                          loading = true
-                          Connection.RaiseStartData()
-                          Dim cn As New oDataPUT(Me, PropertyStream("FAMILYDESC", Value), AddressOf HandlesEdit)
-                          loading = false
-                          If Connection.LastError is nothing Then
-                              _FAMILYDESC = Value
-                          End If
-                      end if
-                  end if
+                if value is nothing then Exit Property
+                if not mybase.validate("Family Description", value, "^.{0,32}$") then Exit Property
+                _IsSetFAMILYDESC = True
+                If loading Then
+                  _FAMILYDESC = Value
+                Else
+                    if not _FAMILYDESC = value then
+                        Connection.RaiseStartData()
+                        loading = true
+                        Dim cn As New oDataPUT(Me, PropertyStream("FAMILYDESC", Value), AddressOf HandlesEdit)
+                        loading = false
+                        If Connection.LastError is nothing Then
+                            _FAMILYDESC = Value
+                        End If
+                    end if
                 end if
             End Set
         End Property
         
-        <tab("Family"),  _
-         DisplayName("Family Desc (Lang 2)"),  _
-         Pos(30)>  _
+        <DisplayName("Family Desc (Lang 2)"),  _
+         nType("Edm.String"),  _
+         tab("Family"),  _
+         Pos(30),  _
+         twodBarcode("EFAMILYDES")>  _
         Public Property EFAMILYDES() As String
             Get
                 return _EFAMILYDES
             End Get
             Set
-                if not(value is nothing) then
-                  try
-                      mybase.validate("Family Desc (Lang 2)", value, 32)
-                  catch ex as exception
-                      Connection.LastError = ex
-                      Exit Property
-                  end try
-                  _IsSetEFAMILYDES = True
-                  If loading Then
-                    _EFAMILYDES = Value
-                  Else
-                      if not _EFAMILYDES = value then
-                          loading = true
-                          Connection.RaiseStartData()
-                          Dim cn As New oDataPUT(Me, PropertyStream("EFAMILYDES", Value), AddressOf HandlesEdit)
-                          loading = false
-                          If Connection.LastError is nothing Then
-                              _EFAMILYDES = Value
-                          End If
-                      end if
-                  end if
+                if value is nothing then Exit Property
+                if not mybase.validate("Family Desc (Lang 2)", value, "^.{0,32}$") then Exit Property
+                _IsSetEFAMILYDES = True
+                If loading Then
+                  _EFAMILYDES = Value
+                Else
+                    if not _EFAMILYDES = value then
+                        Connection.RaiseStartData()
+                        loading = true
+                        Dim cn As New oDataPUT(Me, PropertyStream("EFAMILYDES", Value), AddressOf HandlesEdit)
+                        loading = false
+                        If Connection.LastError is nothing Then
+                            _EFAMILYDES = Value
+                        End If
+                    end if
                 end if
             End Set
         End Property
         
-        <tab("Family"),  _
-         DisplayName("Work Hours?"),  _
-         Pos(31)>  _
+        <DisplayName("Work Hours?"),  _
+         nType("Edm.String"),  _
+         tab("Family"),  _
+         Pos(31),  _
+         twodBarcode("TECHFLAG")>  _
         Public Property TECHFLAG() As String
             Get
                 return _TECHFLAG
             End Get
             Set
-                if not(value is nothing) then
-                  try
-                      mybase.validate("Work Hours?", value, 1)
-                  catch ex as exception
-                      Connection.LastError = ex
-                      Exit Property
-                  end try
-                  _IsSetTECHFLAG = True
-                  If loading Then
-                    _TECHFLAG = Value
-                  Else
-                      if not _TECHFLAG = value then
-                          loading = true
-                          Connection.RaiseStartData()
-                          Dim cn As New oDataPUT(Me, PropertyStream("TECHFLAG", Value), AddressOf HandlesEdit)
-                          loading = false
-                          If Connection.LastError is nothing Then
-                              _TECHFLAG = Value
-                          End If
-                      end if
-                  end if
+                if value is nothing then Exit Property
+                if not mybase.validate("Work Hours?", value, "^.{0,1}$") then Exit Property
+                _IsSetTECHFLAG = True
+                If loading Then
+                  _TECHFLAG = Value
+                Else
+                    if not _TECHFLAG = value then
+                        Connection.RaiseStartData()
+                        loading = true
+                        Dim cn As New oDataPUT(Me, PropertyStream("TECHFLAG", Value), AddressOf HandlesEdit)
+                        loading = false
+                        If Connection.LastError is nothing Then
+                            _TECHFLAG = Value
+                        End If
+                    end if
                 end if
             End Set
         End Property
         
-        <tab("Family"),  _
-         DisplayName("Bill Project Report?"),  _
-         Pos(32)>  _
+        <DisplayName("Bill Project Report?"),  _
+         nType("Edm.String"),  _
+         tab("Family"),  _
+         Pos(32),  _
+         twodBarcode("DEBITFLAG")>  _
         Public Property DEBITFLAG() As String
             Get
                 return _DEBITFLAG
             End Get
             Set
-                if not(value is nothing) then
-                  try
-                      mybase.validate("Bill Project Report?", value, 1)
-                  catch ex as exception
-                      Connection.LastError = ex
-                      Exit Property
-                  end try
-                  _IsSetDEBITFLAG = True
-                  If loading Then
-                    _DEBITFLAG = Value
-                  Else
-                      if not _DEBITFLAG = value then
-                          loading = true
-                          Connection.RaiseStartData()
-                          Dim cn As New oDataPUT(Me, PropertyStream("DEBITFLAG", Value), AddressOf HandlesEdit)
-                          loading = false
-                          If Connection.LastError is nothing Then
-                              _DEBITFLAG = Value
-                          End If
-                      end if
-                  end if
+                if value is nothing then Exit Property
+                if not mybase.validate("Bill Project Report?", value, "^.{0,1}$") then Exit Property
+                _IsSetDEBITFLAG = True
+                If loading Then
+                  _DEBITFLAG = Value
+                Else
+                    if not _DEBITFLAG = value then
+                        Connection.RaiseStartData()
+                        loading = true
+                        Dim cn As New oDataPUT(Me, PropertyStream("DEBITFLAG", Value), AddressOf HandlesEdit)
+                        loading = false
+                        If Connection.LastError is nothing Then
+                            _DEBITFLAG = Value
+                        End If
+                    end if
                 end if
             End Set
         End Property
         
-        <tab("Family"),  _
-         DisplayName("Production for Proj?"),  _
-         Pos(35)>  _
+        <DisplayName("Production for Proj?"),  _
+         nType("Edm.String"),  _
+         tab("Family"),  _
+         Pos(35),  _
+         twodBarcode("PROJPROCESS")>  _
         Public Property PROJPROCESS() As String
             Get
                 return _PROJPROCESS
             End Get
             Set
-                if not(value is nothing) then
-                  try
-                      mybase.validate("Production for Proj?", value, 1)
-                  catch ex as exception
-                      Connection.LastError = ex
-                      Exit Property
-                  end try
-                  _IsSetPROJPROCESS = True
-                  If loading Then
-                    _PROJPROCESS = Value
-                  Else
-                      if not _PROJPROCESS = value then
-                          loading = true
-                          Connection.RaiseStartData()
-                          Dim cn As New oDataPUT(Me, PropertyStream("PROJPROCESS", Value), AddressOf HandlesEdit)
-                          loading = false
-                          If Connection.LastError is nothing Then
-                              _PROJPROCESS = Value
-                          End If
-                      end if
-                  end if
+                if value is nothing then Exit Property
+                if not mybase.validate("Production for Proj?", value, "^.{0,1}$") then Exit Property
+                _IsSetPROJPROCESS = True
+                If loading Then
+                  _PROJPROCESS = Value
+                Else
+                    if not _PROJPROCESS = value then
+                        Connection.RaiseStartData()
+                        loading = true
+                        Dim cn As New oDataPUT(Me, PropertyStream("PROJPROCESS", Value), AddressOf HandlesEdit)
+                        loading = false
+                        If Connection.LastError is nothing Then
+                            _PROJPROCESS = Value
+                        End If
+                    end if
                 end if
             End Set
         End Property
         
-        <tab("Family"),  _
-         DisplayName("Technician in Charge"),  _
-         Pos(40)>  _
+        <DisplayName("Technician in Charge"),  _
+         nType("Edm.String"),  _
+         tab("Family"),  _
+         Pos(40),  _
+         twodBarcode("TECHNICIANLOGIN")>  _
         Public Property TECHNICIANLOGIN() As String
             Get
                 return _TECHNICIANLOGIN
             End Get
             Set
-                if not(value is nothing) then
-                  try
-                      mybase.validate("Technician in Charge", value, 20)
-                  catch ex as exception
-                      Connection.LastError = ex
-                      Exit Property
-                  end try
-                  _IsSetTECHNICIANLOGIN = True
-                  If loading Then
-                    _TECHNICIANLOGIN = Value
-                  Else
-                      if not _TECHNICIANLOGIN = value then
-                          loading = true
-                          Connection.RaiseStartData()
-                          Dim cn As New oDataPUT(Me, PropertyStream("TECHNICIANLOGIN", Value), AddressOf HandlesEdit)
-                          loading = false
-                          If Connection.LastError is nothing Then
-                              _TECHNICIANLOGIN = Value
-                          End If
-                      end if
-                  end if
+                if value is nothing then Exit Property
+                if not mybase.validate("Technician in Charge", value, "^.{0,20}$") then Exit Property
+                _IsSetTECHNICIANLOGIN = True
+                If loading Then
+                  _TECHNICIANLOGIN = Value
+                Else
+                    if not _TECHNICIANLOGIN = value then
+                        Connection.RaiseStartData()
+                        loading = true
+                        Dim cn As New oDataPUT(Me, PropertyStream("TECHNICIANLOGIN", Value), AddressOf HandlesEdit)
+                        loading = false
+                        If Connection.LastError is nothing Then
+                            _TECHNICIANLOGIN = Value
+                        End If
+                    end if
                 end if
             End Set
         End Property
         
-        <tab("Family"),  _
-         DisplayName("Family Type Code"),  _
-         Pos(50)>  _
+        <DisplayName("Family Type Code"),  _
+         nType("Edm.String"),  _
+         tab("Family"),  _
+         Pos(50),  _
+         twodBarcode("FTCODE")>  _
         Public Property FTCODE() As String
             Get
                 return _FTCODE
             End Get
             Set
-                if not(value is nothing) then
-                  try
-                      mybase.validate("Family Type Code", value, 4)
-                  catch ex as exception
-                      Connection.LastError = ex
-                      Exit Property
-                  end try
-                  _IsSetFTCODE = True
-                  If loading Then
-                    _FTCODE = Value
-                  Else
-                      if not _FTCODE = value then
-                          loading = true
-                          Connection.RaiseStartData()
-                          Dim cn As New oDataPUT(Me, PropertyStream("FTCODE", Value), AddressOf HandlesEdit)
-                          loading = false
-                          If Connection.LastError is nothing Then
-                              _FTCODE = Value
-                          End If
-                      end if
-                  end if
+                if value is nothing then Exit Property
+                if not mybase.validate("Family Type Code", value, "^.{0,4}$") then Exit Property
+                _IsSetFTCODE = True
+                If loading Then
+                  _FTCODE = Value
+                Else
+                    if not _FTCODE = value then
+                        Connection.RaiseStartData()
+                        loading = true
+                        Dim cn As New oDataPUT(Me, PropertyStream("FTCODE", Value), AddressOf HandlesEdit)
+                        loading = false
+                        If Connection.LastError is nothing Then
+                            _FTCODE = Value
+                        End If
+                    end if
                 end if
             End Set
         End Property
         
-        <tab("Family Type Descrip."),  _
-         DisplayName("Family Type Descrip."),  _
+        <DisplayName("Family Type Descrip."),  _
+         nType("Edm.String"),  _
+         tab("Family Type Descrip."),  _
          Pos(52),  _
-         [ReadOnly](true)>  _
+         [ReadOnly](true),  _
+         twodBarcode("FTNAME")>  _
         Public Property FTNAME() As String
             Get
                 return _FTNAME
@@ -681,307 +644,279 @@ Namespace OData
             End Set
         End Property
         
-        <tab("Family Type Descrip."),  _
-         DisplayName("Delivery Scheduling?"),  _
-         Pos(55)>  _
+        <DisplayName("Delivery Scheduling?"),  _
+         nType("Edm.String"),  _
+         tab("Family Type Descrip."),  _
+         Pos(55),  _
+         twodBarcode("DISTRFLAG")>  _
         Public Property DISTRFLAG() As String
             Get
                 return _DISTRFLAG
             End Get
             Set
-                if not(value is nothing) then
-                  try
-                      mybase.validate("Delivery Scheduling?", value, 1)
-                  catch ex as exception
-                      Connection.LastError = ex
-                      Exit Property
-                  end try
-                  _IsSetDISTRFLAG = True
-                  If loading Then
-                    _DISTRFLAG = Value
-                  Else
-                      if not _DISTRFLAG = value then
-                          loading = true
-                          Connection.RaiseStartData()
-                          Dim cn As New oDataPUT(Me, PropertyStream("DISTRFLAG", Value), AddressOf HandlesEdit)
-                          loading = false
-                          If Connection.LastError is nothing Then
-                              _DISTRFLAG = Value
-                          End If
-                      end if
-                  end if
+                if value is nothing then Exit Property
+                if not mybase.validate("Delivery Scheduling?", value, "^.{0,1}$") then Exit Property
+                _IsSetDISTRFLAG = True
+                If loading Then
+                  _DISTRFLAG = Value
+                Else
+                    if not _DISTRFLAG = value then
+                        Connection.RaiseStartData()
+                        loading = true
+                        Dim cn As New oDataPUT(Me, PropertyStream("DISTRFLAG", Value), AddressOf HandlesEdit)
+                        loading = false
+                        If Connection.LastError is nothing Then
+                            _DISTRFLAG = Value
+                        End If
+                    end if
                 end if
             End Set
         End Property
         
-        <tab("Family Type Descrip."),  _
-         DisplayName("Air Cost (%)"),  _
-         Pos(60)>  _
+        <DisplayName("Air Cost (%)"),  _
+         nType("Edm.Decimal"),  _
+         Scale(2),  _
+         Precision(6),  _
+         tab("Family Type Descrip."),  _
+         Pos(60),  _
+         twodBarcode("DUTYPERCENT")>  _
         Public Property DUTYPERCENT() As nullable(of decimal)
             Get
                 return _DUTYPERCENT
             End Get
             Set
-                if not(value is nothing) then
-                  try
-                      mybase.validate("Air Cost (%)", value, 6,2)
-                  catch ex as exception
-                      Connection.LastError = ex
-                      Exit Property
-                  end try
-                  _IsSetDUTYPERCENT = True
-                  If loading Then
-                    _DUTYPERCENT = Value
-                  Else
-                      if not _DUTYPERCENT = value then
-                          loading = true
-                          Connection.RaiseStartData()
-                          Dim cn As New oDataPUT(Me, PropertyStream("DUTYPERCENT", Value), AddressOf HandlesEdit)
-                          loading = false
-                          If Connection.LastError is nothing Then
-                              _DUTYPERCENT = Value
-                          End If
-                      end if
-                  end if
+                if value is nothing then Exit Property
+                if not mybase.validate("Air Cost (%)", value, "^[0-9\.\-]+$") then Exit Property
+                _IsSetDUTYPERCENT = True
+                If loading Then
+                  _DUTYPERCENT = Value
+                Else
+                    if not _DUTYPERCENT = value then
+                        Connection.RaiseStartData()
+                        loading = true
+                        Dim cn As New oDataPUT(Me, PropertyStream("DUTYPERCENT", Value), AddressOf HandlesEdit)
+                        loading = false
+                        If Connection.LastError is nothing Then
+                            _DUTYPERCENT = Value
+                        End If
+                    end if
                 end if
             End Set
         End Property
         
-        <tab("Family Type Descrip."),  _
-         DisplayName("Sea Cost (%)"),  _
-         Pos(70)>  _
+        <DisplayName("Sea Cost (%)"),  _
+         nType("Edm.Decimal"),  _
+         Scale(2),  _
+         Precision(6),  _
+         tab("Family Type Descrip."),  _
+         Pos(70),  _
+         twodBarcode("DUTYPERCENT1")>  _
         Public Property DUTYPERCENT1() As nullable(of decimal)
             Get
                 return _DUTYPERCENT1
             End Get
             Set
-                if not(value is nothing) then
-                  try
-                      mybase.validate("Sea Cost (%)", value, 6,2)
-                  catch ex as exception
-                      Connection.LastError = ex
-                      Exit Property
-                  end try
-                  _IsSetDUTYPERCENT1 = True
-                  If loading Then
-                    _DUTYPERCENT1 = Value
-                  Else
-                      if not _DUTYPERCENT1 = value then
-                          loading = true
-                          Connection.RaiseStartData()
-                          Dim cn As New oDataPUT(Me, PropertyStream("DUTYPERCENT1", Value), AddressOf HandlesEdit)
-                          loading = false
-                          If Connection.LastError is nothing Then
-                              _DUTYPERCENT1 = Value
-                          End If
-                      end if
-                  end if
+                if value is nothing then Exit Property
+                if not mybase.validate("Sea Cost (%)", value, "^[0-9\.\-]+$") then Exit Property
+                _IsSetDUTYPERCENT1 = True
+                If loading Then
+                  _DUTYPERCENT1 = Value
+                Else
+                    if not _DUTYPERCENT1 = value then
+                        Connection.RaiseStartData()
+                        loading = true
+                        Dim cn As New oDataPUT(Me, PropertyStream("DUTYPERCENT1", Value), AddressOf HandlesEdit)
+                        loading = false
+                        If Connection.LastError is nothing Then
+                            _DUTYPERCENT1 = Value
+                        End If
+                    end if
                 end if
             End Set
         End Property
         
-        <tab("Family Type Descrip."),  _
-         DisplayName("Land Cost (%)"),  _
-         Pos(80)>  _
+        <DisplayName("Land Cost (%)"),  _
+         nType("Edm.Decimal"),  _
+         Scale(2),  _
+         Precision(6),  _
+         tab("Family Type Descrip."),  _
+         Pos(80),  _
+         twodBarcode("DUTYPERCENT2")>  _
         Public Property DUTYPERCENT2() As nullable(of decimal)
             Get
                 return _DUTYPERCENT2
             End Get
             Set
-                if not(value is nothing) then
-                  try
-                      mybase.validate("Land Cost (%)", value, 6,2)
-                  catch ex as exception
-                      Connection.LastError = ex
-                      Exit Property
-                  end try
-                  _IsSetDUTYPERCENT2 = True
-                  If loading Then
-                    _DUTYPERCENT2 = Value
-                  Else
-                      if not _DUTYPERCENT2 = value then
-                          loading = true
-                          Connection.RaiseStartData()
-                          Dim cn As New oDataPUT(Me, PropertyStream("DUTYPERCENT2", Value), AddressOf HandlesEdit)
-                          loading = false
-                          If Connection.LastError is nothing Then
-                              _DUTYPERCENT2 = Value
-                          End If
-                      end if
-                  end if
+                if value is nothing then Exit Property
+                if not mybase.validate("Land Cost (%)", value, "^[0-9\.\-]+$") then Exit Property
+                _IsSetDUTYPERCENT2 = True
+                If loading Then
+                  _DUTYPERCENT2 = Value
+                Else
+                    if not _DUTYPERCENT2 = value then
+                        Connection.RaiseStartData()
+                        loading = true
+                        Dim cn As New oDataPUT(Me, PropertyStream("DUTYPERCENT2", Value), AddressOf HandlesEdit)
+                        loading = false
+                        If Connection.LastError is nothing Then
+                            _DUTYPERCENT2 = Value
+                        End If
+                    end if
                 end if
             End Set
         End Property
         
-        <tab("Family Type Descrip."),  _
-         DisplayName("Shipping Cost Type"),  _
-         Pos(82)>  _
+        <DisplayName("Shipping Cost Type"),  _
+         nType("Edm.String"),  _
+         tab("Family Type Descrip."),  _
+         Pos(82),  _
+         twodBarcode("DUTYPERCENTTYPE")>  _
         Public Property DUTYPERCENTTYPE() As String
             Get
                 return _DUTYPERCENTTYPE
             End Get
             Set
-                if not(value is nothing) then
-                  try
-                      mybase.validate("Shipping Cost Type", value, 1)
-                  catch ex as exception
-                      Connection.LastError = ex
-                      Exit Property
-                  end try
-                  _IsSetDUTYPERCENTTYPE = True
-                  If loading Then
-                    _DUTYPERCENTTYPE = Value
-                  Else
-                      if not _DUTYPERCENTTYPE = value then
-                          loading = true
-                          Connection.RaiseStartData()
-                          Dim cn As New oDataPUT(Me, PropertyStream("DUTYPERCENTTYPE", Value), AddressOf HandlesEdit)
-                          loading = false
-                          If Connection.LastError is nothing Then
-                              _DUTYPERCENTTYPE = Value
-                          End If
-                      end if
-                  end if
+                if value is nothing then Exit Property
+                if not mybase.validate("Shipping Cost Type", value, "^.{0,1}$") then Exit Property
+                _IsSetDUTYPERCENTTYPE = True
+                If loading Then
+                  _DUTYPERCENTTYPE = Value
+                Else
+                    if not _DUTYPERCENTTYPE = value then
+                        Connection.RaiseStartData()
+                        loading = true
+                        Dim cn As New oDataPUT(Me, PropertyStream("DUTYPERCENTTYPE", Value), AddressOf HandlesEdit)
+                        loading = false
+                        If Connection.LastError is nothing Then
+                            _DUTYPERCENTTYPE = Value
+                        End If
+                    end if
                 end if
             End Set
         End Property
         
-        <tab("Family Type Descrip."),  _
-         DisplayName("Sold Part?"),  _
-         Pos(85)>  _
+        <DisplayName("Sold Part?"),  _
+         nType("Edm.String"),  _
+         tab("Family Type Descrip."),  _
+         Pos(85),  _
+         twodBarcode("SELLFLAG")>  _
         Public Property SELLFLAG() As String
             Get
                 return _SELLFLAG
             End Get
             Set
-                if not(value is nothing) then
-                  try
-                      mybase.validate("Sold Part?", value, 1)
-                  catch ex as exception
-                      Connection.LastError = ex
-                      Exit Property
-                  end try
-                  _IsSetSELLFLAG = True
-                  If loading Then
-                    _SELLFLAG = Value
-                  Else
-                      if not _SELLFLAG = value then
-                          loading = true
-                          Connection.RaiseStartData()
-                          Dim cn As New oDataPUT(Me, PropertyStream("SELLFLAG", Value), AddressOf HandlesEdit)
-                          loading = false
-                          If Connection.LastError is nothing Then
-                              _SELLFLAG = Value
-                          End If
-                      end if
-                  end if
+                if value is nothing then Exit Property
+                if not mybase.validate("Sold Part?", value, "^.{0,1}$") then Exit Property
+                _IsSetSELLFLAG = True
+                If loading Then
+                  _SELLFLAG = Value
+                Else
+                    if not _SELLFLAG = value then
+                        Connection.RaiseStartData()
+                        loading = true
+                        Dim cn As New oDataPUT(Me, PropertyStream("SELLFLAG", Value), AddressOf HandlesEdit)
+                        loading = false
+                        If Connection.LastError is nothing Then
+                            _SELLFLAG = Value
+                        End If
+                    end if
                 end if
             End Set
         End Property
         
-        <tab("Family Type Descrip."),  _
-         DisplayName("Block Neg. Balance?"),  _
-         Pos(90)>  _
+        <DisplayName("Block Neg. Balance?"),  _
+         nType("Edm.String"),  _
+         tab("Family Type Descrip."),  _
+         Pos(90),  _
+         twodBarcode("NEGBALFLAG")>  _
         Public Property NEGBALFLAG() As String
             Get
                 return _NEGBALFLAG
             End Get
             Set
-                if not(value is nothing) then
-                  try
-                      mybase.validate("Block Neg. Balance?", value, 1)
-                  catch ex as exception
-                      Connection.LastError = ex
-                      Exit Property
-                  end try
-                  _IsSetNEGBALFLAG = True
-                  If loading Then
-                    _NEGBALFLAG = Value
-                  Else
-                      if not _NEGBALFLAG = value then
-                          loading = true
-                          Connection.RaiseStartData()
-                          Dim cn As New oDataPUT(Me, PropertyStream("NEGBALFLAG", Value), AddressOf HandlesEdit)
-                          loading = false
-                          If Connection.LastError is nothing Then
-                              _NEGBALFLAG = Value
-                          End If
-                      end if
-                  end if
+                if value is nothing then Exit Property
+                if not mybase.validate("Block Neg. Balance?", value, "^.{0,1}$") then Exit Property
+                _IsSetNEGBALFLAG = True
+                If loading Then
+                  _NEGBALFLAG = Value
+                Else
+                    if not _NEGBALFLAG = value then
+                        Connection.RaiseStartData()
+                        loading = true
+                        Dim cn As New oDataPUT(Me, PropertyStream("NEGBALFLAG", Value), AddressOf HandlesEdit)
+                        loading = false
+                        If Connection.LastError is nothing Then
+                            _NEGBALFLAG = Value
+                        End If
+                    end if
                 end if
             End Set
         End Property
         
-        <tab("Sales/Order Target?"),  _
-         DisplayName("Sales/Order Target?"),  _
-         Pos(100)>  _
+        <DisplayName("Sales/Order Target?"),  _
+         nType("Edm.String"),  _
+         tab("Sales/Order Target?"),  _
+         Pos(100),  _
+         twodBarcode("FORECAST")>  _
         Public Property FORECAST() As String
             Get
                 return _FORECAST
             End Get
             Set
-                if not(value is nothing) then
-                  try
-                      mybase.validate("Sales/Order Target?", value, 1)
-                  catch ex as exception
-                      Connection.LastError = ex
-                      Exit Property
-                  end try
-                  _IsSetFORECAST = True
-                  If loading Then
-                    _FORECAST = Value
-                  Else
-                      if not _FORECAST = value then
-                          loading = true
-                          Connection.RaiseStartData()
-                          Dim cn As New oDataPUT(Me, PropertyStream("FORECAST", Value), AddressOf HandlesEdit)
-                          loading = false
-                          If Connection.LastError is nothing Then
-                              _FORECAST = Value
-                          End If
-                      end if
-                  end if
+                if value is nothing then Exit Property
+                if not mybase.validate("Sales/Order Target?", value, "^.{0,1}$") then Exit Property
+                _IsSetFORECAST = True
+                If loading Then
+                  _FORECAST = Value
+                Else
+                    if not _FORECAST = value then
+                        Connection.RaiseStartData()
+                        loading = true
+                        Dim cn As New oDataPUT(Me, PropertyStream("FORECAST", Value), AddressOf HandlesEdit)
+                        loading = false
+                        If Connection.LastError is nothing Then
+                            _FORECAST = Value
+                        End If
+                    end if
                 end if
             End Set
         End Property
         
-        <tab("Sales/Order Target?"),  _
-         DisplayName("Sample Part"),  _
-         Pos(110)>  _
+        <DisplayName("Sample Part"),  _
+         nType("Edm.String"),  _
+         tab("Sales/Order Target?"),  _
+         Pos(110),  _
+         twodBarcode("PARTNAME")>  _
         Public Property PARTNAME() As String
             Get
                 return _PARTNAME
             End Get
             Set
-                if not(value is nothing) then
-                  try
-                      mybase.validate("Sample Part", value, 15)
-                  catch ex as exception
-                      Connection.LastError = ex
-                      Exit Property
-                  end try
-                  _IsSetPARTNAME = True
-                  If loading Then
-                    _PARTNAME = Value
-                  Else
-                      if not _PARTNAME = value then
-                          loading = true
-                          Connection.RaiseStartData()
-                          Dim cn As New oDataPUT(Me, PropertyStream("PARTNAME", Value), AddressOf HandlesEdit)
-                          loading = false
-                          If Connection.LastError is nothing Then
-                              _PARTNAME = Value
-                          End If
-                      end if
-                  end if
+                if value is nothing then Exit Property
+                if not mybase.validate("Sample Part", value, "^.{0,15}$") then Exit Property
+                _IsSetPARTNAME = True
+                If loading Then
+                  _PARTNAME = Value
+                Else
+                    if not _PARTNAME = value then
+                        Connection.RaiseStartData()
+                        loading = true
+                        Dim cn As New oDataPUT(Me, PropertyStream("PARTNAME", Value), AddressOf HandlesEdit)
+                        loading = false
+                        If Connection.LastError is nothing Then
+                            _PARTNAME = Value
+                        End If
+                    end if
                 end if
             End Set
         End Property
         
-        <tab("Sales/Order Target?"),  _
-         DisplayName("Part Description"),  _
+        <DisplayName("Part Description"),  _
+         nType("Edm.String"),  _
+         tab("Sales/Order Target?"),  _
          Pos(120),  _
-         [ReadOnly](true)>  _
+         [ReadOnly](true),  _
+         twodBarcode("PARTDES")>  _
         Public Property PARTDES() As String
             Get
                 return _PARTDES
@@ -993,43 +928,41 @@ Namespace OData
             End Set
         End Property
         
-        <tab("Sales/Order Target?"),  _
-         DisplayName("Put Strategy Code"),  _
-         Pos(130)>  _
+        <DisplayName("Put Strategy Code"),  _
+         nType("Edm.String"),  _
+         tab("Sales/Order Target?"),  _
+         Pos(130),  _
+         twodBarcode("STORAGETYPECODE")>  _
         Public Property STORAGETYPECODE() As String
             Get
                 return _STORAGETYPECODE
             End Get
             Set
-                if not(value is nothing) then
-                  try
-                      mybase.validate("Put Strategy Code", value, 8)
-                  catch ex as exception
-                      Connection.LastError = ex
-                      Exit Property
-                  end try
-                  _IsSetSTORAGETYPECODE = True
-                  If loading Then
-                    _STORAGETYPECODE = Value
-                  Else
-                      if not _STORAGETYPECODE = value then
-                          loading = true
-                          Connection.RaiseStartData()
-                          Dim cn As New oDataPUT(Me, PropertyStream("STORAGETYPECODE", Value), AddressOf HandlesEdit)
-                          loading = false
-                          If Connection.LastError is nothing Then
-                              _STORAGETYPECODE = Value
-                          End If
-                      end if
-                  end if
+                if value is nothing then Exit Property
+                if not mybase.validate("Put Strategy Code", value, "^.{0,8}$") then Exit Property
+                _IsSetSTORAGETYPECODE = True
+                If loading Then
+                  _STORAGETYPECODE = Value
+                Else
+                    if not _STORAGETYPECODE = value then
+                        Connection.RaiseStartData()
+                        loading = true
+                        Dim cn As New oDataPUT(Me, PropertyStream("STORAGETYPECODE", Value), AddressOf HandlesEdit)
+                        loading = false
+                        If Connection.LastError is nothing Then
+                            _STORAGETYPECODE = Value
+                        End If
+                    end if
                 end if
             End Set
         End Property
         
-        <tab("Sales/Order Target?"),  _
-         DisplayName("Put Strategy Descrip"),  _
+        <DisplayName("Put Strategy Descrip"),  _
+         nType("Edm.String"),  _
+         tab("Sales/Order Target?"),  _
          Pos(140),  _
-         [ReadOnly](true)>  _
+         [ReadOnly](true),  _
+         twodBarcode("STORAGETYPEDES")>  _
         Public Property STORAGETYPEDES() As String
             Get
                 return _STORAGETYPEDES
@@ -1041,109 +974,99 @@ Namespace OData
             End Set
         End Property
         
-        <tab("Sales/Order Target?"),  _
-         DisplayName("Monthly Expir-Pick"),  _
-         Pos(145)>  _
+        <DisplayName("Monthly Expir-Pick"),  _
+         nType("Edm.String"),  _
+         tab("Sales/Order Target?"),  _
+         Pos(145),  _
+         twodBarcode("SERIALMONTHEXPIRY")>  _
         Public Property SERIALMONTHEXPIRY() As String
             Get
                 return _SERIALMONTHEXPIRY
             End Get
             Set
-                if not(value is nothing) then
-                  try
-                      mybase.validate("Monthly Expir-Pick", value, 1)
-                  catch ex as exception
-                      Connection.LastError = ex
-                      Exit Property
-                  end try
-                  _IsSetSERIALMONTHEXPIRY = True
-                  If loading Then
-                    _SERIALMONTHEXPIRY = Value
-                  Else
-                      if not _SERIALMONTHEXPIRY = value then
-                          loading = true
-                          Connection.RaiseStartData()
-                          Dim cn As New oDataPUT(Me, PropertyStream("SERIALMONTHEXPIRY", Value), AddressOf HandlesEdit)
-                          loading = false
-                          If Connection.LastError is nothing Then
-                              _SERIALMONTHEXPIRY = Value
-                          End If
-                      end if
-                  end if
+                if value is nothing then Exit Property
+                if not mybase.validate("Monthly Expir-Pick", value, "^.{0,1}$") then Exit Property
+                _IsSetSERIALMONTHEXPIRY = True
+                If loading Then
+                  _SERIALMONTHEXPIRY = Value
+                Else
+                    if not _SERIALMONTHEXPIRY = value then
+                        Connection.RaiseStartData()
+                        loading = true
+                        Dim cn As New oDataPUT(Me, PropertyStream("SERIALMONTHEXPIRY", Value), AddressOf HandlesEdit)
+                        loading = false
+                        If Connection.LastError is nothing Then
+                            _SERIALMONTHEXPIRY = Value
+                        End If
+                    end if
                 end if
             End Set
         End Property
         
-        <tab("Sales/Order Target?"),  _
-         DisplayName("Top-Level?"),  _
-         Pos(150)>  _
+        <DisplayName("Top-Level?"),  _
+         nType("Edm.String"),  _
+         tab("Sales/Order Target?"),  _
+         Pos(150),  _
+         twodBarcode("ISMFAMILY")>  _
         Public Property ISMFAMILY() As String
             Get
                 return _ISMFAMILY
             End Get
             Set
-                if not(value is nothing) then
-                  try
-                      mybase.validate("Top-Level?", value, 1)
-                  catch ex as exception
-                      Connection.LastError = ex
-                      Exit Property
-                  end try
-                  _IsSetISMFAMILY = True
-                  If loading Then
-                    _ISMFAMILY = Value
-                  Else
-                      if not _ISMFAMILY = value then
-                          loading = true
-                          Connection.RaiseStartData()
-                          Dim cn As New oDataPUT(Me, PropertyStream("ISMFAMILY", Value), AddressOf HandlesEdit)
-                          loading = false
-                          If Connection.LastError is nothing Then
-                              _ISMFAMILY = Value
-                          End If
-                      end if
-                  end if
+                if value is nothing then Exit Property
+                if not mybase.validate("Top-Level?", value, "^.{0,1}$") then Exit Property
+                _IsSetISMFAMILY = True
+                If loading Then
+                  _ISMFAMILY = Value
+                Else
+                    if not _ISMFAMILY = value then
+                        Connection.RaiseStartData()
+                        loading = true
+                        Dim cn As New oDataPUT(Me, PropertyStream("ISMFAMILY", Value), AddressOf HandlesEdit)
+                        loading = false
+                        If Connection.LastError is nothing Then
+                            _ISMFAMILY = Value
+                        End If
+                    end if
                 end if
             End Set
         End Property
         
-        <tab("Sales/Order Target?"),  _
-         DisplayName("Top-Level Family"),  _
-         Pos(165)>  _
+        <DisplayName("Top-Level Family"),  _
+         nType("Edm.String"),  _
+         tab("Sales/Order Target?"),  _
+         Pos(165),  _
+         twodBarcode("MFAMILYNAME")>  _
         Public Property MFAMILYNAME() As String
             Get
                 return _MFAMILYNAME
             End Get
             Set
-                if not(value is nothing) then
-                  try
-                      mybase.validate("Top-Level Family", value, 8)
-                  catch ex as exception
-                      Connection.LastError = ex
-                      Exit Property
-                  end try
-                  _IsSetMFAMILYNAME = True
-                  If loading Then
-                    _MFAMILYNAME = Value
-                  Else
-                      if not _MFAMILYNAME = value then
-                          loading = true
-                          Connection.RaiseStartData()
-                          Dim cn As New oDataPUT(Me, PropertyStream("MFAMILYNAME", Value), AddressOf HandlesEdit)
-                          loading = false
-                          If Connection.LastError is nothing Then
-                              _MFAMILYNAME = Value
-                          End If
-                      end if
-                  end if
+                if value is nothing then Exit Property
+                if not mybase.validate("Top-Level Family", value, "^.{0,8}$") then Exit Property
+                _IsSetMFAMILYNAME = True
+                If loading Then
+                  _MFAMILYNAME = Value
+                Else
+                    if not _MFAMILYNAME = value then
+                        Connection.RaiseStartData()
+                        loading = true
+                        Dim cn As New oDataPUT(Me, PropertyStream("MFAMILYNAME", Value), AddressOf HandlesEdit)
+                        loading = false
+                        If Connection.LastError is nothing Then
+                            _MFAMILYNAME = Value
+                        End If
+                    end if
                 end if
             End Set
         End Property
         
-        <tab("Family Description"),  _
-         DisplayName("Family Description"),  _
+        <DisplayName("Family Description"),  _
+         nType("Edm.String"),  _
+         tab("Family Description"),  _
          Pos(170),  _
-         [ReadOnly](true)>  _
+         [ReadOnly](true),  _
+         twodBarcode("MFAMILYDES")>  _
         Public Property MFAMILYDES() As String
             Get
                 return _MFAMILYDES
@@ -1155,69 +1078,61 @@ Namespace OData
             End Set
         End Property
         
-        <tab("Family Description"),  _
-         DisplayName("Not in Use"),  _
-         Pos(190)>  _
+        <DisplayName("Not in Use"),  _
+         nType("Edm.String"),  _
+         tab("Family Description"),  _
+         Pos(190),  _
+         twodBarcode("INACTIVE")>  _
         Public Property INACTIVE() As String
             Get
                 return _INACTIVE
             End Get
             Set
-                if not(value is nothing) then
-                  try
-                      mybase.validate("Not in Use", value, 1)
-                  catch ex as exception
-                      Connection.LastError = ex
-                      Exit Property
-                  end try
-                  _IsSetINACTIVE = True
-                  If loading Then
-                    _INACTIVE = Value
-                  Else
-                      if not _INACTIVE = value then
-                          loading = true
-                          Connection.RaiseStartData()
-                          Dim cn As New oDataPUT(Me, PropertyStream("INACTIVE", Value), AddressOf HandlesEdit)
-                          loading = false
-                          If Connection.LastError is nothing Then
-                              _INACTIVE = Value
-                          End If
-                      end if
-                  end if
+                if value is nothing then Exit Property
+                if not mybase.validate("Not in Use", value, "^.{0,1}$") then Exit Property
+                _IsSetINACTIVE = True
+                If loading Then
+                  _INACTIVE = Value
+                Else
+                    if not _INACTIVE = value then
+                        Connection.RaiseStartData()
+                        loading = true
+                        Dim cn As New oDataPUT(Me, PropertyStream("INACTIVE", Value), AddressOf HandlesEdit)
+                        loading = false
+                        If Connection.LastError is nothing Then
+                            _INACTIVE = Value
+                        End If
+                    end if
                 end if
             End Set
         End Property
         
-        <tab("Family Description"),  _
-         DisplayName("Family (ID)"),  _
+        <DisplayName("Family (ID)"),  _
+         nType("Edm.Int64"),  _
+         tab("Family Description"),  _
          Pos(40),  _
-         Browsable(false)>  _
+         Browsable(false),  _
+         twodBarcode("FAMILY")>  _
         Public Property FAMILY() As nullable (of int64)
             Get
                 return _FAMILY
             End Get
             Set
-                if not(value is nothing) then
-                  try
-                      mybase.validate("Family (ID)", value)
-                  catch ex as exception
-                      Connection.LastError = ex
-                      Exit Property
-                  end try
-                  _IsSetFAMILY = True
-                  If loading Then
-                    _FAMILY = Value
-                  Else
-                      if not _FAMILY = value then
-                          loading = true
-                          Connection.RaiseStartData()
-                          Dim cn As New oDataPUT(Me, PropertyStream("FAMILY", Value), AddressOf HandlesEdit)
-                          loading = false
-                          If Connection.LastError is nothing Then
-                              _FAMILY = Value
-                          End If
-                      end if
-                  end if
+                if value is nothing then Exit Property
+                if not mybase.validate("Family (ID)", value, "^[0-9\-]+$") then Exit Property
+                _IsSetFAMILY = True
+                If loading Then
+                  _FAMILY = Value
+                Else
+                    if not _FAMILY = value then
+                        Connection.RaiseStartData()
+                        loading = true
+                        Dim cn As New oDataPUT(Me, PropertyStream("FAMILY", Value), AddressOf HandlesEdit)
+                        loading = false
+                        If Connection.LastError is nothing Then
+                            _FAMILY = Value
+                        End If
+                    end if
                 end if
             End Set
         End Property
@@ -1608,14 +1523,6 @@ Namespace OData
               .WriteAttributeString("MaxLength", "4")
               .WriteEndElement
             end if
-            if _IsSetFTNAME then
-              .WriteStartElement("field")
-              .WriteAttributeString("name", "FTNAME")
-              .WriteAttributeString("value", me.FTNAME)
-              .WriteAttributeString("type", "Edm.String")
-              .WriteAttributeString("MaxLength", "20")
-              .WriteEndElement
-            end if
             if _IsSetDISTRFLAG then
               .WriteStartElement("field")
               .WriteAttributeString("name", "DISTRFLAG")
@@ -1691,28 +1598,12 @@ Namespace OData
               .WriteAttributeString("MaxLength", "15")
               .WriteEndElement
             end if
-            if _IsSetPARTDES then
-              .WriteStartElement("field")
-              .WriteAttributeString("name", "PARTDES")
-              .WriteAttributeString("value", me.PARTDES)
-              .WriteAttributeString("type", "Edm.String")
-              .WriteAttributeString("MaxLength", "48")
-              .WriteEndElement
-            end if
             if _IsSetSTORAGETYPECODE then
               .WriteStartElement("field")
               .WriteAttributeString("name", "STORAGETYPECODE")
               .WriteAttributeString("value", me.STORAGETYPECODE)
               .WriteAttributeString("type", "Edm.String")
               .WriteAttributeString("MaxLength", "8")
-              .WriteEndElement
-            end if
-            if _IsSetSTORAGETYPEDES then
-              .WriteStartElement("field")
-              .WriteAttributeString("name", "STORAGETYPEDES")
-              .WriteAttributeString("value", me.STORAGETYPEDES)
-              .WriteAttributeString("type", "Edm.String")
-              .WriteAttributeString("MaxLength", "32")
               .WriteEndElement
             end if
             if _IsSetSERIALMONTHEXPIRY then
@@ -1737,14 +1628,6 @@ Namespace OData
               .WriteAttributeString("value", me.MFAMILYNAME)
               .WriteAttributeString("type", "Edm.String")
               .WriteAttributeString("MaxLength", "8")
-              .WriteEndElement
-            end if
-            if _IsSetMFAMILYDES then
-              .WriteStartElement("field")
-              .WriteAttributeString("name", "MFAMILYDES")
-              .WriteAttributeString("value", me.MFAMILYDES)
-              .WriteAttributeString("type", "Edm.String")
-              .WriteAttributeString("MaxLength", "32")
               .WriteEndElement
             end if
             if _IsSetINACTIVE then
@@ -1957,23 +1840,13 @@ Namespace OData
         
         Private _Parent As oDataObject
         
-        Private _IsSetPARTNAME As Boolean = Boolean.FalseString
-        
         Private _PARTNAME As String
-        
-        Private _IsSetTYPE As Boolean = Boolean.FalseString
         
         Private _TYPE As String
         
-        Private _IsSetPARTDES As Boolean = Boolean.FalseString
-        
         Private _PARTDES As String
         
-        Private _IsSetSTATDES As Boolean = Boolean.FalseString
-        
         Private _STATDES As String
-        
-        Private _IsSetPART As Boolean = Boolean.FalseString
         
         Private _PART As Long
         
@@ -2014,10 +1887,12 @@ Namespace OData
             End Set
         End Property
         
-        <tab("Part Number"),  _
-         DisplayName("Part Number"),  _
+        <DisplayName("Part Number"),  _
+         nType("Edm.String"),  _
+         tab("Part Number"),  _
          Pos(10),  _
-         [ReadOnly](true)>  _
+         [ReadOnly](true),  _
+         twodBarcode("PARTNAME")>  _
         Public Property PARTNAME() As String
             Get
                 return _PARTNAME
@@ -2029,10 +1904,12 @@ Namespace OData
             End Set
         End Property
         
-        <tab("Part Number"),  _
-         DisplayName("Type (P/R/O)"),  _
+        <DisplayName("Type (P/R/O)"),  _
+         nType("Edm.String"),  _
+         tab("Part Number"),  _
          Pos(20),  _
-         [ReadOnly](true)>  _
+         [ReadOnly](true),  _
+         twodBarcode("TYPE")>  _
         Public Property TYPE() As String
             Get
                 return _TYPE
@@ -2044,10 +1921,12 @@ Namespace OData
             End Set
         End Property
         
-        <tab("Part Number"),  _
-         DisplayName("Part Description"),  _
+        <DisplayName("Part Description"),  _
+         nType("Edm.String"),  _
+         tab("Part Number"),  _
          Pos(50),  _
-         [ReadOnly](true)>  _
+         [ReadOnly](true),  _
+         twodBarcode("PARTDES")>  _
         Public Property PARTDES() As String
             Get
                 return _PARTDES
@@ -2059,10 +1938,12 @@ Namespace OData
             End Set
         End Property
         
-        <tab("Part Number"),  _
-         DisplayName("Part Status"),  _
+        <DisplayName("Part Status"),  _
+         nType("Edm.String"),  _
+         tab("Part Number"),  _
          Pos(60),  _
-         [ReadOnly](true)>  _
+         [ReadOnly](true),  _
+         twodBarcode("STATDES")>  _
         Public Property STATDES() As String
             Get
                 return _STATDES
@@ -2074,11 +1955,13 @@ Namespace OData
             End Set
         End Property
         
-        <tab("Part Number"),  _
-         DisplayName("Part (ID)"),  _
+        <DisplayName("Part (ID)"),  _
+         nType("Edm.Int64"),  _
+         tab("Part Number"),  _
          Pos(20),  _
          [ReadOnly](true),  _
-         Browsable(false)>  _
+         Browsable(false),  _
+         twodBarcode("PART")>  _
         Public Property PART() As nullable (of int64)
             Get
                 return _PART
@@ -2109,45 +1992,6 @@ Namespace OData
               .WriteAttributeString("type", "Edm.String")
               .WriteAttributeString("MaxLength", "15")
               .WriteEndElement
-            if _IsSetPARTNAME then
-              .WriteStartElement("field")
-              .WriteAttributeString("name", "PARTNAME")
-              .WriteAttributeString("value", me.PARTNAME)
-              .WriteAttributeString("type", "Edm.String")
-              .WriteAttributeString("MaxLength", "15")
-              .WriteEndElement
-            end if
-            if _IsSetTYPE then
-              .WriteStartElement("field")
-              .WriteAttributeString("name", "TYPE")
-              .WriteAttributeString("value", me.TYPE)
-              .WriteAttributeString("type", "Edm.String")
-              .WriteAttributeString("MaxLength", "1")
-              .WriteEndElement
-            end if
-            if _IsSetPARTDES then
-              .WriteStartElement("field")
-              .WriteAttributeString("name", "PARTDES")
-              .WriteAttributeString("value", me.PARTDES)
-              .WriteAttributeString("type", "Edm.String")
-              .WriteAttributeString("MaxLength", "48")
-              .WriteEndElement
-            end if
-            if _IsSetSTATDES then
-              .WriteStartElement("field")
-              .WriteAttributeString("name", "STATDES")
-              .WriteAttributeString("value", me.STATDES)
-              .WriteAttributeString("type", "Edm.String")
-              .WriteAttributeString("MaxLength", "12")
-              .WriteEndElement
-            end if
-            if _IsSetPART then
-              .WriteStartElement("field")
-              .WriteAttributeString("name", "PART")
-              .WriteAttributeString("value", me.PART)
-              .WriteAttributeString("type", "Edm.Int64")
-              .WriteEndElement
-            end if
               .WriteEndElement
             end with
         End Sub
@@ -2292,8 +2136,6 @@ Namespace OData
         
         Private _MALFCODE As String
         
-        Private _IsSetMALFDES As Boolean = Boolean.FalseString
-        
         Private _MALFDES As String
         
         Private _IsSetMALF As Boolean = Boolean.FalseString
@@ -2337,43 +2179,41 @@ Namespace OData
             End Set
         End Property
         
-        <tab("Malfunction Code"),  _
-         DisplayName("Malfunction Code"),  _
-         Pos(30)>  _
+        <DisplayName("Malfunction Code"),  _
+         nType("Edm.String"),  _
+         tab("Malfunction Code"),  _
+         Pos(30),  _
+         twodBarcode("MALFCODE")>  _
         Public Property MALFCODE() As String
             Get
                 return _MALFCODE
             End Get
             Set
-                if not(value is nothing) then
-                  try
-                      mybase.validate("Malfunction Code", value, 3)
-                  catch ex as exception
-                      Connection.LastError = ex
-                      Exit Property
-                  end try
-                  _IsSetMALFCODE = True
-                  If loading Then
-                    _MALFCODE = Value
-                  Else
-                      if not _MALFCODE = value then
-                          loading = true
-                          Connection.RaiseStartData()
-                          Dim cn As New oDataPUT(Me, PropertyStream("MALFCODE", Value), AddressOf HandlesEdit)
-                          loading = false
-                          If Connection.LastError is nothing Then
-                              _MALFCODE = Value
-                          End If
-                      end if
-                  end if
+                if value is nothing then Exit Property
+                if not mybase.validate("Malfunction Code", value, "^.{0,3}$") then Exit Property
+                _IsSetMALFCODE = True
+                If loading Then
+                  _MALFCODE = Value
+                Else
+                    if not _MALFCODE = value then
+                        Connection.RaiseStartData()
+                        loading = true
+                        Dim cn As New oDataPUT(Me, PropertyStream("MALFCODE", Value), AddressOf HandlesEdit)
+                        loading = false
+                        If Connection.LastError is nothing Then
+                            _MALFCODE = Value
+                        End If
+                    end if
                 end if
             End Set
         End Property
         
-        <tab("Malfunction Code"),  _
-         DisplayName("Malf. Description"),  _
+        <DisplayName("Malf. Description"),  _
+         nType("Edm.String"),  _
+         tab("Malfunction Code"),  _
          Pos(40),  _
-         [ReadOnly](true)>  _
+         [ReadOnly](true),  _
+         twodBarcode("MALFDES")>  _
         Public Property MALFDES() As String
             Get
                 return _MALFDES
@@ -2385,35 +2225,32 @@ Namespace OData
             End Set
         End Property
         
-        <tab("Malfunction Code"),  _
-         DisplayName("MALF"),  _
-         Pos(0)>  _
+        <DisplayName("Malfunction Code(ID)"),  _
+         nType("Edm.Int64"),  _
+         tab("Malfunction Code"),  _
+         Pos(20),  _
+         Browsable(false),  _
+         twodBarcode("MALF")>  _
         Public Property MALF() As nullable (of int64)
             Get
                 return _MALF
             End Get
             Set
-                if not(value is nothing) then
-                  try
-                      mybase.validate("MALF", value)
-                  catch ex as exception
-                      Connection.LastError = ex
-                      Exit Property
-                  end try
-                  _IsSetMALF = True
-                  If loading Then
-                    _MALF = Value
-                  Else
-                      if not _MALF = value then
-                          loading = true
-                          Connection.RaiseStartData()
-                          Dim cn As New oDataPUT(Me, PropertyStream("MALF", Value), AddressOf HandlesEdit)
-                          loading = false
-                          If Connection.LastError is nothing Then
-                              _MALF = Value
-                          End If
-                      end if
-                  end if
+                if value is nothing then Exit Property
+                if not mybase.validate("Malfunction Code(ID)", value, "^[0-9\-]+$") then Exit Property
+                _IsSetMALF = True
+                If loading Then
+                  _MALF = Value
+                Else
+                    if not _MALF = value then
+                        Connection.RaiseStartData()
+                        loading = true
+                        Dim cn As New oDataPUT(Me, PropertyStream("MALF", Value), AddressOf HandlesEdit)
+                        loading = false
+                        If Connection.LastError is nothing Then
+                            _MALF = Value
+                        End If
+                    end if
                 end if
             End Set
         End Property
@@ -2460,14 +2297,6 @@ Namespace OData
               .WriteAttributeString("value", me.MALFCODE)
               .WriteAttributeString("type", "Edm.String")
               .WriteAttributeString("MaxLength", "3")
-              .WriteEndElement
-            end if
-            if _IsSetMALFDES then
-              .WriteStartElement("field")
-              .WriteAttributeString("name", "MALFDES")
-              .WriteAttributeString("value", me.MALFDES)
-              .WriteAttributeString("type", "Edm.String")
-              .WriteAttributeString("MaxLength", "32")
               .WriteEndElement
             end if
             if _IsSetMALF then
@@ -2621,8 +2450,6 @@ Namespace OData
         
         Private _SERVTCODE As String
         
-        Private _IsSetSERVTDES As Boolean = Boolean.FalseString
-        
         Private _SERVTDES As String
         
         Private _IsSetFLAG As Boolean = Boolean.FalseString
@@ -2674,43 +2501,41 @@ Namespace OData
             End Set
         End Property
         
-        <tab("Service Terms (Code)"),  _
-         DisplayName("Service Terms (Code)"),  _
-         Pos(10)>  _
+        <DisplayName("Service Terms (Code)"),  _
+         nType("Edm.String"),  _
+         tab("Service Terms (Code)"),  _
+         Pos(10),  _
+         twodBarcode("SERVTCODE")>  _
         Public Property SERVTCODE() As String
             Get
                 return _SERVTCODE
             End Get
             Set
-                if not(value is nothing) then
-                  try
-                      mybase.validate("Service Terms (Code)", value, 3)
-                  catch ex as exception
-                      Connection.LastError = ex
-                      Exit Property
-                  end try
-                  _IsSetSERVTCODE = True
-                  If loading Then
-                    _SERVTCODE = Value
-                  Else
-                      if not _SERVTCODE = value then
-                          loading = true
-                          Connection.RaiseStartData()
-                          Dim cn As New oDataPUT(Me, PropertyStream("SERVTCODE", Value), AddressOf HandlesEdit)
-                          loading = false
-                          If Connection.LastError is nothing Then
-                              _SERVTCODE = Value
-                          End If
-                      end if
-                  end if
+                if value is nothing then Exit Property
+                if not mybase.validate("Service Terms (Code)", value, "^.{0,3}$") then Exit Property
+                _IsSetSERVTCODE = True
+                If loading Then
+                  _SERVTCODE = Value
+                Else
+                    if not _SERVTCODE = value then
+                        Connection.RaiseStartData()
+                        loading = true
+                        Dim cn As New oDataPUT(Me, PropertyStream("SERVTCODE", Value), AddressOf HandlesEdit)
+                        loading = false
+                        If Connection.LastError is nothing Then
+                            _SERVTCODE = Value
+                        End If
+                    end if
                 end if
             End Set
         End Property
         
-        <tab("Service Terms (Code)"),  _
-         DisplayName("Service Terms"),  _
+        <DisplayName("Service Terms"),  _
+         nType("Edm.String"),  _
+         tab("Service Terms (Code)"),  _
          Pos(12),  _
-         [ReadOnly](true)>  _
+         [ReadOnly](true),  _
+         twodBarcode("SERVTDES")>  _
         Public Property SERVTDES() As String
             Get
                 return _SERVTDES
@@ -2722,101 +2547,90 @@ Namespace OData
             End Set
         End Property
         
-        <tab("Service Terms (Code)"),  _
-         DisplayName("Billable?"),  _
-         Pos(30)>  _
+        <DisplayName("Billable?"),  _
+         nType("Edm.String"),  _
+         tab("Service Terms (Code)"),  _
+         Pos(30),  _
+         twodBarcode("FLAG")>  _
         Public Property FLAG() As String
             Get
                 return _FLAG
             End Get
             Set
-                if not(value is nothing) then
-                  try
-                      mybase.validate("Billable?", value, 1)
-                  catch ex as exception
-                      Connection.LastError = ex
-                      Exit Property
-                  end try
-                  _IsSetFLAG = True
-                  If loading Then
-                    _FLAG = Value
-                  Else
-                      if not _FLAG = value then
-                          loading = true
-                          Connection.RaiseStartData()
-                          Dim cn As New oDataPUT(Me, PropertyStream("FLAG", Value), AddressOf HandlesEdit)
-                          loading = false
-                          If Connection.LastError is nothing Then
-                              _FLAG = Value
-                          End If
-                      end if
-                  end if
+                if value is nothing then Exit Property
+                if not mybase.validate("Billable?", value, "^.{0,1}$") then Exit Property
+                _IsSetFLAG = True
+                If loading Then
+                  _FLAG = Value
+                Else
+                    if not _FLAG = value then
+                        Connection.RaiseStartData()
+                        loading = true
+                        Dim cn As New oDataPUT(Me, PropertyStream("FLAG", Value), AddressOf HandlesEdit)
+                        loading = false
+                        If Connection.LastError is nothing Then
+                            _FLAG = Value
+                        End If
+                    end if
                 end if
             End Set
         End Property
         
-        <tab("Service Terms (Code)"),  _
-         DisplayName("Billing Exempt Type"),  _
-         Pos(40)>  _
+        <DisplayName("Billing Exempt Type"),  _
+         nType("Edm.String"),  _
+         tab("Service Terms (Code)"),  _
+         Pos(40),  _
+         twodBarcode("NOCHARGENAME")>  _
         Public Property NOCHARGENAME() As String
             Get
                 return _NOCHARGENAME
             End Get
             Set
-                if not(value is nothing) then
-                  try
-                      mybase.validate("Billing Exempt Type", value, 20)
-                  catch ex as exception
-                      Connection.LastError = ex
-                      Exit Property
-                  end try
-                  _IsSetNOCHARGENAME = True
-                  If loading Then
-                    _NOCHARGENAME = Value
-                  Else
-                      if not _NOCHARGENAME = value then
-                          loading = true
-                          Connection.RaiseStartData()
-                          Dim cn As New oDataPUT(Me, PropertyStream("NOCHARGENAME", Value), AddressOf HandlesEdit)
-                          loading = false
-                          If Connection.LastError is nothing Then
-                              _NOCHARGENAME = Value
-                          End If
-                      end if
-                  end if
+                if value is nothing then Exit Property
+                if not mybase.validate("Billing Exempt Type", value, "^.{0,20}$") then Exit Property
+                _IsSetNOCHARGENAME = True
+                If loading Then
+                  _NOCHARGENAME = Value
+                Else
+                    if not _NOCHARGENAME = value then
+                        Connection.RaiseStartData()
+                        loading = true
+                        Dim cn As New oDataPUT(Me, PropertyStream("NOCHARGENAME", Value), AddressOf HandlesEdit)
+                        loading = false
+                        If Connection.LastError is nothing Then
+                            _NOCHARGENAME = Value
+                        End If
+                    end if
                 end if
             End Set
         End Property
         
-        <tab("Service Terms (Code)"),  _
-         DisplayName("SERVTYPE"),  _
-         Pos(0)>  _
+        <DisplayName("Service Terms (ID)"),  _
+         nType("Edm.Int64"),  _
+         tab("Service Terms (Code)"),  _
+         Pos(10),  _
+         Browsable(false),  _
+         twodBarcode("SERVTYPE")>  _
         Public Property SERVTYPE() As nullable (of int64)
             Get
                 return _SERVTYPE
             End Get
             Set
-                if not(value is nothing) then
-                  try
-                      mybase.validate("SERVTYPE", value)
-                  catch ex as exception
-                      Connection.LastError = ex
-                      Exit Property
-                  end try
-                  _IsSetSERVTYPE = True
-                  If loading Then
-                    _SERVTYPE = Value
-                  Else
-                      if not _SERVTYPE = value then
-                          loading = true
-                          Connection.RaiseStartData()
-                          Dim cn As New oDataPUT(Me, PropertyStream("SERVTYPE", Value), AddressOf HandlesEdit)
-                          loading = false
-                          If Connection.LastError is nothing Then
-                              _SERVTYPE = Value
-                          End If
-                      end if
-                  end if
+                if value is nothing then Exit Property
+                if not mybase.validate("Service Terms (ID)", value, "^[0-9\-]+$") then Exit Property
+                _IsSetSERVTYPE = True
+                If loading Then
+                  _SERVTYPE = Value
+                Else
+                    if not _SERVTYPE = value then
+                        Connection.RaiseStartData()
+                        loading = true
+                        Dim cn As New oDataPUT(Me, PropertyStream("SERVTYPE", Value), AddressOf HandlesEdit)
+                        loading = false
+                        If Connection.LastError is nothing Then
+                            _SERVTYPE = Value
+                        End If
+                    end if
                 end if
             End Set
         End Property
@@ -2881,14 +2695,6 @@ Namespace OData
               .WriteAttributeString("value", me.SERVTCODE)
               .WriteAttributeString("type", "Edm.String")
               .WriteAttributeString("MaxLength", "3")
-              .WriteEndElement
-            end if
-            if _IsSetSERVTDES then
-              .WriteStartElement("field")
-              .WriteAttributeString("name", "SERVTDES")
-              .WriteAttributeString("value", me.SERVTDES)
-              .WriteAttributeString("type", "Edm.String")
-              .WriteAttributeString("MaxLength", "32")
               .WriteEndElement
             end if
             if _IsSetFLAG then
@@ -3067,8 +2873,6 @@ Namespace OData
         
         Private _ANALYSISCODE As String
         
-        Private _IsSetANALYSISDES As Boolean = Boolean.FalseString
-        
         Private _ANALYSISDES As String
         
         Private _IsSetMETHODNAME As Boolean = Boolean.FalseString
@@ -3160,44 +2964,42 @@ Namespace OData
             End Set
         End Property
         
-        <tab("Analysis Code"),  _
-         DisplayName("Analysis Code"),  _
+        <DisplayName("Analysis Code"),  _
+         nType("Edm.String"),  _
+         tab("Analysis Code"),  _
          Pos(10),  _
-         Mandatory(true)>  _
+         Mandatory(true),  _
+         twodBarcode("ANALYSISCODE")>  _
         Public Property ANALYSISCODE() As String
             Get
                 return _ANALYSISCODE
             End Get
             Set
-                if not(value is nothing) then
-                  try
-                      mybase.validate("Analysis Code", value, 10)
-                  catch ex as exception
-                      Connection.LastError = ex
-                      Exit Property
-                  end try
-                  _IsSetANALYSISCODE = True
-                  If loading Then
-                    _ANALYSISCODE = Value
-                  Else
-                      if not _ANALYSISCODE = value then
-                          loading = true
-                          Connection.RaiseStartData()
-                          Dim cn As New oDataPUT(Me, PropertyStream("ANALYSISCODE", Value), AddressOf HandlesEdit)
-                          loading = false
-                          If Connection.LastError is nothing Then
-                              _ANALYSISCODE = Value
-                          End If
-                      end if
-                  end if
+                if value is nothing then Exit Property
+                if not mybase.validate("Analysis Code", value, "^.{0,10}$") then Exit Property
+                _IsSetANALYSISCODE = True
+                If loading Then
+                  _ANALYSISCODE = Value
+                Else
+                    if not _ANALYSISCODE = value then
+                        Connection.RaiseStartData()
+                        loading = true
+                        Dim cn As New oDataPUT(Me, PropertyStream("ANALYSISCODE", Value), AddressOf HandlesEdit)
+                        loading = false
+                        If Connection.LastError is nothing Then
+                            _ANALYSISCODE = Value
+                        End If
+                    end if
                 end if
             End Set
         End Property
         
-        <tab("Analysis Code"),  _
-         DisplayName("Analysis Description"),  _
+        <DisplayName("Analysis Description"),  _
+         nType("Edm.String"),  _
+         tab("Analysis Code"),  _
          Pos(15),  _
-         [ReadOnly](true)>  _
+         [ReadOnly](true),  _
+         twodBarcode("ANALYSISDES")>  _
         Public Property ANALYSISDES() As String
             Get
                 return _ANALYSISDES
@@ -3209,268 +3011,237 @@ Namespace OData
             End Set
         End Property
         
-        <tab("Analysis Code"),  _
-         DisplayName("Method of Analysis"),  _
-         Pos(18)>  _
+        <DisplayName("Method of Analysis"),  _
+         nType("Edm.String"),  _
+         tab("Analysis Code"),  _
+         Pos(18),  _
+         twodBarcode("METHODNAME")>  _
         Public Property METHODNAME() As String
             Get
                 return _METHODNAME
             End Get
             Set
-                if not(value is nothing) then
-                  try
-                      mybase.validate("Method of Analysis", value, 20)
-                  catch ex as exception
-                      Connection.LastError = ex
-                      Exit Property
-                  end try
-                  _IsSetMETHODNAME = True
-                  If loading Then
-                    _METHODNAME = Value
-                  Else
-                      if not _METHODNAME = value then
-                          loading = true
-                          Connection.RaiseStartData()
-                          Dim cn As New oDataPUT(Me, PropertyStream("METHODNAME", Value), AddressOf HandlesEdit)
-                          loading = false
-                          If Connection.LastError is nothing Then
-                              _METHODNAME = Value
-                          End If
-                      end if
-                  end if
+                if value is nothing then Exit Property
+                if not mybase.validate("Method of Analysis", value, "^.{0,20}$") then Exit Property
+                _IsSetMETHODNAME = True
+                If loading Then
+                  _METHODNAME = Value
+                Else
+                    if not _METHODNAME = value then
+                        Connection.RaiseStartData()
+                        loading = true
+                        Dim cn As New oDataPUT(Me, PropertyStream("METHODNAME", Value), AddressOf HandlesEdit)
+                        loading = false
+                        If Connection.LastError is nothing Then
+                            _METHODNAME = Value
+                        End If
+                    end if
                 end if
             End Set
         End Property
         
-        <tab("Analysis Code"),  _
-         DisplayName("Minimum Value"),  _
-         Pos(20)>  _
+        <DisplayName("Minimum Value"),  _
+         nType("Edm.String"),  _
+         tab("Analysis Code"),  _
+         Pos(20),  _
+         twodBarcode("MINVALUE")>  _
         Public Property MINVALUE() As String
             Get
                 return _MINVALUE
             End Get
             Set
-                if not(value is nothing) then
-                  try
-                      mybase.validate("Minimum Value", value, 24)
-                  catch ex as exception
-                      Connection.LastError = ex
-                      Exit Property
-                  end try
-                  _IsSetMINVALUE = True
-                  If loading Then
-                    _MINVALUE = Value
-                  Else
-                      if not _MINVALUE = value then
-                          loading = true
-                          Connection.RaiseStartData()
-                          Dim cn As New oDataPUT(Me, PropertyStream("MINVALUE", Value), AddressOf HandlesEdit)
-                          loading = false
-                          If Connection.LastError is nothing Then
-                              _MINVALUE = Value
-                          End If
-                      end if
-                  end if
+                if value is nothing then Exit Property
+                if not mybase.validate("Minimum Value", value, "^.{0,24}$") then Exit Property
+                _IsSetMINVALUE = True
+                If loading Then
+                  _MINVALUE = Value
+                Else
+                    if not _MINVALUE = value then
+                        Connection.RaiseStartData()
+                        loading = true
+                        Dim cn As New oDataPUT(Me, PropertyStream("MINVALUE", Value), AddressOf HandlesEdit)
+                        loading = false
+                        If Connection.LastError is nothing Then
+                            _MINVALUE = Value
+                        End If
+                    end if
                 end if
             End Set
         End Property
         
-        <tab("Analysis Code"),  _
-         DisplayName("Maximum Value"),  _
-         Pos(30)>  _
+        <DisplayName("Maximum Value"),  _
+         nType("Edm.String"),  _
+         tab("Analysis Code"),  _
+         Pos(30),  _
+         twodBarcode("MAXVALUE")>  _
         Public Property MAXVALUE() As String
             Get
                 return _MAXVALUE
             End Get
             Set
-                if not(value is nothing) then
-                  try
-                      mybase.validate("Maximum Value", value, 24)
-                  catch ex as exception
-                      Connection.LastError = ex
-                      Exit Property
-                  end try
-                  _IsSetMAXVALUE = True
-                  If loading Then
-                    _MAXVALUE = Value
-                  Else
-                      if not _MAXVALUE = value then
-                          loading = true
-                          Connection.RaiseStartData()
-                          Dim cn As New oDataPUT(Me, PropertyStream("MAXVALUE", Value), AddressOf HandlesEdit)
-                          loading = false
-                          If Connection.LastError is nothing Then
-                              _MAXVALUE = Value
-                          End If
-                      end if
-                  end if
+                if value is nothing then Exit Property
+                if not mybase.validate("Maximum Value", value, "^.{0,24}$") then Exit Property
+                _IsSetMAXVALUE = True
+                If loading Then
+                  _MAXVALUE = Value
+                Else
+                    if not _MAXVALUE = value then
+                        Connection.RaiseStartData()
+                        loading = true
+                        Dim cn As New oDataPUT(Me, PropertyStream("MAXVALUE", Value), AddressOf HandlesEdit)
+                        loading = false
+                        If Connection.LastError is nothing Then
+                            _MAXVALUE = Value
+                        End If
+                    end if
                 end if
             End Set
         End Property
         
-        <tab("Analysis Code"),  _
-         DisplayName("Display in Printout?"),  _
-         Pos(40)>  _
+        <DisplayName("Display in Printout?"),  _
+         nType("Edm.String"),  _
+         tab("Analysis Code"),  _
+         Pos(40),  _
+         twodBarcode("PRINTFLAG")>  _
         Public Property PRINTFLAG() As String
             Get
                 return _PRINTFLAG
             End Get
             Set
-                if not(value is nothing) then
-                  try
-                      mybase.validate("Display in Printout?", value, 1)
-                  catch ex as exception
-                      Connection.LastError = ex
-                      Exit Property
-                  end try
-                  _IsSetPRINTFLAG = True
-                  If loading Then
-                    _PRINTFLAG = Value
-                  Else
-                      if not _PRINTFLAG = value then
-                          loading = true
-                          Connection.RaiseStartData()
-                          Dim cn As New oDataPUT(Me, PropertyStream("PRINTFLAG", Value), AddressOf HandlesEdit)
-                          loading = false
-                          If Connection.LastError is nothing Then
-                              _PRINTFLAG = Value
-                          End If
-                      end if
-                  end if
+                if value is nothing then Exit Property
+                if not mybase.validate("Display in Printout?", value, "^.{0,1}$") then Exit Property
+                _IsSetPRINTFLAG = True
+                If loading Then
+                  _PRINTFLAG = Value
+                Else
+                    if not _PRINTFLAG = value then
+                        Connection.RaiseStartData()
+                        loading = true
+                        Dim cn As New oDataPUT(Me, PropertyStream("PRINTFLAG", Value), AddressOf HandlesEdit)
+                        loading = false
+                        If Connection.LastError is nothing Then
+                            _PRINTFLAG = Value
+                        End If
+                    end if
                 end if
             End Set
         End Property
         
-        <tab("Analysis Code"),  _
-         DisplayName("ANALYSIS"),  _
-         Pos(0)>  _
+        <DisplayName("Analysis (ID)"),  _
+         nType("Edm.Int64"),  _
+         tab("Analysis Code"),  _
+         Pos(99),  _
+         Browsable(false),  _
+         twodBarcode("ANALYSIS")>  _
         Public Property ANALYSIS() As nullable (of int64)
             Get
                 return _ANALYSIS
             End Get
             Set
-                if not(value is nothing) then
-                  try
-                      mybase.validate("ANALYSIS", value)
-                  catch ex as exception
-                      Connection.LastError = ex
-                      Exit Property
-                  end try
-                  _IsSetANALYSIS = True
-                  If loading Then
-                    _ANALYSIS = Value
-                  Else
-                      if not _ANALYSIS = value then
-                          loading = true
-                          Connection.RaiseStartData()
-                          Dim cn As New oDataPUT(Me, PropertyStream("ANALYSIS", Value), AddressOf HandlesEdit)
-                          loading = false
-                          If Connection.LastError is nothing Then
-                              _ANALYSIS = Value
-                          End If
-                      end if
-                  end if
+                if value is nothing then Exit Property
+                if not mybase.validate("Analysis (ID)", value, "^[0-9\-]+$") then Exit Property
+                _IsSetANALYSIS = True
+                If loading Then
+                  _ANALYSIS = Value
+                Else
+                    if not _ANALYSIS = value then
+                        Connection.RaiseStartData()
+                        loading = true
+                        Dim cn As New oDataPUT(Me, PropertyStream("ANALYSIS", Value), AddressOf HandlesEdit)
+                        loading = false
+                        If Connection.LastError is nothing Then
+                            _ANALYSIS = Value
+                        End If
+                    end if
                 end if
             End Set
         End Property
         
-        <tab("Analysis Code"),  _
-         DisplayName("KEY2"),  _
-         Pos(0)>  _
+        <DisplayName("KEY2"),  _
+         nType("Edm.Int64"),  _
+         tab("Analysis Code"),  _
+         Pos(0),  _
+         twodBarcode("KEY2")>  _
         Public Property KEY2() As nullable (of int64)
             Get
                 return _KEY2
             End Get
             Set
-                if not(value is nothing) then
-                  try
-                      mybase.validate("KEY2", value)
-                  catch ex as exception
-                      Connection.LastError = ex
-                      Exit Property
-                  end try
-                  _IsSetKEY2 = True
-                  If loading Then
-                    _KEY2 = Value
-                  Else
-                      if not _KEY2 = value then
-                          loading = true
-                          Connection.RaiseStartData()
-                          Dim cn As New oDataPUT(Me, PropertyStream("KEY2", Value), AddressOf HandlesEdit)
-                          loading = false
-                          If Connection.LastError is nothing Then
-                              _KEY2 = Value
-                          End If
-                      end if
-                  end if
+                if value is nothing then Exit Property
+                if not mybase.validate("KEY2", value, "^[0-9\-]+$") then Exit Property
+                _IsSetKEY2 = True
+                If loading Then
+                  _KEY2 = Value
+                Else
+                    if not _KEY2 = value then
+                        Connection.RaiseStartData()
+                        loading = true
+                        Dim cn As New oDataPUT(Me, PropertyStream("KEY2", Value), AddressOf HandlesEdit)
+                        loading = false
+                        If Connection.LastError is nothing Then
+                            _KEY2 = Value
+                        End If
+                    end if
                 end if
             End Set
         End Property
         
-        <tab("Required Analysis-ID"),  _
-         DisplayName("Required Analysis-ID"),  _
+        <DisplayName("Required Analysis-ID"),  _
+         nType("Edm.Int64"),  _
+         tab("Required Analysis-ID"),  _
          Pos(99),  _
-         Browsable(false)>  _
+         Browsable(false),  _
+         twodBarcode("REQANALYSIS")>  _
         Public Property REQANALYSIS() As nullable (of int64)
             Get
                 return _REQANALYSIS
             End Get
             Set
-                if not(value is nothing) then
-                  try
-                      mybase.validate("Required Analysis-ID", value)
-                  catch ex as exception
-                      Connection.LastError = ex
-                      Exit Property
-                  end try
-                  _IsSetREQANALYSIS = True
-                  If loading Then
-                    _REQANALYSIS = Value
-                  Else
-                      if not _REQANALYSIS = value then
-                          loading = true
-                          Connection.RaiseStartData()
-                          Dim cn As New oDataPUT(Me, PropertyStream("REQANALYSIS", Value), AddressOf HandlesEdit)
-                          loading = false
-                          If Connection.LastError is nothing Then
-                              _REQANALYSIS = Value
-                          End If
-                      end if
-                  end if
+                if value is nothing then Exit Property
+                if not mybase.validate("Required Analysis-ID", value, "^[0-9\-]+$") then Exit Property
+                _IsSetREQANALYSIS = True
+                If loading Then
+                  _REQANALYSIS = Value
+                Else
+                    if not _REQANALYSIS = value then
+                        Connection.RaiseStartData()
+                        loading = true
+                        Dim cn As New oDataPUT(Me, PropertyStream("REQANALYSIS", Value), AddressOf HandlesEdit)
+                        loading = false
+                        If Connection.LastError is nothing Then
+                            _REQANALYSIS = Value
+                        End If
+                    end if
                 end if
             End Set
         End Property
         
-        <tab("Required Analysis-ID"),  _
-         DisplayName("Type"),  _
+        <DisplayName("Type"),  _
+         nType("Edm.String"),  _
+         tab("Required Analysis-ID"),  _
          Pos(99),  _
-         Browsable(false)>  _
+         Browsable(false),  _
+         twodBarcode("TYPE")>  _
         Public Property TYPE() As String
             Get
                 return _TYPE
             End Get
             Set
-                if not(value is nothing) then
-                  try
-                      mybase.validate("Type", value, 8)
-                  catch ex as exception
-                      Connection.LastError = ex
-                      Exit Property
-                  end try
-                  _IsSetTYPE = True
-                  If loading Then
-                    _TYPE = Value
-                  Else
-                      if not _TYPE = value then
-                          loading = true
-                          Connection.RaiseStartData()
-                          Dim cn As New oDataPUT(Me, PropertyStream("TYPE", Value), AddressOf HandlesEdit)
-                          loading = false
-                          If Connection.LastError is nothing Then
-                              _TYPE = Value
-                          End If
-                      end if
-                  end if
+                if value is nothing then Exit Property
+                if not mybase.validate("Type", value, "^.{0,8}$") then Exit Property
+                _IsSetTYPE = True
+                If loading Then
+                  _TYPE = Value
+                Else
+                    if not _TYPE = value then
+                        Connection.RaiseStartData()
+                        loading = true
+                        Dim cn As New oDataPUT(Me, PropertyStream("TYPE", Value), AddressOf HandlesEdit)
+                        loading = false
+                        If Connection.LastError is nothing Then
+                            _TYPE = Value
+                        End If
+                    end if
                 end if
             End Set
         End Property
@@ -3615,14 +3386,6 @@ Namespace OData
               .WriteAttributeString("value", me.ANALYSISCODE)
               .WriteAttributeString("type", "Edm.String")
               .WriteAttributeString("MaxLength", "10")
-              .WriteEndElement
-            end if
-            if _IsSetANALYSISDES then
-              .WriteStartElement("field")
-              .WriteAttributeString("name", "ANALYSISDES")
-              .WriteAttributeString("value", me.ANALYSISDES)
-              .WriteAttributeString("type", "Edm.String")
-              .WriteAttributeString("MaxLength", "32")
               .WriteEndElement
             end if
             if _IsSetMETHODNAME then
@@ -3905,201 +3668,177 @@ Namespace OData
             End Set
         End Property
         
-        <tab("Possible Result"),  _
-         DisplayName("Possible Result"),  _
+        <DisplayName("Possible Result"),  _
+         nType("Edm.String"),  _
+         tab("Possible Result"),  _
          Pos(10),  _
-         Mandatory(true)>  _
+         Mandatory(true),  _
+         twodBarcode("RESCODE")>  _
         Public Property RESCODE() As String
             Get
                 return _RESCODE
             End Get
             Set
-                if not(value is nothing) then
-                  try
-                      mybase.validate("Possible Result", value, 24)
-                  catch ex as exception
-                      Connection.LastError = ex
-                      Exit Property
-                  end try
-                  _IsSetRESCODE = True
-                  If loading Then
-                    _RESCODE = Value
-                  Else
-                      if not _RESCODE = value then
-                          loading = true
-                          Connection.RaiseStartData()
-                          Dim cn As New oDataPUT(Me, PropertyStream("RESCODE", Value), AddressOf HandlesEdit)
-                          loading = false
-                          If Connection.LastError is nothing Then
-                              _RESCODE = Value
-                          End If
-                      end if
-                  end if
+                if value is nothing then Exit Property
+                if not mybase.validate("Possible Result", value, "^.{0,24}$") then Exit Property
+                _IsSetRESCODE = True
+                If loading Then
+                  _RESCODE = Value
+                Else
+                    if not _RESCODE = value then
+                        Connection.RaiseStartData()
+                        loading = true
+                        Dim cn As New oDataPUT(Me, PropertyStream("RESCODE", Value), AddressOf HandlesEdit)
+                        loading = false
+                        If Connection.LastError is nothing Then
+                            _RESCODE = Value
+                        End If
+                    end if
                 end if
             End Set
         End Property
         
-        <tab("Possible Result"),  _
-         DisplayName("Acceptable?"),  _
-         Pos(20)>  _
+        <DisplayName("Acceptable?"),  _
+         nType("Edm.String"),  _
+         tab("Possible Result"),  _
+         Pos(20),  _
+         twodBarcode("VALID")>  _
         Public Property VALID() As String
             Get
                 return _VALID
             End Get
             Set
-                if not(value is nothing) then
-                  try
-                      mybase.validate("Acceptable?", value, 1)
-                  catch ex as exception
-                      Connection.LastError = ex
-                      Exit Property
-                  end try
-                  _IsSetVALID = True
-                  If loading Then
-                    _VALID = Value
-                  Else
-                      if not _VALID = value then
-                          loading = true
-                          Connection.RaiseStartData()
-                          Dim cn As New oDataPUT(Me, PropertyStream("VALID", Value), AddressOf HandlesEdit)
-                          loading = false
-                          If Connection.LastError is nothing Then
-                              _VALID = Value
-                          End If
-                      end if
-                  end if
+                if value is nothing then Exit Property
+                if not mybase.validate("Acceptable?", value, "^.{0,1}$") then Exit Property
+                _IsSetVALID = True
+                If loading Then
+                  _VALID = Value
+                Else
+                    if not _VALID = value then
+                        Connection.RaiseStartData()
+                        loading = true
+                        Dim cn As New oDataPUT(Me, PropertyStream("VALID", Value), AddressOf HandlesEdit)
+                        loading = false
+                        If Connection.LastError is nothing Then
+                            _VALID = Value
+                        End If
+                    end if
                 end if
             End Set
         End Property
         
-        <tab("Possible Result"),  _
-         DisplayName("Unacceptable?"),  _
-         Pos(30)>  _
+        <DisplayName("Unacceptable?"),  _
+         nType("Edm.String"),  _
+         tab("Possible Result"),  _
+         Pos(30),  _
+         twodBarcode("NOTVALID")>  _
         Public Property NOTVALID() As String
             Get
                 return _NOTVALID
             End Get
             Set
-                if not(value is nothing) then
-                  try
-                      mybase.validate("Unacceptable?", value, 1)
-                  catch ex as exception
-                      Connection.LastError = ex
-                      Exit Property
-                  end try
-                  _IsSetNOTVALID = True
-                  If loading Then
-                    _NOTVALID = Value
-                  Else
-                      if not _NOTVALID = value then
-                          loading = true
-                          Connection.RaiseStartData()
-                          Dim cn As New oDataPUT(Me, PropertyStream("NOTVALID", Value), AddressOf HandlesEdit)
-                          loading = false
-                          If Connection.LastError is nothing Then
-                              _NOTVALID = Value
-                          End If
-                      end if
-                  end if
+                if value is nothing then Exit Property
+                if not mybase.validate("Unacceptable?", value, "^.{0,1}$") then Exit Property
+                _IsSetNOTVALID = True
+                If loading Then
+                  _NOTVALID = Value
+                Else
+                    if not _NOTVALID = value then
+                        Connection.RaiseStartData()
+                        loading = true
+                        Dim cn As New oDataPUT(Me, PropertyStream("NOTVALID", Value), AddressOf HandlesEdit)
+                        loading = false
+                        If Connection.LastError is nothing Then
+                            _NOTVALID = Value
+                        End If
+                    end if
                 end if
             End Set
         End Property
         
-        <tab("Possible Result"),  _
-         DisplayName("Quality Code"),  _
-         Pos(40)>  _
+        <DisplayName("Quality Code"),  _
+         nType("Edm.String"),  _
+         tab("Possible Result"),  _
+         Pos(40),  _
+         twodBarcode("QRANKCODE")>  _
         Public Property QRANKCODE() As String
             Get
                 return _QRANKCODE
             End Get
             Set
-                if not(value is nothing) then
-                  try
-                      mybase.validate("Quality Code", value, 4)
-                  catch ex as exception
-                      Connection.LastError = ex
-                      Exit Property
-                  end try
-                  _IsSetQRANKCODE = True
-                  If loading Then
-                    _QRANKCODE = Value
-                  Else
-                      if not _QRANKCODE = value then
-                          loading = true
-                          Connection.RaiseStartData()
-                          Dim cn As New oDataPUT(Me, PropertyStream("QRANKCODE", Value), AddressOf HandlesEdit)
-                          loading = false
-                          If Connection.LastError is nothing Then
-                              _QRANKCODE = Value
-                          End If
-                      end if
-                  end if
+                if value is nothing then Exit Property
+                if not mybase.validate("Quality Code", value, "^.{0,4}$") then Exit Property
+                _IsSetQRANKCODE = True
+                If loading Then
+                  _QRANKCODE = Value
+                Else
+                    if not _QRANKCODE = value then
+                        Connection.RaiseStartData()
+                        loading = true
+                        Dim cn As New oDataPUT(Me, PropertyStream("QRANKCODE", Value), AddressOf HandlesEdit)
+                        loading = false
+                        If Connection.LastError is nothing Then
+                            _QRANKCODE = Value
+                        End If
+                    end if
                 end if
             End Set
         End Property
         
-        <tab("Possible Result"),  _
-         DisplayName("Minimum QualityValue"),  _
-         Pos(50)>  _
+        <DisplayName("Minimum QualityValue"),  _
+         nType("Edm.String"),  _
+         tab("Possible Result"),  _
+         Pos(50),  _
+         twodBarcode("FROMVAL")>  _
         Public Property FROMVAL() As String
             Get
                 return _FROMVAL
             End Get
             Set
-                if not(value is nothing) then
-                  try
-                      mybase.validate("Minimum QualityValue", value, 24)
-                  catch ex as exception
-                      Connection.LastError = ex
-                      Exit Property
-                  end try
-                  _IsSetFROMVAL = True
-                  If loading Then
-                    _FROMVAL = Value
-                  Else
-                      if not _FROMVAL = value then
-                          loading = true
-                          Connection.RaiseStartData()
-                          Dim cn As New oDataPUT(Me, PropertyStream("FROMVAL", Value), AddressOf HandlesEdit)
-                          loading = false
-                          If Connection.LastError is nothing Then
-                              _FROMVAL = Value
-                          End If
-                      end if
-                  end if
+                if value is nothing then Exit Property
+                if not mybase.validate("Minimum QualityValue", value, "^.{0,24}$") then Exit Property
+                _IsSetFROMVAL = True
+                If loading Then
+                  _FROMVAL = Value
+                Else
+                    if not _FROMVAL = value then
+                        Connection.RaiseStartData()
+                        loading = true
+                        Dim cn As New oDataPUT(Me, PropertyStream("FROMVAL", Value), AddressOf HandlesEdit)
+                        loading = false
+                        If Connection.LastError is nothing Then
+                            _FROMVAL = Value
+                        End If
+                    end if
                 end if
             End Set
         End Property
         
-        <tab("Possible Result"),  _
-         DisplayName("Maximum QualityValue"),  _
-         Pos(60)>  _
+        <DisplayName("Maximum QualityValue"),  _
+         nType("Edm.String"),  _
+         tab("Possible Result"),  _
+         Pos(60),  _
+         twodBarcode("TOVAL")>  _
         Public Property TOVAL() As String
             Get
                 return _TOVAL
             End Get
             Set
-                if not(value is nothing) then
-                  try
-                      mybase.validate("Maximum QualityValue", value, 24)
-                  catch ex as exception
-                      Connection.LastError = ex
-                      Exit Property
-                  end try
-                  _IsSetTOVAL = True
-                  If loading Then
-                    _TOVAL = Value
-                  Else
-                      if not _TOVAL = value then
-                          loading = true
-                          Connection.RaiseStartData()
-                          Dim cn As New oDataPUT(Me, PropertyStream("TOVAL", Value), AddressOf HandlesEdit)
-                          loading = false
-                          If Connection.LastError is nothing Then
-                              _TOVAL = Value
-                          End If
-                      end if
-                  end if
+                if value is nothing then Exit Property
+                if not mybase.validate("Maximum QualityValue", value, "^.{0,24}$") then Exit Property
+                _IsSetTOVAL = True
+                If loading Then
+                  _TOVAL = Value
+                Else
+                    if not _TOVAL = value then
+                        Connection.RaiseStartData()
+                        loading = true
+                        Dim cn As New oDataPUT(Me, PropertyStream("TOVAL", Value), AddressOf HandlesEdit)
+                        loading = false
+                        If Connection.LastError is nothing Then
+                            _TOVAL = Value
+                        End If
+                    end if
                 end if
             End Set
         End Property

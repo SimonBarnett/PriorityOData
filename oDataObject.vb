@@ -11,38 +11,48 @@ Namespace OData
 
 #Region "regex"
 
-        Dim numeric As New Regex("^[0-9\.\-]+$")
-        Dim INT64 As New Regex("^[0-9\-]+$")
+        'Dim numeric As New Regex("^[0-9\.\-]+$")
+        'Dim INT64 As New Regex("^[0-9\-]+$")
 
-        Public Sub Validate(Name As String, Value As Object, StrLen As Integer)
-            Dim strReg As New Regex("^.{0," & StrLen.ToString & "}$")
+        Public Function Validate(ByVal Name As String, ByVal Value As Object, ByVal Regex As String) As Boolean
+            Dim strReg As New Regex(Regex)
             If Not strReg.Match(Value).Success Then
-                Throw New Exception( _
-                    String.Format("{0} must be less than {1} characters.", Name, StrLen) _
+                Connection.LastError = New Exception( _
+                    String.Format("Invalid data for {0}.", Name) _
                 )
+                Return False
+            Else
+                Return True
+
             End If
 
-        End Sub
+        End Function
 
-        Public Sub Validate(Name As String, Value As Object, Precision As Integer, Scale As Integer)
-            If Not numeric.Match(Value).Success Then
-                Throw New Exception( _
-                    String.Format("{0} must be a number.", Name) _
-                )
-            End If
-        End Sub
+        'Public Function Validate(ByVal Name As String, ByVal Value As Object, ByVal Precision As Integer, ByVal Scale As Integer) As Boolean
+        '    If Not numeric.Match(Value).Success Then
+        '        Connection.LastError = New Exception( _
+        '            String.Format("{0} must be a number.", Name) _
+        '        )
+        '        Return False
+        '    Else
+        '        Return True
+        '    End If
+        'End Function
 
-        Public Sub Validate(Name As String, Value As Object, isDate As Boolean)
+        'Public Function Validate(ByVal Name As String, ByVal Value As Object, ByVal isDate As Boolean) As Boolean
+        '    Return True
+        'End Function
 
-        End Sub
-
-        Public Sub Validate(Name As String, Value As Object)
-            If Not INT64.Match(Value).Success Then
-                Throw New Exception( _
-                    String.Format("{0} must be an integer value.", Name) _
-                )
-            End If
-        End Sub
+        'Public Function Validate(ByVal Name As String, ByVal Value As Object) As Boolean
+        '    If Not INT64.Match(Value).Success Then
+        '        Connection.LastError = New Exception( _
+        '            String.Format("{0} must be an integer value.", Name) _
+        '        )
+        '        Return False
+        '    Else
+        '        Return True
+        '    End If
+        'End Function
 
 #End Region
 
@@ -101,7 +111,7 @@ Namespace OData
 
 #Region "Friend Methods"
 
-        Friend Function PropertyStream(Name As String, Value As Object) As MemoryStream
+        Friend Function PropertyStream(ByVal Name As String, ByVal Value As Object) As MemoryStream
             Dim ms As New MemoryStream
             Dim patch As New JsonTextWriter(New StreamWriter(ms))
             With patch
@@ -165,7 +175,7 @@ Namespace OData
         Private disposedValue As Boolean ' To detect redundant calls
 
         ' IDisposable
-        Protected Overridable Sub Dispose(disposing As Boolean)
+        Protected Overridable Sub Dispose(ByVal disposing As Boolean)
             If Not disposedValue Then
                 If disposing Then
                     ' TODO: dispose managed state (managed objects).

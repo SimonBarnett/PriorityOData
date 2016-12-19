@@ -123,8 +123,9 @@ Namespace OData
 
                 With ms
 
-                    If Connection.Settings.Debug.ShowInput Then
+                    If OData.Connection.Settings.Debug.ShowInput Then
                         Dim sr As New StreamReader(ms)
+                        .Position = 0
                         Connection.RaiseDebug(sr.ReadToEnd)
                         .Position = 0
                     End If
