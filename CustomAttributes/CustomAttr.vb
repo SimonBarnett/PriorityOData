@@ -400,7 +400,7 @@ Namespace OData
             End Get
         End Property
 
-        Private _help As String
+        Private _help As String = "No help available."
         Public ReadOnly Property help() As String
             Get
                 Return _help
@@ -491,20 +491,20 @@ Namespace OData
         End Function
 
         Public Overloads Overrides Sub SetValue(ByVal obj As Object, ByVal value As Object, ByVal invokeAttr As System.Reflection.BindingFlags, ByVal binder As System.Reflection.Binder, ByVal index() As Object, ByVal culture As System.Globalization.CultureInfo)
-            'If TypeOf _me.PropertyType Is Nullable(Of Int64) Then
+            Select Case _nType
+                Case "Edm.String"
+                    _me.SetValue(obj, value, invokeAttr, binder, index, culture)
 
-            'End If
-            'Dim T As Type = _me.ReflectedType
-            '_me.SetValue(obj, DirectCast(value, T), invokeAttr, binder, index, culture)
+                Case "Edm.Decimal"
+                    _me.SetValue(obj, Decimal.Parse(value), invokeAttr, binder, index, culture)
 
-            Try
-                _me.SetValue(obj, value, invokeAttr, binder, index, culture)
+                Case "Edm.DateTimeOffset"
+                    _me.SetValue(obj, DateTime.Parse(value), invokeAttr, binder, index, culture)
 
-            Catch ex As Exception
-                'Dim T As Type = _me.ReflectedType
-                _me.SetValue(obj, Int64.Parse(value), invokeAttr, binder, index, culture)
+                Case "Edm.Int64"
+                    _me.SetValue(obj, Int64.Parse(value), invokeAttr, binder, index, culture)
 
-            End Try
+            End Select
 
         End Sub
 

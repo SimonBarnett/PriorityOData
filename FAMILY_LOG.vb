@@ -26,6 +26,7 @@ Namespace OData
             _Parent = nothing
             _Name = "FAMILY_LOG"
             _BindingSource = new BindingSource
+            AddHandler _BindingSource.AddingNew, AddressOf HandlesBeginAdd
             with ChildQuery
             .add(0, "Parts in Family")
             .add(1, "Malfunction Codes for Family")
@@ -40,6 +41,7 @@ Namespace OData
             _Parent = Parent
             _name = "FAMILY_LOG_SUBFORM"
             _BindingSource = new BindingSource
+            AddHandler _BindingSource.AddingNew, AddressOf HandlesBeginAdd
             with ChildQuery
             .add(0, "Parts in Family")
             .add(1, "Malfunction Codes for Family")
@@ -112,8 +114,6 @@ Namespace OData
             Else
                 dim obj as FAMILY_LOG = JsonConvert.DeserializeObject(Of FAMILY_LOG)(e.StreamReader.ReadToEnd)
                 With TryCast(BindingSource.Current, FAMILY_LOG)
-                  .Parent = Parent
-                  .loading = false
                   .FAMILYNAME = obj.FAMILYNAME
                   .FAMILYDESC = obj.FAMILYDESC
                   .EFAMILYDES = obj.EFAMILYDES
@@ -141,8 +141,13 @@ Namespace OData
                   .MFAMILYDES = obj.MFAMILYDES
                   .INACTIVE = obj.INACTIVE
                   .FAMILY = obj.FAMILY
+                  .loading = false
                 end with
             End If
+        End Sub
+        
+        Private Sub HandlesBeginAdd(ByVal sender As Object, ByVal e As ComponentModel.AddingNewEventArgs)
+            e.NewObject = new FAMILY_LOG(me.Parent)
         End Sub
         
         Protected Friend Overrides Sub Remove(ByRef obj As oDataObject)
@@ -1736,6 +1741,7 @@ Namespace OData
             _Parent = nothing
             _Name = "FAMILY_LOGPART"
             _BindingSource = new BindingSource
+            AddHandler _BindingSource.AddingNew, AddressOf HandlesBeginAdd
             with ChildQuery
             end with
         End Sub
@@ -1746,6 +1752,7 @@ Namespace OData
             _Parent = Parent
             _name = "FAMILY_LOGPART_SUBFORM"
             _BindingSource = new BindingSource
+            AddHandler _BindingSource.AddingNew, AddressOf HandlesBeginAdd
             with ChildQuery
             end with
         End Sub
@@ -1814,15 +1821,18 @@ Namespace OData
             Else
                 dim obj as FAMILY_LOGPART = JsonConvert.DeserializeObject(Of FAMILY_LOGPART)(e.StreamReader.ReadToEnd)
                 With TryCast(BindingSource.Current, FAMILY_LOGPART)
-                  .Parent = Parent
-                  .loading = false
                   .PARTNAME = obj.PARTNAME
                   .TYPE = obj.TYPE
                   .PARTDES = obj.PARTDES
                   .STATDES = obj.STATDES
                   .PART = obj.PART
+                  .loading = false
                 end with
             End If
+        End Sub
+        
+        Private Sub HandlesBeginAdd(ByVal sender As Object, ByVal e As ComponentModel.AddingNewEventArgs)
+            e.NewObject = new FAMILY_LOGPART(me.Parent)
         End Sub
         
         Protected Friend Overrides Sub Remove(ByRef obj As oDataObject)
@@ -2030,6 +2040,7 @@ Namespace OData
             _Parent = nothing
             _Name = "FAMILYMALF"
             _BindingSource = new BindingSource
+            AddHandler _BindingSource.AddingNew, AddressOf HandlesBeginAdd
             with ChildQuery
             end with
         End Sub
@@ -2040,6 +2051,7 @@ Namespace OData
             _Parent = Parent
             _name = "FAMILYMALF_SUBFORM"
             _BindingSource = new BindingSource
+            AddHandler _BindingSource.AddingNew, AddressOf HandlesBeginAdd
             with ChildQuery
             end with
         End Sub
@@ -2108,13 +2120,16 @@ Namespace OData
             Else
                 dim obj as FAMILYMALF = JsonConvert.DeserializeObject(Of FAMILYMALF)(e.StreamReader.ReadToEnd)
                 With TryCast(BindingSource.Current, FAMILYMALF)
-                  .Parent = Parent
-                  .loading = false
                   .MALFCODE = obj.MALFCODE
                   .MALFDES = obj.MALFDES
                   .MALF = obj.MALF
+                  .loading = false
                 end with
             End If
+        End Sub
+        
+        Private Sub HandlesBeginAdd(ByVal sender As Object, ByVal e As ComponentModel.AddingNewEventArgs)
+            e.NewObject = new FAMILYMALF(me.Parent)
         End Sub
         
         Protected Friend Overrides Sub Remove(ByRef obj As oDataObject)
@@ -2342,6 +2357,7 @@ Namespace OData
             _Parent = nothing
             _Name = "FAMILYSERVTYPES"
             _BindingSource = new BindingSource
+            AddHandler _BindingSource.AddingNew, AddressOf HandlesBeginAdd
             with ChildQuery
             end with
         End Sub
@@ -2352,6 +2368,7 @@ Namespace OData
             _Parent = Parent
             _name = "FAMILYSERVTYPES_SUBFORM"
             _BindingSource = new BindingSource
+            AddHandler _BindingSource.AddingNew, AddressOf HandlesBeginAdd
             with ChildQuery
             end with
         End Sub
@@ -2420,15 +2437,18 @@ Namespace OData
             Else
                 dim obj as FAMILYSERVTYPES = JsonConvert.DeserializeObject(Of FAMILYSERVTYPES)(e.StreamReader.ReadToEnd)
                 With TryCast(BindingSource.Current, FAMILYSERVTYPES)
-                  .Parent = Parent
-                  .loading = false
                   .SERVTCODE = obj.SERVTCODE
                   .SERVTDES = obj.SERVTDES
                   .FLAG = obj.FLAG
                   .NOCHARGENAME = obj.NOCHARGENAME
                   .SERVTYPE = obj.SERVTYPE
+                  .loading = false
                 end with
             End If
+        End Sub
+        
+        Private Sub HandlesBeginAdd(ByVal sender As Object, ByVal e As ComponentModel.AddingNewEventArgs)
+            e.NewObject = new FAMILYSERVTYPES(me.Parent)
         End Sub
         
         Protected Friend Overrides Sub Remove(ByRef obj As oDataObject)
@@ -2758,6 +2778,7 @@ Namespace OData
             _Parent = nothing
             _Name = "FAMILYREQLABANALYSES"
             _BindingSource = new BindingSource
+            AddHandler _BindingSource.AddingNew, AddressOf HandlesBeginAdd
             with ChildQuery
             .add(0, "Possible Results")
             end with
@@ -2769,6 +2790,7 @@ Namespace OData
             _Parent = Parent
             _name = "FAMILYREQLABANALYSES_SUBFORM"
             _BindingSource = new BindingSource
+            AddHandler _BindingSource.AddingNew, AddressOf HandlesBeginAdd
             with ChildQuery
             .add(0, "Possible Results")
             end with
@@ -2838,8 +2860,6 @@ Namespace OData
             Else
                 dim obj as FAMILYREQLABANALYSES = JsonConvert.DeserializeObject(Of FAMILYREQLABANALYSES)(e.StreamReader.ReadToEnd)
                 With TryCast(BindingSource.Current, FAMILYREQLABANALYSES)
-                  .Parent = Parent
-                  .loading = false
                   .ANALYSISCODE = obj.ANALYSISCODE
                   .ANALYSISDES = obj.ANALYSISDES
                   .METHODNAME = obj.METHODNAME
@@ -2850,8 +2870,13 @@ Namespace OData
                   .KEY2 = obj.KEY2
                   .REQANALYSIS = obj.REQANALYSIS
                   .TYPE = obj.TYPE
+                  .loading = false
                 end with
             End If
+        End Sub
+        
+        Private Sub HandlesBeginAdd(ByVal sender As Object, ByVal e As ComponentModel.AddingNewEventArgs)
+            e.NewObject = new FAMILYREQLABANALYSES(me.Parent)
         End Sub
         
         Protected Friend Overrides Sub Remove(ByRef obj As oDataObject)
@@ -3502,6 +3527,7 @@ Namespace OData
             _Parent = nothing
             _Name = "LABANALYSESRESULTS"
             _BindingSource = new BindingSource
+            AddHandler _BindingSource.AddingNew, AddressOf HandlesBeginAdd
             with ChildQuery
             end with
         End Sub
@@ -3512,6 +3538,7 @@ Namespace OData
             _Parent = Parent
             _name = "LABANALYSESRESULTS_SUBFORM"
             _BindingSource = new BindingSource
+            AddHandler _BindingSource.AddingNew, AddressOf HandlesBeginAdd
             with ChildQuery
             end with
         End Sub
@@ -3580,16 +3607,19 @@ Namespace OData
             Else
                 dim obj as LABANALYSESRESULTS = JsonConvert.DeserializeObject(Of LABANALYSESRESULTS)(e.StreamReader.ReadToEnd)
                 With TryCast(BindingSource.Current, LABANALYSESRESULTS)
-                  .Parent = Parent
-                  .loading = false
                   .RESCODE = obj.RESCODE
                   .VALID = obj.VALID
                   .NOTVALID = obj.NOTVALID
                   .QRANKCODE = obj.QRANKCODE
                   .FROMVAL = obj.FROMVAL
                   .TOVAL = obj.TOVAL
+                  .loading = false
                 end with
             End If
+        End Sub
+        
+        Private Sub HandlesBeginAdd(ByVal sender As Object, ByVal e As ComponentModel.AddingNewEventArgs)
+            e.NewObject = new LABANALYSESRESULTS(me.Parent)
         End Sub
         
         Protected Friend Overrides Sub Remove(ByRef obj As oDataObject)
