@@ -5,6 +5,7 @@ Namespace OData
     Public Module Connection
 
         Public Settings As New Settings
+        Public WithEvents sqlData As New GetData
 
         Private _LastError As Exception
         Public Property LastError() As Exception
@@ -45,10 +46,18 @@ Namespace OData
 
 #Region "Connection Events"
 
+        Private Sub sqlData_EndRead() Handles sqlData.EndRead
+            RaiseEvent EndData()
+        End Sub
+
+        Private Sub sqlData_StartRead() Handles sqlData.StartRead
+            RaiseEvent StartData()
+
+        End Sub
+
         Public Event StartData()
         Friend Sub RaiseStartData()
             RaiseEvent StartData()
-
         End Sub
 
         Public Event EndData()

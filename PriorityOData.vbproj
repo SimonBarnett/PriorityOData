@@ -83,6 +83,7 @@
     <Compile Include="connection\derived\oDataGET.vb" />
     <Compile Include="connection\derived\oDataPOST.vb" />
     <Compile Include="connection\derived\oDataPUT.vb" />
+    <Compile Include="connection\getData.vb" />
     <Compile Include="connection\oDataConnection.vb" />
     <Compile Include="connection\ResponseEventArgs.vb" />
     <Compile Include="CustomAttributes\ClassAttr.vb" />
